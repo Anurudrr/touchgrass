@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useReducedMotion, useScroll, useTransform, useSpring, useMotionValue, AnimatePresence } from 'framer-motion'
-import { ArrowRight, ArrowUpRight, FileText, Hand, Rocket, ShieldCheck, Smile, Sparkles, Star as StarIcon, Wallet } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Check, FileText, Hand, Rocket, ShieldCheck, Smile, Sparkles, Star as StarIcon, Wallet } from 'lucide-react'
 import { CircleBadge, Counter, DrawUnderline, Magnetic, Marquee, Polaroid, Reveal, Stamp, Sticker, toast } from '../components/ui'
 import { categoryIcon } from '../components/icons'
 import { Grassbot } from '../components/Grassbot'
