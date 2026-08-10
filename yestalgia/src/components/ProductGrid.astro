@@ -1,0 +1,50 @@
+---
+import { products } from '../data/products';
+---
+
+<section id="collection" class="py-20 md:py-28 lg:py-32 bg-white" aria-labelledby="collection-title">
+  <div class="container-custom">
+    <div class="text-center max-w-3xl mx-auto mb-16 animate-fade-in animate-slide-up">
+      <h2 id="collection-title" class="section-title text-yestalgia-dark">La collection</h2>
+      <p class="text-lg text-yestalgia-dark/60">Une capsule rétro-solaire inspirée des années 90, où couleurs vives, motifs Memphis et énergie insouciante se retrouvent dans chaque pièce.</p>
+    </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8" role="list">
+      {products.filter(p => p.featured).map((product, index) => (
+        <article class="product-card group" role="listitem" style="animation-delay: {index * 100}ms;">
+          <div class="relative aspect-[3/4] overflow-hidden bg-yestalgia-cream">
+            <img 
+              src={product.colors[0].image} 
+              alt={product.name} 
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            
+            <div class="absolute bottom-4 left-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+              {product.colors.map((color, colorIndex) => (
+                <button 
+                  class="w-6 h-6 rounded-full border-2 border-white/50 hover:border-white transition-all duration-200 hover:scale-110"
+                  style="background-color: {color.hex};"
+                  aria-label={color.name}
+                  title={color.name}
+                />
+              ))}
+            </div>
+          </div>
+          
+          <div class="p-4 md:p-6">
+            <h3 class="font-display font-bold text-lg md:text-xl text-yestalgia-dark mb-2 group-hover:text-yestalgia-pink transition-colors">
+              {product.name}
+            </h3>
+            <p class="text-yestalgia-pink font-semibold text-lg">{product.price} €</p>
+          </div>
+        </article>
+      ))}
+    </div>
+    
+    <div class="text-center mt-12 animate-fade-in" style="animation-delay: 400ms;">
+      <a href="#lookbook" class="btn-secondary">Voir tout le lookbook</a>
+    </div>
+  </div>
+</section>

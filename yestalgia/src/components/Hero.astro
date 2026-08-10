@@ -1,0 +1,60 @@
+---
+---
+
+<section class="relative min-h-screen flex items-center pt-16 md:pt-20 overflow-hidden" aria-labelledby="hero-title">
+  <div class="container-custom">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="animate-fade-in animate-slide-up">
+        <p class="text-yestalgia-pink font-medium text-sm md:text-base mb-4 tracking-wide uppercase">À vos côtés depuis 1976</p>
+        <h1 id="hero-title" class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight text-yestalgia-dark mb-8">
+          PLONGEZ AU COEUR <br class="hidden lg:block" />
+          <span class="text-gradient">de la décennie la plus</span><br />
+          <span class="text-gradient">vibrante qui soit</span>
+        </h1>
+        <div class="flex flex-wrap gap-4">
+          <a href="#collection" class="btn-primary">Découvrir la collection</a>
+          <a href="#dalkhafine" class="btn-secondary">L'artiste</a>
+        </div>
+      </div>
+      
+      <div class="relative animate-fade-in animate-slide-in-right" style="animation-delay: 0.2s;">
+        <div class="aspect-[4/5] relative rounded-3xl overflow-hidden bg-gradient-to-br from-yestalgia-pink/20 via-yestalgia-purple/10 to-yestalgia-teal/20">
+          <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M0 0h100v100H0z%22 fill=%22%23FF6B9D%22 fill-opacity=%220.03%22/%3E%3C/svg%3E')] opacity-50" />
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="text-center p-8">
+              <div class="w-64 h-64 mx-auto mb-6 relative">
+                <div class="absolute inset-0 border-4 border-yestalgia-pink/30 rounded-full animate-ping" />
+                <div class="absolute inset-4 border-4 border-yestalgia-purple/30 rounded-full animate-ping" style="animation-delay: 0.5s;" />
+                <div class="absolute inset-8 border-4 border-yestalgia-teal/30 rounded-full animate-ping" style="animation-delay: 1s;" />
+                <svg class="w-full h-full text-yestalgia-pink/50" viewBox="0 0 200 200" fill="currentColor">
+                  <circle cx="100" cy="100" r="80" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="500" stroke-dashoffset="0" class="animate-spin-slow" />
+                  <path d="M100 40 L100 160 M40 100 L160 100" stroke="currentColor" stroke-width="2" fill="none" opacity="0.5" />
+                  <circle cx="100" cy="100" r="20" fill="currentColor" opacity="0.3" />
+                </svg>
+              </div>
+              <p class="text-yestalgia-dark/60 text-sm md:text-base">Image d'ambiance - Collection Yestalgia</p>
+            </div>
+          </div>
+        </div>
+        <div class="absolute -bottom-8 -right-8 md:-bottom-12 md:-right-12 w-48 h-48 md:w-64 md:h-64 bg-yestalgia-pink rounded-full opacity-20 blur-3xl animate-pulse" />
+        <div class="absolute -top-8 -left-8 md:-top-12 md:-left-12 w-40 h-40 md:w-56 md:h-56 bg-yestalgia-teal rounded-full opacity-20 blur-3xl animate-pulse" style="animation-delay: 1s;" />
+      </div>
+    </div>
+  </div>
+  
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce" aria-hidden="true">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-yestalgia-dark/40">
+      <path d="M12 5v14M19 12l-7 7-7-7" />
+    </svg>
+  </div>
+</section>
+
+<style>
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .animate-spin-slow {
+    animation: spin-slow 20s linear infinite;
+  }
+</style>

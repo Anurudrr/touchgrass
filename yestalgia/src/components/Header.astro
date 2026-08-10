@@ -1,0 +1,64 @@
+---
+import { navigationItems, languages } from '../data/products';
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-yestalgia-cream/90 backdrop-blur-sm border-b border-yestalgia-dark/10">
+  <nav class="container-custom" aria-label="Navigation principale">
+    <div class="flex items-center justify-between h-16 md:h-20">
+      <div class="flex items-center gap-8">
+        <a href="https://decathlon.com" class="flex items-center gap-2" aria-label="Decathlon - Accueil">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-yestalgia-dark">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" />
+            <path d="M2 17l10 5 10-5" />
+            <path d="M2 12l10 5 10-5" />
+          </svg>
+        </a>
+        
+        <div class="hidden md:flex items-center gap-6">
+          {navigationItems.map(item => (
+            <a href={item.href} class="text-sm font-medium text-yestalgia-dark hover:text-yestalgia-pink transition-colors duration-200 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-yestalgia-pink after:transition-all hover:after:w-full">
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <a href="https://www.decathlon.fr/sportswear/decathlon-yestalgia" class="hidden sm:block btn-primary text-sm">
+          Boutique
+        </a>
+        
+        <div class="relative" id="lang-switcher">
+          <button 
+            class="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-yestalgia-dark hover:text-yestalgia-pink transition-colors"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-label="Changer de langue"
+          >
+            <span class="uppercase">FR</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-1">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
+          <ul class="absolute right-0 top-full mt-2 w-32 bg-white border border-yestalgia-dark/10 rounded-lg shadow-lg opacity-0 invisible transition-all duration-200" role="listbox" aria-label="Langues disponibles">
+            {languages.map(lang => (
+              <li>
+                <a href="#" class={lang.active ? 'bg-yestalgia-pink/10 text-yestalgia-pink' : 'text-yestalgia-dark hover:bg-yestalgia-cream'} role="option" aria-selected={lang.active} class="block px-4 py-2 text-sm font-medium transition-colors first:rounded-t-lg last:rounded-b-lg">
+                  {lang.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<style>
+  #lang-switcher:hover ul,
+  #lang-switcher:focus-within ul {
+    opacity: 1;
+    visibility: visible;
+  }
+</style>

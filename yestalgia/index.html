@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Decathlon Yestalgia - Collection capsule rétro 90s par Dalkhafine">
+    <title>Decathlon Yestalgia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="cursor-glow" id="cursorGlow"></div>
+    
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="#" class="logo" aria-label="Decathlon Yestalgia - Accueil">
+                <svg class="logo-icon" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="0" y="30" font-family="Syne" font-size="28" font-weight="800" fill="currentColor" letter-spacing="-0.02em">YESTALGIA</text>
+                </svg>
+            </a>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="#collection" class="nav-link">La collection</a>
+                <a href="#artist" class="nav-link">À propos de l'artiste</a>
+                <a href="#og2k" class="nav-link">La conception</a>
+                <a href="#lookbook" class="nav-link">Lookbook</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="lang-switcher" id="langSwitcher" aria-label="Changer de langue">
+                    <span class="lang-current">FR</span>
+                    <svg class="lang-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="lang-dropdown" id="langDropdown">
+                    <a href="#" class="lang-option active" data-lang="fr">Français</a>
+                    <a href="#" class="lang-option" data-lang="en">English</a>
+                    <a href="#" class="lang-option" data-lang="it">Italiano</a>
+                    <a href="#" class="lang-option" data-lang="es">Español</a>
+                    <a href="#" class="lang-option" data-lang="de">Deutsch</a>
+                    <a href="#" class="lang-option" data-lang="nl">Nederlands (BE)</a>
+                    <a href="#" class="lang-option" data-lang="fr-be">Français (BE)</a>
+                </div>
+                <a href="https://www.decathlon.fr/sportswear/decathlon-yestalgia" target="_blank" rel="noopener" class="btn btn-primary">Boutique</a>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Ouvrir le menu" aria-expanded="false">
+                    <span class="hamburger"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="hero">
+            <div class="hero-bg">
+                <div class="hero-lines" aria-hidden="true"></div>
+                <div class="hero-shapes" aria-hidden="true">
+                    <div class="shape shape-1"></div>
+                    <div class="shape shape-2"></div>
+                    <div class="shape shape-3"></div>
+                    <div class="shape shape-4"></div>
+                </div>
+            </div>
+            
+            <div class="container hero-content">
+                <div class="hero-text">
+                    <p class="hero-tagline">À vos côtés depuis 1976</p>
+                    <h1 class="hero-title">
+                        PLONGEZ AU COEUR DE LA<br>
+                        <span class="highlight">DÉCENNIE LA PLUS</span><br>
+                        <span class="highlight">VIBRANTE QUI SOIT</span>
+                    </h1>
+                </div>
+                
+                <div class="hero-images">
+                    <figure class="hero-img hero-img-1">
+                        <img src="assets/images/hero-1.jpg" alt="Collection Yestalgia - Ambiance 90s" loading="eager">
+                    </figure>
+                    <figure class="hero-img hero-img-2">
+                        <img src="assets/images/hero-2.jpg" alt="Collection Yestalgia - Produits rétro" loading="eager">
+                    </figure>
+                </div>
+                
+                <div class="hero-scroll">
+                    <span>Découvrir</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <section class="collection" id="collection" aria-labelledby="collection-title">
+            <div class="container">
+                <header class="section-header">
+                    <h2 id="collection-title" class="section-title">La collection</h2>
+                    <p class="section-subtitle">13 pièces emblématiques aux couleurs de votre jeunesse</p>
+                </header>
+                
+                <div class="products-grid" id="productsGrid" role="list">
+                </div>
+                
+                <div class="collection-cta">
+                    <a href="https://www.decathlon.fr/sportswear/decathlon-yestalgia" target="_blank" rel="noopener" class="btn btn-outline">Voir toute la collection</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="artist" id="artist" aria-labelledby="artist-title">
+            <div class="container">
+                <div class="artist-layout">
+                    <div class="artist-visual">
+                        <div class="artist-portrait">
+                            <img src="assets/images/dalkhafine.jpg" alt="Dalkhafine - Artiste" loading="lazy">
+                        </div>
+                        <div class="artist-badge">
+                            <span class="badge-text">Yestalgia</span>
+                        </div>
+                    </div>
+                    
+                    <div class="artist-content">
+                        <header class="section-header">
+                            <h2 id="artist-title" class="section-title">À propos de l'artiste</h2>
+                        </header>
+                        
+                        <div class="artist-intro">
+                            <p class="artist-name">salut,<br>je suis<br><em>Dalkhafine</em><br>artiste<br>basée<br>à<br>Montreal<br>et<br>Paris.</p>
+                        </div>
+                        
+                        <div class="artist-bio">
+                            <p>Dalkhafine est une artiste franco-canadienne, travaillant principalement sur des collaborations avec des marques, que ce soit dans l'illustration, le motion design ou l'art mural. Son univers coloré et résolument positif met en scène des personnages expressifs qui évoluent dans des décors vibrants, souvent empreints de nostalgie.</p>
+                            <p>Pour la collection capsule Yestalgia avec Decathlon, elle s'est replongée dans ses souvenirs d'enfance, marqués par les années 90, véritable madeleine de Proust. À travers deux personnages, elle réinterprète les codes graphiques de cette époque : couleurs vives, inspirations Memphis et énergie insouciante d'une décennie emblématique.</p>
+                            <p>Patins à roulettes, ghettoblaster, walkman et cassettes audio deviennent les éléments centraux d'un univers rétro et solaire, où le mouvement, la musique et la liberté occupent une place essentielle. La capsule devient ainsi un voyage dans le temps, entre mémoire personnelle et culture collective, revisitée avec la sensibilité narrative de Dalkhafine.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="family-section" id="family">
+                    <h3 class="family-title">La famille Yestalgia</h3>
+                    <div class="family-grid" id="familyGrid" role="list">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="og2k" id="og2k" aria-labelledby="og2k-title">
+            <div class="container">
+                <div class="og2k-layout">
+                    <div class="og2k-content">
+                        <header class="section-header">
+                            <h2 id="og2k-title" class="section-title">La conception</h2>
+                            <p class="section-subtitle">L'histoire de l'OG2K</p>
+                        </header>
+                        
+                        <div class="og2k-text">
+                            <p>Tout commence dans l'effervescence des cours de récréation des années 80, avant que notre vision ne s'affirme en 2009 avec l'Ekiden 2000. La OG2K s'inspire de ce riche passé pour étendre notre gamme running, offrant une silhouette qui traverse les époques.</p>
+                            <p>Aux côtés de l'emblématique RR2K, elle s'impose aujourd'hui comme l'atout maître des fans de la tendance "Y2K". Son design épuré mise sur une esthétique minimaliste sans jamais négliger le confort, le tout proposé à un prix très accessible. C'est la paire idéale pour ceux qui recherchent un style rétro-technique précis et une légèreté absolue au quotidien.</p>
+                        </div>
+                        
+                        <div class="og2k-features">
+                            <div class="feature">
+                                <span class="feature-icon">👟</span>
+                                <span>Silhouette intemporelle</span>
+                            </div>
+                            <div class="feature">
+                                <span class="feature-icon">☁️</span>
+                                <span>Légèreté absolue</span>
+                            </div>
+                            <div class="feature">
+                                <span class="feature-icon">💰</span>
+                                <span>Prix accessible</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="og2k-visual">
+                        <div class="og2k-images">
+                            <figure class="og2k-img og2k-img-1">
+                                <img src="assets/images/og2k-1.jpg" alt="OG2K - Vue de côté" loading="lazy">
+                            </figure>
+                            <figure class="og2k-img og2k-img-2">
+                                <img src="assets/images/og2k-2.jpg" alt="OG2K - Détail semelle" loading="lazy">
+                            </figure>
+                            <figure class="og2k-img og2k-img-3">
+                                <img src="assets/images/og2k-3.jpg" alt="OG2K - Vue du dessus" loading="lazy">
+                            </figure>
+                        </div>
+                        <div class="og2k-shoe">
+                            <img src="assets/images/og2k-shoe.png" alt="OG2K Shoe 3D" class="shoe-3d" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lookbook" id="lookbook" aria-labelledby="lookbook-title">
+            <div class="container">
+                <header class="section-header">
+                    <h2 id="lookbook-title" class="section-title">Lookbook</h2>
+                    <p class="section-subtitle">L'univers Yestalgia en images</p>
+                </header>
+                
+                <div class="lookbook-carousel" id="lookbookCarousel">
+                    <div class="carousel-track" id="carouselTrack">
+                    </div>
+                    <button class="carousel-btn carousel-prev" id="carouselPrev" aria-label="Image précédente">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <button class="carousel-btn carousel-next" id="carouselNext" aria-label="Image suivante">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                    <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Navigation du carrousel">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <svg class="footer-logo" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <text x="0" y="30" font-family="Syne" font-size="28" font-weight="800" fill="currentColor" letter-spacing="-0.02em">YESTALGIA</text>
+                    </svg>
+                    <p class="footer-tagline">Decathlon × Dalkhafine</p>
+                </div>
+                
+                <nav class="footer-links">
+                    <a href="https://decathlonyestalgia.com/fr/mentions-legales/" target="_blank" rel="noopener">Mentions légales</a>
+                    <a href="https://index.studio" target="_blank" rel="noopener">Crédits</a>
+                </nav>
+                
+                <div class="footer-social">
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="TikTok">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 8.5c0-1.5 3-2.5 3-5.5A5 5 0 0 0 7 8.5v5.24"></path>
+                            <path d="M19.5 3.6a7 7 0 0 1 .7 3.7v5.7"></path>
+                            <path d="M20 21v-8a2 2 0 0 0-4 0v8"></path>
+                            <path d="M4 18v2a1 1 0 0 0 1 1h4"></path>
+                            <path d="M15 13h.01"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Decathlon. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
