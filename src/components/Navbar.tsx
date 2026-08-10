@@ -11,12 +11,12 @@ export function Logo({ dark = false, onClick }: { dark?: boolean; onClick?: () =
   return (
     <Link to="/" onClick={onClick} className="group inline-flex items-baseline gap-1" data-cursor="home">
       <span className={`font-display font-extrabold tracking-tight text-2xl sm:text-[1.7rem] leading-none ${dark ? 'text-white' : 'text-ink'}`}>
-        touch<span className="text-coral">grass</span>
+        touch<span className="text-teal">grass</span>
       </span>
       <motion.span
         whileHover={{ rotate: 360, scale: 1.3 }}
         transition={{ duration: 0.5 }}
-        className={`size-2.5 inline-block ${dark ? 'text-yellow' : 'text-coral'}`}
+        className={`size-2.5 inline-block ${dark ? 'text-yellow' : 'text-teal'}`}
       >
         ✦
       </motion.span>
@@ -185,11 +185,11 @@ export function Navbar() {
 export function Footer() {
   const [credits, setCredits] = useState(false)
   return (
-    <footer className="bg-ink text-white mt-24 rounded-t-[36px] relative overflow-hidden border-t-4 border-coral">
+    <footer className="bg-ink text-white mt-24 rounded-t-[36px] relative overflow-hidden border-t-4 border-teal">
       {/* giant wordmark */}
       <div className="text-center pt-16 pb-6">
         <h2 className="font-display font-extrabold tracking-tighter text-[16vw] leading-[0.85] select-none">
-          touch<span className="text-coral">grass</span>
+          touch<span className="text-teal">grass</span>
         </h2>
         <motion.div className="mt-4 inline-flex items-center gap-3" animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}>
           <span className="text-yellow text-2xl">✦</span>
@@ -201,7 +201,7 @@ export function Footer() {
       <div className="max-w-6xl mx-auto px-6 grid gap-10 md:grid-cols-4 pb-14">
         <div className="md:col-span-2">
           <p className="font-display font-bold text-2xl leading-snug max-w-md">
-            Do less scrolling. <em className="font-serif italic text-coral">Do more living.</em>
+            Do less scrolling. <em className="font-serif italic text-teal">Do more living.</em>
           </p>
           <p className="mt-3 text-white/60 font-body max-w-md">
             Post a task, a verified doer in your city handles it while you go touch grass. Escrow payments, two-way ratings, zero drama.

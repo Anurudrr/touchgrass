@@ -25,7 +25,7 @@ export default function Auth() {
     const code = String(Math.floor(1000 + Math.random() * 9000))
     setSentOtp(code)
     setStep('otp')
-    toast('OTP sent ✨', `code: ${code} — paste it in, bestie`)
+    toast('OTP sent ✨', `code: ${code} — paste it in`)
   }
 
   const verifyOtp = () => {
@@ -46,7 +46,7 @@ export default function Auth() {
     if (role !== 'poster') {
       setStep('verify')
     } else {
-      toast('Welcome to touchgrass', `You're in, ${name.split(' ')[0]}. Go touch some grass.`)
+      toast('Welcome', `You're in, ${name.split(' ')[0]}.`)
       navigate('/tasks')
     }
   }
@@ -93,7 +93,7 @@ export default function Auth() {
                   />
                 </div>
               </Field>
-              <div className="mt-4 rounded-xl bg-ink border border-white/15 p-3 text-center font-body font-bold text-orange text-sm">
+              <div className="mt-4 rounded-xl bg-ink border border-white/15 p-3 text-center font-body font-bold text-teal text-sm">
                 Demo mode — your OTP is {sentOtp}
               </div>
               <div className="flex gap-3 mt-6">

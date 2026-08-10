@@ -96,7 +96,7 @@ export default function TaskDetail() {
                 </div>
               </div>
               <div className="text-right">
-                <div className="font-display text-5xl text-orange relative inline-block">
+                <div className="font-display text-5xl text-teal relative inline-block">
                   ₹{task.price.toLocaleString('en-IN')}
                 </div>
                 {payment && (

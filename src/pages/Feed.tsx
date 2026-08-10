@@ -157,7 +157,7 @@ export default function Feed() {
       ) : tasks.length === 0 ? (
         <div className="mt-14 text-center bg-white text-cocoa shadow-[0_10px_25px_rgba(0,0,0,0.12)] rounded-[24px] p-14">
           <Grassbot size={88} mood="wave" className="mx-auto" />
-          <p className="mt-4 font-display text-4xl">nothing matches. the feed is playing hard to get.</p>
+          <p className="font-display text-4xl">nothing matches. the feed is playing hard to get.</p>
           <p className="mt-3 text-neutral-600 font-body font-semibold">loosen the filters, or post the task yourself — grassbot believes in you.</p>
           <a href="/post" className="inline-block mt-6 bg-coral text-white rounded-full px-6 py-3 font-body font-bold uppercase shadow-[0_10px_25px_rgba(232,125,74,0.4)] hover:bg-rose transition-colors">
             Post a Task

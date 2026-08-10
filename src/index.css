@@ -1,55 +1,97 @@
 @import "tailwindcss";
 
 @theme {
-  /* ===== MINIMALIST PORTFOLIO PALETTE ===== */
-  --color-white: #ffffff;
-  --color-black: #0a0a0a;
-  --color-gray-50: #fafafa;
-  --color-gray-100: #f5f5f5;
-  --color-gray-200: #e5e5e5;
-  --color-gray-300: #d4d4d4;
-  --color-gray-400: #a3a3a3;
-  --color-gray-500: #737373;
-  --color-gray-600: #525252;
-  --color-gray-700: #404040;
-  --color-gray-800: #262626;
-  --color-gray-900: #171717;
-  --color-gray-950: #0a0a0a;
+  /* ===== CHEFIDLIES-INSPIRED PALETTE ===== */
 
-  /* Accent - subtle warm gold */
-  --color-accent: #c9a86c;
-  --color-accent-hover: #b8965c;
-  --color-accent-light: #f5ebe0;
+  /* Cream canvas — primary background */
+  --color-cream:        #f7f1e8;
+  --color-cream-soft:   #faf5ec;
+  --color-paper:        #ffffff;
+  --color-warm-paper:   #f1ead8;
 
-  /* Semantic */
-  --color-bg: var(--color-white);
-  --color-bg-alt: var(--color-gray-50);
-  --color-fg: var(--color-black);
-  --color-fg-muted: var(--color-gray-500);
-  --color-border: var(--color-gray-200);
-  --color-border-strong: var(--color-gray-300);
+  /* Ink — text + heavy strokes */
+  --color-ink:          #1a1714;
+  --color-charcoal:     #2a2520;
+  --color-cocoa:        #4a3f35;
+  --color-muted:        #7a6e63;
+  --color-soft:         #e6dfd2;
 
-  /* Dark mode */
-  --color-bg-dark: var(--color-black);
-  --color-bg-alt-dark: var(--color-gray-950);
-  --color-fg-dark: var(--color-white);
-  --color-fg-muted-dark: var(--color-gray-400);
-  --color-border-dark: var(--color-gray-800);
-  --color-border-strong-dark: var(--color-gray-700);
+  /* Teal — signature accent */
+  --color-teal:         #0d7377;
+  --color-teal-soft:    #d8ebea;
+  --color-teal-hover:   #0a5d60;
 
-  --font-display: "PP Neue Machina", "Syne", "Space Grotesk", sans-serif;
-  --font-body: "PP Neue Machina", "Inter", "Space Grotesk", sans-serif;
-  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  /* Secondary pastels — used by category chips, stickers */
+  --color-coral:        #ff6b47;
+  --color-coral-soft:   #ffd5c8;
+  --color-rose:         #f4a4a4;
+  --color-blush:        #f7c4b8;
+  --color-peach:        #ffd4a8;
+  --color-yellow:       #f4c842;
+  --color-sage:         #a8c87f;
+  --color-sage-soft:    #e0ebcf;
+  --color-periwinkle:   #8b9fff;
+  --color-lavender:     #c4b5e8;
+  --color-orange:       #ff8c42;
+  --color-green:        #6fb842;
+  --color-lightgreen:   #bfe089;
+  --color-lightblue:    #6fb0c4;
+  --color-darkblue:     #3b5bff;
+  --color-pink:         #ff8fb1;
 
-  --text-display: clamp(3.5rem, 8vw, 8rem);
-  --text-display-sm: clamp(2.5rem, 5vw, 4.5rem);
-  --text-h1: clamp(2.5rem, 4vw, 4rem);
-  --text-h2: clamp(1.75rem, 3vw, 2.5rem);
-  --text-h3: clamp(1.25rem, 2vw, 1.75rem);
-  --text-lg: 1.125rem;
-  --text-base: 1rem;
-  --text-sm: 0.875rem;
-  --text-xs: 0.75rem;
+  /* Surfaces */
+  --color-surface:        var(--color-cream);
+  --color-surface-alt:    var(--color-warm-paper);
+  --color-border-subtle:  var(--color-soft);
+  --color-border-strong:  var(--color-ink);
+
+  /* Legacy aliases (kept so dark-mode selectors + existing classes resolve) */
+  --color-white:        var(--color-paper);
+  --color-black:        var(--color-ink);
+  --color-gray-50:      var(--color-cream-soft);
+  --color-gray-100:     var(--color-cream);
+  --color-gray-200:     var(--color-soft);
+  --color-gray-300:     var(--color-soft);
+  --color-gray-400:     var(--color-muted);
+  --color-gray-500:     var(--color-muted);
+  --color-gray-600:     var(--color-cocoa);
+  --color-gray-700:     var(--color-charcoal);
+  --color-gray-800:     var(--color-charcoal);
+  --color-gray-900:     var(--color-ink);
+  --color-gray-950:     var(--color-ink);
+  --color-accent:       var(--color-teal);
+  --color-accent-hover: var(--color-teal-hover);
+  --color-accent-light: var(--color-teal-soft);
+
+  --color-bg: var(--color-cream);
+  --color-bg-alt: var(--color-warm-paper);
+  --color-fg: var(--color-ink);
+  --color-fg-muted: var(--color-muted);
+  --color-border: var(--color-soft);
+  --color-border-strong: var(--color-ink);
+
+  /* Dark mode (unchanged structure) */
+  --color-bg-dark: var(--color-ink);
+  --color-bg-alt-dark: var(--color-charcoal);
+  --color-fg-dark: var(--color-cream);
+  --color-fg-muted-dark: var(--color-soft);
+  --color-border-dark: var(--color-charcoal);
+  --color-border-strong-dark: var(--color-cream);
+
+  --font-display:  "Anton", "Space Grotesk", sans-serif;
+  --font-body:     "Inter", "Space Grotesk", sans-serif;
+  --font-mono:     "JetBrains Mono", "Fira Code", monospace;
+
+  --text-display:     clamp(4rem,  12vw, 11rem);
+  --text-display-sm:  clamp(2.5rem, 6vw,  5rem);
+  --text-h1:          clamp(2.5rem, 4vw,  4rem);
+  --text-h2:          clamp(1.75rem, 3vw, 2.5rem);
+  --text-h3:          clamp(1.25rem, 2vw, 1.75rem);
+  --text-eyebrow:     0.75rem;
+  --text-lg:          1.125rem;
+  --text-base:        1rem;
+  --text-sm:          0.875rem;
+  --text-xs:          0.75rem;
 
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;

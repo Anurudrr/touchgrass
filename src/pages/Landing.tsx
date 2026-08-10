@@ -17,14 +17,14 @@ const EVE = '\u2726' // ✦ little star
 
 /* ============ top marquee strip ============ */
 const HERO_WORDS = ['touchgrass', 'est. 2024', 'go outside', 'post it', 'get it done', 'no weirdos', 'escrow protected', 'printed in india']
-const COLOR_WORDS = ['text-[var(--color-yellow)]', 'text-[var(--color-rose)]', 'text-[var(--color-sage)]', 'text-[var(--color-periwinkle)]', 'text-[var(--color-coral)]', 'text-[var(--color-cream)]']
+const COLOR_WORDS = ['text-[var(--color-yellow)]', 'text-[var(--color-teal)]', 'text-[var(--color-sage)]', 'text-[var(--color-periwinkle)]', 'text-[var(--color-coral)]', 'text-[var(--color-cream)]']
 
 function HeroStrip({ words = HERO_WORDS, className = '' }: { words?: string[]; className?: string }) {
   const row = [...words, ...words, ...words]
   const content = (
     <>
       {row.map((w, i) => (
-        <span key={i} className={`flex items-center gap-2.5 ${COLOR_WORDS[i % COLOR_WORDS.length]} ${i % 5 === 3 ? 'text-[var(--color-coral)]' : ''}`}>
+        <span key={i} className={`flex items-center gap-2.5 ${COLOR_WORDS[i % COLOR_WORDS.length]} ${i % 5 === 3 ? 'text-[var(--color-teal)]' : ''}`}>
           {w} <span className="text-white/40">{EVE}</span>
         </span>
       ))}
@@ -73,7 +73,7 @@ function Hero() {
           </motion.span>
         </motion.div>
         <motion.div className="absolute top-[38%] right-[6%] hidden xl:block">
-          <motion.span animate={reduced ? {} : { y: [0, -10, 0] }} transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut' }} className="inline-block border-4 border-ink bg-green text-ink rounded-full size-24 flex items-center justify-center font-display shadow-[6px_6px_0_rgba(23,19,15,0.9)]">
+          <motion.span animate={reduced ? {} : { y: [0, -10, 0] }} transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut' }} className="inline-block border-4 border-ink bg-teal text-cream rounded-full size-24 flex items-center justify-center font-display shadow-[6px_6px_0_rgba(23,19,15,0.9)]">
             <span className="text-xl leading-none">₹</span>
             <span className="text-[9px] uppercase block">escrow</span>
           </motion.span>
@@ -109,7 +109,7 @@ function Hero() {
             </span>
             <span className="block overflow-hidden">
               <motion.span style={heroRotate as unknown as React.CSSProperties} className="block outline-text" initial={reduced ? {} : { y: '112%' }} animate={{ y: 0 }} transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}>
-                GRASS<span className="text-[var(--color-coral)] outline-none">.</span>
+                GRASS<span className="text-[var(--color-teal)] outline-none">.</span>
               </motion.span>
             </span>
           </h1>
@@ -118,13 +118,13 @@ function Hero() {
         {/* tagline row */}
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4 max-w-[1700px]">
           <motion.div initial={reduced ? {} : { opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5, duration: 0.6 }} className="flex items-center gap-3">
-            <span className="spin-star inline-block text-3xl text-[var(--color-rose)]">✦</span>
+            <span className="spin-star inline-block text-3xl text-[var(--color-teal)]">✦</span>
             <p className="font-serif italic text-2xl sm:text-4xl text-cocoa">
               stop scrolling. <span className="grad-text not-italic font-display uppercase text-3xl sm:text-5xl">start doing.</span>
             </p>
           </motion.div>
           <motion.div initial={reduced ? {} : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.6 }} className="ml-auto hidden sm:block">
-            <DrawUnderline color="#ff4d00" className="w-40 sm:w-56 -mb-1" />
+            <DrawUnderline color="#0d7377" className="w-40 sm:w-56 -mb-1" />
           </motion.div>
         </div>
 
@@ -132,7 +132,7 @@ function Hero() {
         <motion.div initial={reduced ? {} : { opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.6 }} className="mt-10 flex flex-wrap items-center gap-4">
           <Magnetic>
             <Link to="/post">
-              <motion.span whileHover={{ y: -4, scale: 1.03 }} whileTap={{ scale: 0.95 }} className="inline-flex items-center gap-2 bg-coral text-cream rounded-xl px-8 py-4 font-display uppercase tracking-wide text-lg border-[3px] border-ink shadow-[5px_6px_0_rgba(23,19,15,0.95)]">
+              <motion.span whileHover={{ y: -4, scale: 1.03 }} whileTap={{ scale: 0.95 }} className="inline-flex items-center gap-2 bg-teal text-cream rounded-xl px-8 py-4 font-display uppercase tracking-wide text-lg border-[3px] border-ink shadow-[5px_6px_0_rgba(23,19,15,0.95)]">
                 post a task <ArrowRight className="size-5" />
               </motion.span>
             </Link>
@@ -145,9 +145,10 @@ function Hero() {
             </Link>
           </Magnetic>
           <span className="inline-flex items-center gap-2 text-ink font-body text-sm font-bold bg-white/70 border-2 border-ink px-4 py-2 rounded-lg shadow-[3px_4px_0_rgba(23,19,15,0.9)]">
-            <span className="size-2 rounded-full bg-green animate-pulse" /> avg 20 min response · escrow protected
+            <span className="size-2 rounded-full bg-teal animate-pulse" /> avg 20 min response · escrow protected
           </span>
         </motion.div>
+
 
         {/* mascot row */}
         <motion.div initial={reduced ? {} : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }} className="mt-12 flex items-center gap-4">
@@ -167,13 +168,13 @@ function Manifesto() {
     <section className="px-5 sm:px-10 pt-20 pb-10 text-center relative">
       <Reveal>
         <div className="inline-block relative">
-          <p className="font-body font-bold uppercase tracking-[0.35em] text-[var(--color-coral)] text-[11px]">manifesto / 001</p>
+          <p className="font-body font-bold uppercase tracking-[0.35em] text-[var(--color-teal)] text-[11px]">manifesto / 001</p>
           <h2 className="mt-4 font-display font-normal uppercase tracking-tight text-cocoa leading-[0.9] text-[11.5vw] sm:text-7xl lg:text-[6.5rem]">
             your to-do list,
             <br />
             <em className="font-serif italic font-normal normal-case grad-text">outsourced.</em>
           </h2>
-          <DrawUnderline className="absolute -bottom-3 right-6 w-44 sm:w-72" color="#ff4d00" />
+          <DrawUnderline className="absolute -bottom-3 right-6 w-44 sm:w-72" color="#0d7377" />
         </div>
         <p className="mt-10 max-w-2xl mx-auto text-lg sm:text-xl font-body text-muted">
           printing, parcel runs, repairs, tutoring — post any small task. a verified doer near you picks it up,
@@ -184,7 +185,7 @@ function Manifesto() {
       <Reveal delay={0.1} className="mt-12">
         <div className="flex justify-center gap-3 flex-wrap">
           {['GO OUTSIDE ✦', 'MADE IN YOUR CITY', 'NO ROBOTS', '2-WAY RATINGS'].map((t, i) => (
-            <Stamp key={t} text={t} color={i % 2 ? '#3b5bff' : '#ff4d00'} className={`rotate-${i % 2 ? '-3' : '2'} -rotate-${i % 3}`} />
+            <Stamp key={t} text={t} color={i % 2 ? '#0d7377' : '#ff4d00'} className={`rotate-${i % 2 ? '-3' : '2'} -rotate-${i % 3}`} />
           ))}
         </div>
       </Reveal>
@@ -194,7 +195,7 @@ function Manifesto() {
           <Marquee
             items={['printing', 'parcel runs', 'assignments', 'tutoring', 'repairs', 'errands', 'event help', 'elderly care']}
             sep="✦"
-            className="border-y-2 border-ink text-ink bg-yellow-soft/40"
+            className="border-y-2 border-ink text-ink bg-teal-soft/40"
           />
         </div>
       </Reveal>
@@ -204,7 +205,7 @@ function Manifesto() {
 
 /* ============================================================ */
 /* ============ open tasks → live marquee boards =============== */
-const TASK_TILES = ['bg-orange text-cream', 'bg-periwinkle text-white', 'bg-rose text-white', 'bg-green text-ink', 'bg-yellow text-ink', 'bg-ink text-cream']
+const TASK_TILES = ['bg-teal text-cream', 'bg-periwinkle text-white', 'bg-rose text-white', 'bg-sage text-ink', 'bg-yellow text-ink', 'bg-ink text-cream']
 
 function LiveTasks() {
   const db = useDB()
@@ -235,16 +236,16 @@ function LiveTasks() {
           <h2 className="mt-3 font-display uppercase tracking-tight text-[13vw] sm:text-6xl leading-[0.92]">
             open tasks
             <br />
-            in your <em className="font-serif italic normal-case text-orange">city</em>
+            in your <em className="font-serif italic normal-case text-teal">city</em>
           </h2>
-          <DrawUnderline className="mt-4 w-52" color="#3b5bff" />
+          <DrawUnderline className="mt-4 w-52" color="#0d7377" />
           <motion.div animate={{ y: [0, -12, 0], rotate: [-4, 4, -4] }} transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }} className="mt-8 inline-block">
             <Sticker size="lg" color="lightgreen" rotate={-6} icon={<Hand className="size-9" />} />
           </motion.div>
           <p className="mt-6 max-w-sm font-body text-muted font-medium">
-            {open.length} tasks live in Bengaluru right now. prices set by posters, money held in escrow until done.
+            {open.length} tasks live in your city right now. prices set by posters, money held in escrow until done.
           </p>
-          <Link to="/tasks" className="mt-5 inline-flex items-center gap-2 font-display uppercase tracking-wide text-ink underline decoration-4 decoration-orange underline-offset-8 hover:text-orange">
+          <Link to="/tasks" className="mt-5 inline-flex items-center gap-2 font-display uppercase tracking-wide text-ink underline decoration-4 decoration-teal underline-offset-8 hover:text-teal">
             see all → <ArrowRight className="size-4" />
           </Link>
         </Reveal>
@@ -435,8 +436,8 @@ function HowItWorks() {
       <Reveal className="text-center mb-16">
         <p className="font-body font-bold uppercase tracking-[0.35em] text-muted text-[11px]">process / 004</p>
         <h2 className="mt-3 font-display uppercase tracking-tight font-normal text-[10vw] sm:text-6xl lg:text-7xl inline-block relative">
-          how it <em className="font-serif italic normal-case text-darkblue">works</em>
-          <DrawUnderline className="absolute -bottom-3 right-0 w-32 sm:w-48" color="#82a0ff" />
+          how it <em className="font-serif italic normal-case text-teal">works</em>
+          <DrawUnderline className="absolute -bottom-3 right-0 w-32 sm:w-48" color="#d8ebea" />
         </h2>
       </Reveal>
 

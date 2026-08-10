@@ -76,14 +76,14 @@ export default function Dashboard() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="font-display text-4xl sm:text-5xl leading-none">
-            Hey, <span className="text-orange">{user.name.split(' ')[0]}</span> 👋
+            Hey, <span className="text-teal">{user.name.split(' ')[0]}</span> 👋
           </h1>
           <p className="mt-2 text-muted font-body font-semibold text-sm">
             {posted.length} posted · {doing.length} doing · wallet ready when work's done
           </p>
         </div>
         <Link to="/post">
-          <motion.span whileHover={{ y: -3 }} whileTap={{ scale: 0.94 }} className="inline-block bg-coral text-white rounded-full px-6 py-3 font-body font-bold uppercase shadow-[0_10px_25px_rgba(232,125,74,0.35)]">
+          <motion.span whileHover={{ y: -3 }} whileTap={{ scale: 0.94 }} className="inline-block bg-teal text-white rounded-full px-6 py-3 font-body font-bold uppercase shadow-[0_10px_25px_rgba(13,115,119,0.35)]">
             + Post a Task
           </motion.span>
         </Link>

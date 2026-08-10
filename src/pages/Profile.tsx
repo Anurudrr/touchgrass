@@ -50,7 +50,7 @@ export default function Profile() {
         <div className="bg-white text-cocoa shadow-[0_10px_25px_rgba(0,0,0,0.12)] rounded-[24px] p-6 sm:p-8">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="flex items-center gap-4">
-              <div className="size-16 rounded-2xl bg-ink text-orange border-2 border-ink/10 flex items-center justify-center font-display text-3xl">
+              <div className="size-16 rounded-2xl bg-ink text-teal border-2 border-ink/10 flex items-center justify-center font-display text-3xl">
                 {user.name.slice(0, 1).toUpperCase()}
               </div>
               <div>
@@ -59,7 +59,7 @@ export default function Profile() {
                   <Chip color="sage" rotate={-3} className="!text-xs"><Grassbot size={16} className="inline -mt-0.5" /> L{lvl.level.lvl} · {lvl.level.name}</Chip>
                 </h1>
                 <p className="mt-1 flex items-center gap-2 text-sm font-body font-bold">
-                  <Star className="size-4 fill-orange text-orange" />
+                  <Star className="size-4 fill-teal text-teal" />
                   {user.ratingCount ? `${user.ratingAvg.toFixed(1)} · ${user.ratingCount} ratings` : 'No ratings yet'} · {user.tasksDone} tasks done
                 </p>
                 <p className="text-xs text-neutral-500 font-body font-semibold mt-1">{user.area} · joined {fmtDate(user.joinedAt)}</p>
