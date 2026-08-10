@@ -8,6 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+node_modules.old
 dist
 dist-ssr
 dist-server
@@ -24,3 +25,8 @@ dist-server
 *.njsproj
 *.sln
 *.sw?
+
+# Other projects
+yestalgia
+server
+wsl
