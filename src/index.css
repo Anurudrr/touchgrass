@@ -82,11 +82,11 @@
   --font-body:     "Inter", "Space Grotesk", sans-serif;
   --font-mono:     "JetBrains Mono", "Fira Code", monospace;
 
-  --text-display:     clamp(4rem,  12vw, 11rem);
-  --text-display-sm:  clamp(2.5rem, 6vw,  5rem);
-  --text-h1:          clamp(2.5rem, 4vw,  4rem);
-  --text-h2:          clamp(1.75rem, 3vw, 2.5rem);
-  --text-h3:          clamp(1.25rem, 2vw, 1.75rem);
+  --text-display:     clamp(5rem, 18vw, 15rem);
+  --text-display-sm:  clamp(3rem, 10vw, 7rem);
+  --text-h1:          clamp(2rem, 5vw, 5rem);
+  --text-h2:          clamp(1.5rem, 4vw, 3rem);
+  --text-h3:          clamp(1.1rem, 2vw, 1.5rem);
   --text-eyebrow:     0.75rem;
   --text-lg:          1.125rem;
   --text-base:        1rem;
@@ -97,11 +97,14 @@
   --space-sm: 0.5rem;
   --space-md: 1rem;
   --space-lg: 1.5rem;
-  --space-xl: 2rem;
-  --space-2xl: 3rem;
-  --space-3xl: 4rem;
-  --space-4xl: 6rem;
-  --space-5xl: 8rem;
+  --space-xs: 0.25rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.25rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  --space-4xl: 8rem;
 
   --container-sm: 640px;
   --container-md: 768px;

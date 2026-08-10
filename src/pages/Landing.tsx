@@ -164,41 +164,36 @@ function Hero() {
 
 /* ============ manifesto / intro ============ */
 function Manifesto() {
+  const points = [
+    { title: 'Hand Made', desc: 'Real humans in your city, doing things right.', icon: 'hand' },
+    { title: 'Escrow Protected', desc: 'Your money is safe until the task is done.', icon: 'shield' },
+    { title: 'No Weirdos', desc: 'Verified doers only. 2-way ratings ensure trust.', icon: 'check' },
+  ]
   return (
-    <section className="px-5 sm:px-10 pt-20 pb-10 text-center relative">
-      <Reveal>
-        <div className="inline-block relative">
-          <p className="font-body font-bold uppercase tracking-[0.35em] text-[var(--color-teal)] text-[11px]">manifesto / 001</p>
-          <h2 className="mt-4 font-display font-normal uppercase tracking-tight text-cocoa leading-[0.9] text-[11.5vw] sm:text-7xl lg:text-[6.5rem]">
-            your to-do list,
-            <br />
-            <em className="font-serif italic font-normal normal-case grad-text">outsourced.</em>
-          </h2>
-          <DrawUnderline className="absolute -bottom-3 right-6 w-44 sm:w-72" color="#0d7377" />
-        </div>
-        <p className="mt-10 max-w-2xl mx-auto text-lg sm:text-xl font-body text-muted">
-          printing, parcel runs, repairs, tutoring — post any small task. a verified doer near you picks it up,
-          does it, gets paid. you go touch grass.
-        </p>
+    <section className="px-5 sm:px-10 pt-20 pb-10 relative">
+      <Reveal className="text-center mb-16">
+        <p className="font-body font-bold uppercase tracking-[0.35em] text-[var(--color-teal)] text-[11px]">manifesto / 001</p>
+        <h2 className="mt-4 font-display font-normal uppercase tracking-tight text-cocoa leading-[0.9] text-[10vw] sm:text-7xl lg:text-[6.5rem]">
+          your to-do list,<br/>
+          <em className="font-serif italic font-normal normal-case grad-text">outsourced.</em>
+        </h2>
       </Reveal>
 
-      <Reveal delay={0.1} className="mt-12">
-        <div className="flex justify-center gap-3 flex-wrap">
-          {['GO OUTSIDE ✦', 'MADE IN YOUR CITY', 'NO ROBOTS', '2-WAY RATINGS'].map((t, i) => (
-            <Stamp key={t} text={t} color={i % 2 ? '#0d7377' : '#ff4d00'} className={`rotate-${i % 2 ? '-3' : '2'} -rotate-${i % 3}`} />
-          ))}
-        </div>
-      </Reveal>
-
-      <Reveal delay={0.15} className="mt-12">
-        <div className="flex gap-4 overflow-hidden">
-          <Marquee
-            items={['printing', 'parcel runs', 'assignments', 'tutoring', 'repairs', 'errands', 'event help', 'elderly care']}
-            sep="✦"
-            className="border-y-2 border-ink text-ink bg-teal-soft/40"
-          />
-        </div>
-      </Reveal>
+      <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        {points.map((p, i) => (
+          <Reveal key={p.title} delay={i * 0.1}>
+            <div className="bg-white border-[3px] border-ink rounded-[20px] p-8 shadow-[6px_6px_0_rgba(23,19,15,0.9)]">
+              <div className="size-12 rounded-full bg-teal flex items-center justify-center mb-6">
+                {p.icon === 'hand' && <Hand className="size-6 text-cream" />}
+                {p.icon === 'shield' && <ShieldCheck className="size-6 text-cream" />}
+                {p.icon === 'check' && <Check className="size-6 text-cream" />}
+              </div>
+              <h3 className="font-display text-2xl uppercase tracking-tight">{p.title}</h3>
+              <p className="font-body text-muted mt-2">{p.desc}</p>
+            </div>
+          </Reveal>
+        ))}
+      </div>
     </section>
   )
 }
@@ -334,89 +329,49 @@ const FLOATERS = [
 ]
 
 function Posters() {
-  const PrintIcon = categoryIcon('Printing & Documents')
-  const big = { icon: 'printer', title: 'printing', sub: 'documents, bindings, photocopies', color: 'bg-green text-ink', rotate: -3 }
+  const big = { title: 'printing', sub: 'documents, bindings, photocopies', color: 'bg-teal text-cream', rotate: -3 }
   const small = [
-    { icon: 'package', title: 'delivery', sub: 'parcels, pickups, meds', color: 'bg-darkblue text-white', rotate: 2 },
-    { icon: 'wrench', title: 'repairs', sub: 'taps, shelves, small fixes', color: 'bg-orange text-cream', rotate: -2 },
+    { title: 'delivery', sub: 'parcels, pickups, meds', color: 'bg-darkblue text-white', rotate: 2 },
+    { title: 'repairs', sub: 'taps, shelves, small fixes', color: 'bg-orange text-cream', rotate: -2 },
+    { title: 'tutoring', sub: 'assignments, help', color: 'bg-sage text-ink', rotate: 1 },
   ]
   return (
     <section className="px-5 sm:px-10 py-20 max-w-7xl mx-auto">
-      <Reveal>
+      <Reveal className="mb-16">
         <p className="font-body font-bold uppercase tracking-[0.35em] text-muted text-[11px]">services / 003</p>
         <h2 className="mt-3 font-display uppercase tracking-tight text-ink text-[10vw] sm:text-6xl lg:text-7xl">
           built for humans, <em className="font-serif italic normal-case grad-text">not bots.</em>
         </h2>
       </Reveal>
 
-      <div className="relative mt-16">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <FlingCard className="sm:col-span-2 sm:row-span-2">
+      <div className="grid md:grid-cols-3 gap-6">
+          <FlingCard className="md:col-span-2">
             <Reveal>
               <Link to="/tasks" className="block h-full">
-                <div className={`h-full min-h-[420px] rounded-[20px] border-[3px] border-ink p-8 flex flex-col justify-between shadow-[10px_10px_0_rgba(23,19,15,0.9)] ${big.color}`} style={{ transform: `rotate(${big.rotate}deg)` }}>
-                  <motion.div whileHover={{ rotate: -10, scale: 1.15 }} className="size-20 rounded-full bg-white/25 border-[3px] border-ink flex items-center justify-center self-end">
-                    <PrintIcon className="size-9" />
-                  </motion.div>
+                <div className={`h-[400px] rounded-[20px] border-[3px] border-ink p-8 flex flex-col justify-between shadow-[10px_10px_0_rgba(23,19,15,0.9)] ${big.color}`}>
                   <div>
-                    <Stamp text="most wanted" color="#17130f" className="-rotate-3 mb-4" />
-                    <h3 className="font-display font-normal text-5xl lg:text-6xl tracking-tight uppercase">{big.title}</h3>
+                    <h3 className="font-display font-normal text-6xl tracking-tight uppercase">{big.title}</h3>
                     <p className="font-body font-medium opacity-80 mt-2 text-lg">{big.sub}</p>
-                    <p className="font-display font-normal text-sm mt-5 underline decoration-2 underline-offset-4">from ₹15 →</p>
                   </div>
                 </div>
               </Link>
             </Reveal>
           </FlingCard>
 
-          {small.map((c, i) => {
-            const Icon = categoryIcon(c.icon)
-            return (
-              <FlingCard key={c.title} className={i % 2 ? 'mt-10' : ''}>
-                <Reveal delay={i * 0.1}>
-                  <Link to="/tasks" className="block h-full">
-                    <div className={`h-44 rounded-[20px] border-[3px] border-ink p-5 flex flex-col justify-between shadow-[10px_10px_0_rgba(23,19,15,0.9)] ${c.color}`} style={{ transform: `rotate(${c.rotate}deg)` }}>
-                      <motion.div whileHover={{ rotate: -10, scale: 1.15 }} className="size-12 rounded-full bg-white/25 border-[3px] border-ink flex items-center justify-center self-end">
-                        <Icon className="size-6" />
-                      </motion.div>
-                      <div>
-                        <h3 className="font-display uppercase tracking-tight text-2xl">{c.title}</h3>
-                        <p className="font-body font-medium opacity-80 mt-1 text-sm">{c.sub}</p>
-                      </div>
-                    </div>
-                  </Link>
-                </Reveal>
-              </FlingCard>
-            )
-          })}
-
-          <FlingCard className={small.length % 2 ? 'mt-10' : ''}>
-            <Reveal delay={0.2}>
-              <Link to="/auth" className="block">
-                <Polaroid rotate={4} caption="“got my assignment printed while i napped.” — trust the process">
-                  <div className="bg-pink rounded-md aspect-[4/3] flex items-center justify-center">
-                    <Grassbot size={92} mood="happy" />
-                  </div>
-                </Polaroid>
-              </Link>
-            </Reveal>
-          </FlingCard>
-        </div>
-
-        {FLOATERS.map((f, i) => (
-          <FlingCard key={f.text} className={`absolute z-10 ${i === 0 ? 'top-0 -left-4 lg:-left-10' : i === 1 ? '-bottom-6 left-1/4 hidden md:block' : 'top-8 -right-2 lg:-right-8 hidden md:block'}`}>
-            <div className={`${f.color} rounded-full px-5 py-3 border-[3px] border-ink shadow-[3px_4px_0_rgba(23,19,15,0.9)] font-display uppercase tracking-wide text-sm rotate-3 inline-block`}>
-              {f.text}
-            </div>
-          </FlingCard>
-        ))}
-
-        <FlingCard className="absolute -top-8 right-1/4 hidden lg:block">
-          <Stamp text="no weirdos" color="#3b5bff" />
-        </FlingCard>
-        <FlingCard className="absolute bottom-24 -right-6 hidden lg:block">
-          <Stamp text="verified" color="#8fd11f" className="rotate-6" />
-        </FlingCard>
+          <div className="flex flex-col gap-6">
+            {small.map((c, i) => (
+                <FlingCard key={c.title}>
+                    <Reveal delay={i * 0.1}>
+                    <Link to="/tasks" className="block h-full">
+                        <div className={`h-[188px] rounded-[20px] border-[3px] border-ink p-6 flex flex-col justify-between shadow-[10px_10px_0_rgba(23,19,15,0.9)] ${c.color}`}>
+                            <h3 className="font-display uppercase tracking-tight text-2xl">{c.title}</h3>
+                            <p className="font-body font-medium opacity-80 mt-1 text-sm">{c.sub}</p>
+                        </div>
+                    </Link>
+                    </Reveal>
+                </FlingCard>
+            ))}
+          </div>
       </div>
     </section>
   )
