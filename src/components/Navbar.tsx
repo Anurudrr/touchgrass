@@ -190,7 +190,7 @@ export function Navbar() {
                   my tasks
                 </Link>
                 
-                {/* Notifications Bell */}
+{/* Notifications Bell */}
                 <div className="relative" ref={notifRef}>
                   <button
                     onClick={() => setNotifOpen(!notifOpen)}
@@ -199,6 +199,7 @@ export function Navbar() {
                     aria-label={unreadCount > 0 ? `${unreadCount} unread notifications` : 'Notifications'}
                   >
                     <Bell size={18} className="text-current" />
+                  </button>
                   
                   <AnimatePresence>
                     {notifOpen && (
