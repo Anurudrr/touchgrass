@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, BadgeCheck, FileCheck2, Lock, Phone, ShieldCheck, Smartphone, UserRound } from 'lucide-react'
 import { toast } from '../components/ui'

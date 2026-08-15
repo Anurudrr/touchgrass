@@ -1,5 +1,5 @@
 import { useEffect, useState, Suspense, lazy } from 'react'
-import { Route, Routes, useLocation, Navigate } from 'react-router'
+import { Route, Routes, useLocation, Navigate } from 'react-router-dom'
 import { AnimatePresence, motion, type TargetAndTransition, type Transition } from 'framer-motion'
 import Lenis from 'lenis'
 import { Navbar, Footer } from './components/Navbar'

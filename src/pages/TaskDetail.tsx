@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Link, useParams } from 'react-router'
+import { Link, useParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, Check, Flame, MapPin, MessageCircle, Send, ShieldAlert, Star, Wallet, Clock3, Zap, Share2, Map, Image } from 'lucide-react'
 import { BrutButton, ConfettiBurst, Field, StarRatingInput, inputCls, toast } from '../components/ui'

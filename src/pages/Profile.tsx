@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { BadgeCheck, LogOut, ShieldAlert, Star, Wallet, ArrowDownToLine, History } from 'lucide-react'
 import { Counter, toast, inputCls } from '../components/ui'

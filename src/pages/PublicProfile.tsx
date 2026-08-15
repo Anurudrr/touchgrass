@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router'
+import { Link, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Star, Trophy, Flame, ShieldCheck, Briefcase } from 'lucide-react'
 import { Counter } from '../components/ui'

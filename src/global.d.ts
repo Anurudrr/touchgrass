@@ -1,85 +1,15 @@
 import * as React from 'react';
 
 declare module 'react-router' {
-  export const Link: React.ComponentType<{ to: string; children?: React.ReactNode; replace?: boolean; state?: any; onClick?: (event: React.MouseEvent) => void }>;
-  export const NavLink: React.ComponentType<any>;
-  export const BrowserRouter: React.ComponentType<{ children: React.ReactNode; basename?: string; window?: Window }>;
-  export const HashRouter: React.ComponentType<any>;
-  export const MemoryRouter: React.ComponentType<any>;
-  export const Routes: React.ComponentType<{ children: React.ReactNode; location?: string }>;
-  export const Route: React.ComponentType<{ path?: string; index?: boolean; element?: React.ReactNode; children?: React.ReactNode }>;
-  export const Navigate: React.ComponentType<{ to: string; replace?: boolean; state?: any }>;
-  export const Outlet: React.ComponentType<any>;
-  export const useLocation: () => { pathname: string; search: string; hash: string; state: any; key: string };
-  export const useNavigate: () => (to: string | number, options?: { replace?: boolean; state?: any }) => void;
-  export const useParams: <T extends Record<string, string> = Record<string, string>>() => T;
-  export const useRouteError: () => any;
-  export const useLoaderData: <T>() => T;
-  export const useRouteLoaderData: <T>(routeId: string) => T;
-  export const useNavigation: () => { state: 'idle' | 'loading' | 'submitting'; formData: FormData | null; location: any; formMethod: string; formEncType: string; formAction: string };
-  export const useFetcher: <T>() => { fetch: (url: string, options?: any) => void; data: T | undefined; state: 'idle' | 'loading' | 'submitting' };
-  export const useSubmit: () => (formData: FormData | URLSearchParams, options?: { method?: string; action?: string; encType?: string }) => void;
-  export const useRoutes: (routes: any[], locationArg?: string) => React.ReactNode | null;
-  export const useLocation: () => { pathname: string; search: string; hash: string; state: any; key: string };
-  export const useNavigate: () => (to: string | number, options?: { replace?: boolean; state?: any }) => void;
-  export const useParams: <T extends Record<string, string> = Record<string, string>>() => T;
-  export const useRouteError: () => any;
-  export const useLoaderData: <T>() => T;
-  export const useRouteLoaderData: <T>(routeId: string) => T;
-  export const useNavigation: () => { state: 'idle' | 'loading' | 'submitting'; formData: FormData | null; location: any; formMethod: string; formEncType: string; formAction: string };
-  export const useFetcher: <T>() => { fetch: (url: string, options?: any) => void; data: T | undefined; state: 'idle' | 'loading' | 'submitting' };
-  export const useSubmit: () => (formData: FormData | URLSearchParams, options?: { method?: string; action?: string; encType?: string }) => void;
-  export const useRoutes: (routes: any[], locationArg?: string) => React.ReactNode | null;
-  export const Await: React.ComponentType<{ resolve: Promise<any>; children?: React.ReactNode; errorElement?: React.ReactNode }>;
-  export const Form: React.ComponentType<any>;
-  export const FormMethod: 'get' | 'post' | 'dialog';
-  export const FormEncType: 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain';
-  export const createBrowserRouter: (routes: any[], opts?: { basename?: string; future?: any; unstable_patchRoutesOnNavigation?: boolean; window?: Window }) => any;
-  export const createHashRouter: (routes: any[], opts?: any) => any;
-  export const createMemoryRouter: (routes: any[], opts?: any) => any;
-  export const RouterProvider: React.ComponentType<{ router: any; fallbackElement?: React.ReactNode }>;
-  export const Router: React.ComponentType<any>;
-  export const RouterProvider: React.ComponentType<any>;
-  export const useLoaderData: <T>() => T;
-  export const useRouteLoaderData: <T>(routeId: string) => T;
-  export const useNavigation: () => { state: 'idle' | 'loading' | 'submitting'; formData: FormData | null; location: any; formMethod: string; formEncType: string; formAction: string };
-  export const useFetcher: <T>() => { fetch: (url: string, options?: any) => void; data: T | undefined; state: 'idle' | 'loading' | 'submitting' };
-  export const useSubmit: () => (formData: FormData | URLSearchParams, options?: { method?: string; action?: string; encType?: string }) => void;
-  export const useRoutes: (routes: any[], locationArg?: string) => React.ReactNode | null;
-  export const useLocation: () => { pathname: string; search: string; hash: string; state: any; key: string };
-  export const useNavigate: () => (to: string | number, options?: { replace?: boolean; state?: any }) => void;
-  export const useParams: <T extends Record<string, string> = Record<string, string>>() => T;
-  export const useRouteError: () => any;
-  export const useLoaderData: <T>() => T;
-  export const useRouteLoaderData: <T>(routeId: string) => T;
-  export const useNavigation: () => { state: 'idle' | 'loading' | 'submitting'; formData: FormData | null; location: any; formMethod: string; formEncType: string; formAction: string };
-  export const useFetcher: <T>() => { fetch: (url: string, options?: any) => void; data: T | undefined; state: 'idle' | 'loading' | 'submitting' };
-  export const useSubmit: () => (formData: FormData | URLSearchParams, options?: { method?: string; action?: string; encType?: string }) => void;
-  export const useRoutes: (routes: any[], locationArg?: string) => React.ReactNode | null;
-  export const useLocation: () => { pathname: string; search: string; hash: string; state: any; key: string };
-  export const useNavigate: () => (to: string | number, options?: { replace?: boolean; state?: any }) => void;
-  export const useParams: <T extends Record<string, string> = Record<string, string>>() => T;
-  export const useRouteError: () => any;
-  export const useLoaderData: <T>() => T;
-  export const useRouteLoaderData: <T>(routeId: string) => T;
-  export const useNavigation: () => { state: 'idle' | 'loading' | 'submitting'; formData: FormData | null; location: any; formMethod: string; formEncType: string; formAction: string };
-  export const useFetcher: <T>() => { fetch: (url: string, options?: any) => void; data: T | undefined; state: 'idle' | 'loading' | 'submitting' };
-  export const useSubmit: () => (formData: FormData | URLSearchParams, options?: { method?: string; action?: string; encType?: string }) => void;
-  export const useRoutes: (routes: any[], locationArg?: string) => React.ReactNode | null;
-  export const Await: React.ComponentType<{ resolve: Promise<any>; children?: React.ReactNode; errorElement?: React.ReactNode }>;
-  export const Form: React.ComponentType<any>;
-  export const FormMethod: 'get' | 'post' | 'dialog';
-  export const FormEncType: 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain';
-  export const createBrowserRouter: (routes: any[], opts?: { basename?: string; future?: any; unstable_patchRoutesOnNavigation?: boolean; window?: Window }) => any;
-  export const createHashRouter: (routes: any[], opts?: any) => any;
-  export const createMemoryRouter: (routes: any[], opts?: any) => any;
-  export const RouterProvider: React.ComponentType<{ router: any; fallbackElement?: React.ReactNode }>;
-  export const Router: React.ComponentType<any>;
-  export const RouterProvider: React.ComponentType<any>;
-  export const useLoaderData: <T>() => T;
-  export const useRouteLoaderData: <T>(routeId: string) => T;
-  export const useNavigation: () => { state: 'idle' | 'loading' | 'submitting'; formData: FormData | null; location: any; formMethod: string; formEncType: string; formAction: string };
-  export const useFetcher: <T>() => { fetch: (url: string, options?: any) => void; data: T | undefined; state: 'idle' | 'loading' | 'submitting' };
-  export const useSubmit: () => (formData: FormData | URLSearchParams, options?: { method?: string; action?: string; encType?: string }) => void;
-  export const useRoutes: (routes: any[], locationArg?: string) => React.ReactNode | null;
+  export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+    to: string | { pathname: string; search?: string; hash?: string };
+    replace?: boolean;
+    state?: any;
+    reloadDocument?: boolean;
+  }
+}
+
+declare module 'react-router-dom' {
+  export * from 'react-router';
+  export { BrowserRouter, HashRouter, MemoryRouter, Link, NavLink, Form } from 'react-router';
 }
