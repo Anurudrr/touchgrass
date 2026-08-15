@@ -34,8 +34,8 @@ export default function PostTask() {
   if (!user) {
     return (
       <div className="bg-[#FFF9F0] min-h-screen flex items-center justify-center px-4">
-        <div className="w-full max-w-md text-center bg-[#FFF9F0] border-2 border-[#0F0E0A] rounded-[1.5rem] p-10 shadow-brutal-lg">
-          <p className="font-display text-3xl text-[#0F0E0A]">Log in first</p>
+        <div className="w-full max-w-md text-center bg-[#FFF9F0] border-2 border-[var(--color-ink)] rounded-[1.5rem] p-10 shadow-brutal-lg">
+          <p className="font-display text-3xl text-[var(--color-fg)]">Log in first</p>
           <p className="mt-3 font-body font-semibold text-[#5A574F]">You need an account to post tasks. Takes 60 seconds.</p>
           <Link to="/auth" className="avy-btn avy-btn--lg mt-6 mx-auto w-fit">
             <span className="avy-btn__text">Log in / Sign up</span>
@@ -73,19 +73,19 @@ export default function PostTask() {
   return (
     <div className="bg-[#FFF9F0] min-h-screen">
       {/* Yellow hero header */}
-      <div className="bg-[#F9E84A] border-b-2 border-[#0F0E0A] pt-24 pb-10">
+      <div className="bg-[#F9E84A] border-b-2 border-[var(--color-ink)] pt-24 pb-10">
         <div className="max-w-[1400px] mx-auto px-8">
-          <h1 className="font-display text-[clamp(2.5rem,5vw,4rem)] font-normal text-[#0F0E0A] leading-none">
+          <h1 className="font-display text-[clamp(2.5rem,5vw,4rem)] font-normal text-[var(--color-fg)] leading-none">
             Post a <em className="italic">task</em>
           </h1>
-          <p className="mt-2 font-body font-semibold text-sm text-[#0F0E0A]/65">Describe it once. Doers compete to do it. You relax.</p>
+          <p className="mt-2 font-body font-semibold text-sm text-[var(--color-fg)]/65">Describe it once. Doers compete to do it. You relax.</p>
         </div>
       </div>
 
       <div className="max-w-[1400px] mx-auto px-8 py-8 pb-24 grid gap-8 lg:grid-cols-2">
         {/* Form */}
         <div>
-          <div className="bg-[#FFF9F0] border-2 border-[#0F0E0A] rounded-[1.5rem] p-6 shadow-brutal space-y-5">
+          <div className="bg-[#FFF9F0] border-2 border-[var(--color-ink)] rounded-[1.5rem] p-6 shadow-brutal space-y-5">
             {/* Title */}
             <div>
               <label className="label">Title</label>
@@ -162,19 +162,19 @@ export default function PostTask() {
               onClick={() => setUrgent(!urgent)}
               className={`w-full flex items-center justify-between rounded-2xl border-2 p-4 transition-all ${
                 urgent
-                  ? 'bg-[#c8254a] text-white border-[#0F0E0A] shadow-brutal'
-                  : 'bg-[#FFF4E2] text-[#0F0E0A] border-[#E8E2D4] hover:border-[#0F0E0A]'
+                  ? 'bg-[#c8254a] text-white border-[var(--color-ink)] shadow-brutal'
+                  : 'bg-[#FFF4E2] text-[var(--color-fg)] border-[#E8E2D4] hover:border-[var(--color-ink)]'
               }`}
             >
               <span className="flex items-center gap-3 font-body font-bold">
                 <Flame className={urgent ? 'text-white' : 'text-[#c8254a]'} /> Urgent — needs doing fast
               </span>
-              <span className={`size-5 rounded-full border-2 transition-all ${urgent ? 'bg-white border-white' : 'border-[#0F0E0A]/30'}`} />
+              <span className={`size-5 rounded-full border-2 transition-all ${urgent ? 'bg-white border-white' : 'border-[var(--color-ink)]/30'}`} />
             </button>
 
             {/* Photo upload */}
             <label className="block cursor-pointer">
-              <div className={`rounded-2xl border-2 border-dashed p-4 transition-colors ${photo ? 'border-[#0F0E0A] bg-[#FFF4E2]' : 'border-[#E8E2D4] bg-[#FFF9F0] hover:bg-[#FFF4E2] hover:border-[#0F0E0A]'}`}>
+              <div className={`rounded-2xl border-2 border-dashed p-4 transition-colors ${photo ? 'border-[var(--color-ink)] bg-[#FFF4E2]' : 'border-[#E8E2D4] bg-[#FFF9F0] hover:bg-[#FFF4E2] hover:border-[var(--color-ink)]'}`}>
                 {photo ? (
                   <img src={photo} alt="task preview" className="max-h-40 rounded-xl mx-auto" />
                 ) : (
@@ -214,41 +214,41 @@ export default function PostTask() {
           <p className="font-body font-bold uppercase text-xs tracking-widest text-[#F9A220]">Live preview</p>
           <motion.div
             layout
-            className="bg-[#F9E84A] border-2 border-[#0F0E0A] rounded-[1.5rem] shadow-brutal p-6 max-w-md"
+            className="bg-[#F9E84A] border-2 border-[var(--color-ink)] rounded-[1.5rem] shadow-brutal p-6 max-w-md"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="size-12 rounded-2xl border-2 border-[#0F0E0A] bg-[#0F0E0A] flex items-center justify-center shadow-brutal">
+                <div className="size-12 rounded-2xl border-2 border-[var(--color-ink)] bg-[var(--color-ink)] flex items-center justify-center shadow-brutal">
                   <Icon className="size-6 text-[#F9E84A]" />
                 </div>
                 <div>
-                  <p className="font-body font-bold text-sm text-[#0F0E0A]">{category}</p>
-                  <p className="text-xs text-[#0F0E0A]/60 font-semibold">{location || 'Your area'} · {timeLeft(previewDeadline)}</p>
+                  <p className="font-body font-bold text-sm text-[var(--color-fg)]">{category}</p>
+                  <p className="text-xs text-[var(--color-fg)]/60 font-semibold">{location || 'Your area'} · {timeLeft(previewDeadline)}</p>
                 </div>
               </div>
-              <span className="font-display text-3xl text-[#0F0E0A]">{Number(price) ? `₹${Number(price).toLocaleString('en-IN')}` : '₹?'}</span>
+              <span className="font-display text-3xl text-[var(--color-fg)]">{Number(price) ? `₹${Number(price).toLocaleString('en-IN')}` : '₹?'}</span>
             </div>
-            <h2 className="mt-4 font-display text-2xl leading-tight min-h-14 text-[#0F0E0A]">
+            <h2 className="mt-4 font-display text-2xl leading-tight min-h-14 text-[var(--color-fg)]">
               {title || 'Your task title appears here…'}
             </h2>
-            <p className="mt-2 font-body text-sm text-[#0F0E0A]/65 min-h-20">{desc || 'Your description appears here. Doers will read this before accepting.'}</p>
+            <p className="mt-2 font-body text-sm text-[var(--color-fg)]/65 min-h-20">{desc || 'Your description appears here. Doers will read this before accepting.'}</p>
             {photo && <img src={photo} alt="" className="mt-3 max-h-40 rounded-xl mx-auto" />}
-            <div className="mt-4 flex items-center justify-between border-t-2 border-[#0F0E0A]/15 pt-3">
+            <div className="mt-4 flex items-center justify-between border-t-2 border-[var(--color-ink)]/15 pt-3">
               <div className="flex items-center gap-1.5">
-                <div className="size-7 rounded-full bg-[#0F0E0A] text-[#F9E84A] border-2 border-[#0F0E0A] flex items-center justify-center text-xs font-body font-bold">
+                <div className="size-7 rounded-full bg-[var(--color-ink)] text-[#F9E84A] border-2 border-[var(--color-ink)] flex items-center justify-center text-xs font-body font-bold">
                   {user.name.slice(0, 1).toUpperCase()}
                 </div>
-                <span className="font-body font-semibold text-sm text-[#0F0E0A]">{user.name}</span>
+                <span className="font-body font-semibold text-sm text-[var(--color-fg)]">{user.name}</span>
               </div>
               {urgent && (
-                <span className="tag-pill border-2 border-[#0F0E0A] shadow-brutal -rotate-3" style={{ background: '#c8254a', color: '#fff' }}>
+                <span className="tag-pill border-2 border-[var(--color-ink)] shadow-brutal -rotate-3" style={{ background: '#c8254a', color: '#fff' }}>
                   URGENT
                 </span>
               )}
             </div>
           </motion.div>
 
-          <div className="bg-[#FFF9F0] border-2 border-[#0F0E0A] rounded-2xl shadow-brutal p-4 font-body font-medium text-sm text-[#5A574F]">
+          <div className="bg-[#FFF9F0] border-2 border-[var(--color-ink)] rounded-2xl shadow-brutal p-4 font-body font-medium text-sm text-[#5A574F]">
             💡 Tip: "urgent" tasks get ~3x more acceptances. Price fairly and set a realistic deadline.
           </div>
         </div>

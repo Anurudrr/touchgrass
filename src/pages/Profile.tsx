@@ -33,9 +33,9 @@ export default function Profile() {
   if (!user) {
     return (
       <div className="bg-[#FFF9F0] min-h-screen flex items-center justify-center px-4">
-        <div className="w-full max-w-md text-center bg-[#FFF9F0] border-2 border-[#0F0E0A] rounded-[1.5rem] p-10 shadow-brutal-lg">
+        <div className="w-full max-w-md text-center bg-[#FFF9F0] border-2 border-[var(--color-ink)] rounded-[1.5rem] p-10 shadow-brutal-lg">
           <Grassbot size={72} mood="wave" style={{ margin: '0 auto 1.5rem' }} />
-          <p className="font-display text-3xl text-[#0F0E0A]">Log in to view your profile</p>
+          <p className="font-display text-3xl text-[var(--color-fg)]">Log in to view your profile</p>
           <Link to="/auth" className="avy-btn avy-btn--lg mt-6 mx-auto w-fit">
             <span className="avy-btn__text">Log in / Sign up</span>
             <span className="avy-btn__icon"><ArrowIcon /></span>
@@ -58,33 +58,33 @@ export default function Profile() {
   return (
     <div className="bg-[#FFF9F0] min-h-screen">
       {/* Yellow hero header */}
-      <div className="bg-[#F9E84A] border-b-2 border-[#0F0E0A] pt-24 pb-10 relative overflow-hidden">
+      <div className="bg-[#F9E84A] border-b-2 border-[var(--color-ink)] pt-24 pb-10 relative overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-8 relative z-10">
           <div className="flex flex-wrap items-center gap-5">
             {/* Avatar */}
-            <div className="size-20 rounded-2xl bg-[#0F0E0A] text-[#F9E84A] border-2 border-[#0F0E0A] shadow-brutal flex items-center justify-center font-display text-4xl shrink-0">
+            <div className="size-20 rounded-2xl bg-[var(--color-ink)] text-[#F9E84A] border-2 border-[var(--color-ink)] shadow-brutal flex items-center justify-center font-display text-4xl shrink-0">
               {user.name.slice(0, 1).toUpperCase()}
             </div>
             <div>
-              <h1 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal text-[#0F0E0A] leading-tight flex flex-wrap items-center gap-3">
+              <h1 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal text-[var(--color-fg)] leading-tight flex flex-wrap items-center gap-3">
                 {user.name}
-                <span className="tag-pill border-2 border-[#0F0E0A] text-sm shadow-brutal" style={{ background: '#0F0E0A', color: '#F9E84A' }}>
+                <span className="tag-pill border-2 border-[var(--color-ink)] text-sm shadow-brutal" style={{ background: '#0F0E0A', color: '#F9E84A' }}>
                   L{lvl.level.lvl} · {lvl.level.name}
                 </span>
               </h1>
-              <p className="mt-1.5 flex items-center gap-2 font-body font-bold text-sm text-[#0F0E0A]/75">
+              <p className="mt-1.5 flex items-center gap-2 font-body font-bold text-sm text-[var(--color-fg)]/75">
                 <Star className="size-4 fill-[#F9A220] text-[#F9A220]" />
                 {user.ratingCount ? `${user.ratingAvg.toFixed(1)} · ${user.ratingCount} ratings` : 'No ratings yet'} · {user.tasksDone} tasks done
               </p>
-              <p className="text-xs text-[#0F0E0A]/50 font-body font-semibold mt-1">{user.area} · joined {fmtDate(user.joinedAt)}</p>
+              <p className="text-xs text-[var(--color-fg)]/50 font-body font-semibold mt-1">{user.area} · joined {fmtDate(user.joinedAt)}</p>
               {/* XP bar */}
               <div className="mt-3 max-w-xs">
-                <div className="flex justify-between text-[10px] font-body font-bold uppercase text-[#0F0E0A]/50 mb-1">
+                <div className="flex justify-between text-[10px] font-body font-bold uppercase text-[var(--color-fg)]/50 mb-1">
                   <span>{lvl.xpNeeded > 0 ? `${lvl.xpNeeded} xp to next level` : 'maxed out ✨'}</span>
                   <span>{xp} xp</span>
                 </div>
-                <div className="h-2 rounded-full bg-[#0F0E0A]/15 overflow-hidden border border-[#0F0E0A]/20">
-                  <motion.div className="h-full bg-[#0F0E0A]" initial={{ width: 0 }} animate={{ width: `${lvl.pct}%` }} transition={{ duration: 0.8, ease: 'easeOut' }} />
+                <div className="h-2 rounded-full bg-[var(--color-ink)]/15 overflow-hidden border border-[var(--color-ink)]/20">
+                  <motion.div className="h-full bg-[var(--color-ink)]" initial={{ width: 0 }} animate={{ width: `${lvl.pct}%` }} transition={{ duration: 0.8, ease: 'easeOut' }} />
                 </div>
               </div>
             </div>
@@ -108,14 +108,14 @@ export default function Profile() {
         <div className="space-y-6">
           {/* Bio */}
           {user.bio && (
-            <div className="bg-[#FFF9F0] border-2 border-[#0F0E0A] rounded-[1.25rem] p-6 shadow-brutal">
-              <p className="font-body font-medium text-[#0F0E0A]/80">{user.bio}</p>
+            <div className="bg-[#FFF9F0] border-2 border-[var(--color-ink)] rounded-[1.25rem] p-6 shadow-brutal">
+              <p className="font-body font-medium text-[var(--color-fg)]/80">{user.bio}</p>
             </div>
           )}
 
           {/* ID Verification CTA */}
           {user.idVerification !== 'verified' && user.role !== 'poster' && (
-            <div className="bg-[#0F0E0A] rounded-[1.25rem] border-2 border-[#0F0E0A] shadow-brutal p-5 flex items-center justify-between gap-3">
+            <div className="bg-[var(--color-ink)] rounded-[1.25rem] border-2 border-[var(--color-ink)] shadow-brutal p-5 flex items-center justify-between gap-3">
               <p className="font-body font-semibold text-sm text-[#FFF9F0]/80">
                 Verify your ID to start accepting tasks.
               </p>
@@ -136,8 +136,8 @@ export default function Profile() {
               { v: user.ratingCount, l: 'Ratings' },
               { v: balance, l: 'Earned (₹)', money: true },
             ].map((s) => (
-              <div key={s.l} className="rounded-[1.25rem] bg-[#FFF4E2] border-2 border-[#0F0E0A] shadow-brutal p-5 text-center">
-                <p className="font-display text-2xl text-[#0F0E0A]">
+              <div key={s.l} className="rounded-[1.25rem] bg-[#FFF4E2] border-2 border-[var(--color-ink)] shadow-brutal p-5 text-center">
+                <p className="font-display text-2xl text-[var(--color-fg)]">
                   {s.money ? `₹${(s.v as number).toLocaleString('en-IN')}` : <Counter to={s.v as number} />}
                 </p>
                 <p className="text-[10px] font-body font-bold uppercase text-[#5A574F] mt-1">{s.l}</p>
@@ -146,8 +146,8 @@ export default function Profile() {
           </div>
 
           {/* Reviews */}
-          <div className="bg-[#FFF9F0] border-2 border-[#0F0E0A] rounded-[1.25rem] p-6 shadow-brutal">
-            <h2 className="font-display text-xl text-[#0F0E0A] mb-4">Reviews about you</h2>
+          <div className="bg-[#FFF9F0] border-2 border-[var(--color-ink)] rounded-[1.25rem] p-6 shadow-brutal">
+            <h2 className="font-display text-xl text-[var(--color-fg)] mb-4">Reviews about you</h2>
             <div className="space-y-3">
               {reviews.length === 0 && (
                 <p className="font-body font-medium text-sm text-[#5A574F]">
@@ -157,16 +157,16 @@ export default function Profile() {
               {reviews.map((r) => {
                 const reviewer = store.user(r.reviewerId)
                 return (
-                  <div key={r.id} className="rounded-[1rem] bg-[#FFF4E2] border-2 border-[#0F0E0A] shadow-brutal p-4">
+                  <div key={r.id} className="rounded-[1rem] bg-[#FFF4E2] border-2 border-[var(--color-ink)] shadow-brutal p-4">
                     <div className="flex items-center justify-between">
-                      <p className="font-body font-bold text-sm text-[#0F0E0A]">{reviewer?.name ?? 'User'}</p>
+                      <p className="font-body font-bold text-sm text-[var(--color-fg)]">{reviewer?.name ?? 'User'}</p>
                       <div className="flex gap-0.5">
                         {[...Array(5)].map((_, i) => (
-                          <Star key={i} className={`size-3.5 ${i < r.rating ? 'fill-[#F9A220] text-[#F9A220]' : 'text-[#0F0E0A]/20'}`} />
+                          <Star key={i} className={`size-3.5 ${i < r.rating ? 'fill-[#F9A220] text-[#F9A220]' : 'text-[var(--color-fg)]/20'}`} />
                         ))}
                       </div>
                     </div>
-                    <p className="mt-1.5 font-body font-medium text-sm text-[#0F0E0A]/75">{r.comment}</p>
+                    <p className="mt-1.5 font-body font-medium text-sm text-[var(--color-fg)]/75">{r.comment}</p>
                   </div>
                 )
               })}
@@ -176,10 +176,10 @@ export default function Profile() {
 
         {/* Wallet sidebar */}
         <div className="space-y-6">
-          <div className="bg-[#0F0E0A] text-[#FFF9F0] rounded-[1.25rem] border-2 border-[#0F0E0A] shadow-brutal p-6">
+          <div className="bg-[var(--color-ink)] text-[#FFF9F0] rounded-[1.25rem] border-2 border-[var(--color-ink)] shadow-brutal p-6">
             <div className="flex items-center justify-between">
               <h2 className="font-display text-xl flex items-center gap-2"><Wallet className="size-6 text-[#F9A220]" /> Wallet</h2>
-              <span className="size-10 rounded-full bg-[#F9E84A] text-[#0F0E0A] border-2 border-[#F9E84A] flex items-center justify-center font-display text-sm">
+              <span className="size-10 rounded-full bg-[#F9E84A] text-[var(--color-fg)] border-2 border-[#F9E84A] flex items-center justify-center font-display text-sm">
                 <Counter to={balance} />
               </span>
             </div>
@@ -187,7 +187,7 @@ export default function Profile() {
             <p className="font-body text-xs font-bold text-[#FFF9F0]/50 mt-1">Earned from released payments</p>
             <button
               onClick={() => setWithdrawOpen(!withdrawOpen)}
-              className="mt-5 w-full rounded-full bg-[#F9E84A] text-[#0F0E0A] border-2 border-[#F9E84A] py-3 font-body font-bold uppercase hover:bg-[#F9A220] hover:border-[#F9A220] active:scale-95 transition-all flex items-center justify-center gap-2 shadow-brutal-accent"
+              className="mt-5 w-full rounded-full bg-[#F9E84A] text-[var(--color-fg)] border-2 border-[#F9E84A] py-3 font-body font-bold uppercase hover:bg-[#F9A220] hover:border-[#F9A220] active:scale-95 transition-all flex items-center justify-center gap-2 shadow-brutal-accent"
             >
               <ArrowDownToLine className="size-5" /> Withdraw
             </button>
@@ -215,8 +215,8 @@ export default function Profile() {
           </div>
 
           {/* Payment history */}
-          <div className="bg-[#FFF9F0] border-2 border-[#0F0E0A] rounded-[1.25rem] shadow-brutal p-6">
-            <h3 className="font-display text-lg flex items-center gap-2 text-[#0F0E0A] mb-4">
+          <div className="bg-[#FFF9F0] border-2 border-[var(--color-ink)] rounded-[1.25rem] shadow-brutal p-6">
+            <h3 className="font-display text-lg flex items-center gap-2 text-[var(--color-fg)] mb-4">
               <History className="size-5 text-[#F9A220]" /> Payment history
             </h3>
             <div className="space-y-2.5">
@@ -228,9 +228,9 @@ export default function Profile() {
               {earnings.map((p) => {
                 const task = db.tasks.find((t) => t.id === p.taskId)
                 return (
-                  <div key={p.id} className="rounded-xl bg-[#FFF4E2] border-2 border-[#0F0E0A] px-4 py-3 flex items-center justify-between">
+                  <div key={p.id} className="rounded-xl bg-[#FFF4E2] border-2 border-[var(--color-ink)] px-4 py-3 flex items-center justify-between">
                     <div>
-                      <p className="font-body font-bold text-sm text-[#0F0E0A]">{task?.title.slice(0, 40)}…</p>
+                      <p className="font-body font-bold text-sm text-[var(--color-fg)]">{task?.title.slice(0, 40)}…</p>
                       <p className="text-[11px] font-body font-semibold text-[#5A574F]">{p.releasedAt ? fmtDate(p.releasedAt) : ''} · released</p>
                     </div>
                     <span className="font-display text-[#4cad7d]">+₹{p.doerNet}</span>

@@ -82,9 +82,9 @@ export default function Dashboard() {
   if (!user) {
     return (
       <div className="bg-[#FFF9F0] min-h-screen flex items-center justify-center px-4">
-        <div className="w-full max-w-md text-center bg-[#FFF9F0] border-2 border-[#0F0E0A] rounded-[1.5rem] p-10 shadow-brutal-lg">
+        <div className="w-full max-w-md text-center bg-[#FFF9F0] border-2 border-[var(--color-ink)] rounded-[1.5rem] p-10 shadow-brutal-lg">
           <Grassbot size={72} mood="wave" style={{ margin: '0 auto 1.5rem' }} />
-          <p className="font-display text-3xl text-[#0F0E0A]">Log in to see your tasks</p>
+          <p className="font-display text-3xl text-[var(--color-fg)]">Log in to see your tasks</p>
           <Link to="/auth" className="avy-btn avy-btn--lg mt-6 mx-auto w-fit">
             <span className="avy-btn__text">Log in / Sign up</span>
             <span className="avy-btn__icon"><ArrowIcon /></span>
@@ -97,17 +97,17 @@ export default function Dashboard() {
   return (
     <div className="bg-[#FFF9F0] min-h-screen">
       {/* Yellow hero header */}
-      <div className="bg-[#F9E84A] border-b-2 border-[#0F0E0A] pt-24 pb-10 relative overflow-hidden">
+      <div className="bg-[#F9E84A] border-b-2 border-[var(--color-ink)] pt-24 pb-10 relative overflow-hidden">
         <div className="absolute right-0 top-0 w-[35%] opacity-10 pointer-events-none">
           <svg viewBox="0 0 386 400" fill="none"><path fill="#0F0E0A" d="M115.415-56.646c27.361-10.951 55.489-16.17 84.985-10.076 40.714 8.42 64.637 33.98 75.035 73.257 9.349 35.348 3.777 70.616-.769 105.961-4.86 37.766-10.042 75.565-12.734 113.514-1.993 28.09 5.481 54.869 20.638 79.162 14.419 23.106 34.405 37.375 61.693 41.433 30.041 4.465 59.172-.835 88.412-6.653 26.135-5.192 52.289-10.684 78.69-13.939 22.265-2.747 44.838-1.383 65.775 8.431 38.064 17.842 51.287 57.852 44.901 96.147z" /></svg>
         </div>
         <div className="max-w-[1400px] mx-auto px-8 relative z-10">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <h1 className="font-display text-[clamp(2.5rem,5vw,4rem)] font-normal text-[#0F0E0A] leading-none">
+              <h1 className="font-display text-[clamp(2.5rem,5vw,4rem)] font-normal text-[var(--color-fg)] leading-none">
                 Hey, <em className="italic">{user.name.split(' ')[0]}</em> 👋
               </h1>
-              <p className="mt-2 font-body font-semibold text-sm text-[#0F0E0A]/65">
+              <p className="mt-2 font-body font-semibold text-sm text-[var(--color-fg)]/65">
                 {posted.length} posted · {doing.length} doing · wallet ready when work's done
               </p>
             </div>
@@ -121,14 +121,14 @@ export default function Dashboard() {
 
       <div className="max-w-[1400px] mx-auto px-8 py-8 pb-24">
         {/* Level / streak strip */}
-        <div className="flex flex-wrap items-center gap-4 rounded-[1.25rem] bg-[#0F0E0A] border-2 border-[#0F0E0A] shadow-brutal p-5 mb-8">
+        <div className="flex flex-wrap items-center gap-4 rounded-[1.25rem] bg-[var(--color-ink)] border-2 border-[var(--color-ink)] shadow-brutal p-5 mb-8">
           <Grassbot size={54} mood={streak > 0 ? 'happy' : 'idle'} />
           <div className="flex-1 min-w-[14rem]">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="tag-pill border-2 border-[#F9E84A] shadow-brutal-accent" style={{ background: '#F9E84A', color: '#0F0E0A' }}>
+              <span className="tag-pill border-2 border-[#F9E84A] shadow-brutal-accent" style={{ background: '#F9E84A', color: 'var(--color-fg)' }}>
                 <Trophy className="size-3.5 inline mr-1 -mt-0.5" /> L{lvl.level.lvl} · {lvl.level.name}
               </span>
-              <span className="tag-pill border-2 border-[#F9A220]" style={{ background: '#F9A220', color: '#0F0E0A' }}>
+              <span className="tag-pill border-2 border-[#F9A220]" style={{ background: '#F9A220', color: 'var(--color-fg)' }}>
                 <Flame className="size-3.5 inline mr-1 -mt-0.5" /> {streak}-day grass streak
               </span>
               <span className="font-body text-xs font-semibold text-[#FFF9F0]/50">xp {xp}</span>
@@ -156,7 +156,7 @@ export default function Dashboard() {
           <Pill active={tab === 'doing'} onClick={() => setTab('doing')}>
             <UserRound className="size-4 inline mr-1.5 -mt-0.5" /> I'm doing
           </Pill>
-          <span className="mx-2 h-5 w-0.5 bg-[#0F0E0A]/10" />
+          <span className="mx-2 h-5 w-0.5 bg-[var(--color-ink)]/10" />
           {FILTERS.map((f) => (
             <Pill key={f.key} active={filter === f.key} onClick={() => setFilter(f.key)}>
               {f.label}
@@ -195,7 +195,7 @@ export default function Dashboard() {
                           store.setStatus(t.id, 'completed')
                           toast('Marked complete ✅', 'Poster needs to confirm. No pressure.')
                         }}
-                        className="flex-1 rounded-xl bg-[#4cad7d] text-white border-2 border-[#0F0E0A] shadow-brutal px-3 py-2 font-body font-bold text-sm hover:-translate-y-0.5 hover:shadow-brutal-lg transition-all"
+                        className="flex-1 rounded-xl bg-[#4cad7d] text-white border-2 border-[var(--color-ink)] shadow-brutal px-3 py-2 font-body font-bold text-sm hover:-translate-y-0.5 hover:shadow-brutal-lg transition-all"
                       >
                         <CheckCircle2 className="size-4 inline mr-1 -mt-0.5" /> Mark complete
                       </button>
@@ -203,7 +203,7 @@ export default function Dashboard() {
                     {t.status === 'completed' && (
                       <button
                         onClick={() => toast('Dispute raised', 'Our team will review within 24 hrs. Stay calm.', 'error')}
-                        className="flex-1 rounded-xl bg-[#c8254a] text-white border-2 border-[#0F0E0A] shadow-brutal px-3 py-2 font-body font-bold text-sm hover:-translate-y-0.5 hover:shadow-brutal-lg transition-all"
+                        className="flex-1 rounded-xl bg-[#c8254a] text-white border-2 border-[var(--color-ink)] shadow-brutal px-3 py-2 font-body font-bold text-sm hover:-translate-y-0.5 hover:shadow-brutal-lg transition-all"
                       >
                         <ShieldAlert className="size-4 inline mr-1 -mt-0.5" /> Dispute
                       </button>
@@ -227,10 +227,10 @@ function Empty({ msg, cta, to }: { msg: string; cta: string; to: string }) {
     )
   }
   return (
-    <div className="col-span-full py-16 text-center bg-[#FFF9F0] border-2 border-[#0F0E0A] shadow-brutal rounded-[1.5rem] flex flex-col items-center">
+    <div className="col-span-full py-16 text-center bg-[#FFF9F0] border-2 border-[var(--color-ink)] shadow-brutal rounded-[1.5rem] flex flex-col items-center">
       <Grassbot size={64} mood="idle" style={{ marginBottom: '1.5rem', opacity: 0.8 }} />
-      <p className="font-display text-2xl text-[#0F0E0A]">{msg}</p>
-      <Link to={to} className="avy-btn avy-btn--sm mt-5 mx-auto w-fit border-2 border-[#0F0E0A] shadow-[2px_2px_0_#0F0E0A]" style={{ background: '#0F0E0A', color: '#FFF9F0' }}>
+      <p className="font-display text-2xl text-[var(--color-fg)]">{msg}</p>
+      <Link to={to} className="avy-btn avy-btn--sm mt-5 mx-auto w-fit border-2 border-[var(--color-ink)] shadow-[2px_2px_0_#0F0E0A]" style={{ background: 'var(--color-ink)', color: 'var(--color-fg-light)' }}>
         <span className="avy-btn__text">{cta}</span>
         <span className="avy-btn__icon"><ArrowIcon /></span>
       </Link>

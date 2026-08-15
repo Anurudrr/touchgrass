@@ -46,11 +46,11 @@ export function Logo({ dark = false, onClick }: { dark?: boolean; onClick?: () =
           fontWeight: 400,
           letterSpacing: '-0.01em',
           lineHeight: 1,
-          color: dark ? '#FFF9F0' : '#0F0E0A',
+          color: 'var(--color-fg-light)',
           fontStyle: 'italic',
         }}
       >
-        touch<em style={{ color: '#F9A220', fontStyle: 'normal' }}>grass</em>
+        touch<em style={{ color: 'var(--color-gold)', fontStyle: 'normal' }}>grass</em>
       </span>
 
       {/* Logo Sweep Grass Animation */}
@@ -175,7 +175,7 @@ export function Navbar() {
                 ref={(el) => { linkRefs.current[i] = el }}
                 onMouseEnter={() => { setHoveredLink(i); playHoverSound() }}
                 onMouseLeave={() => setHoveredLink(null)}
-                className="font-body font-bold text-[0.95rem] text-[#191919] hover:text-[#4AA861] transition-colors relative z-10"
+                className="font-body font-bold text-[0.95rem] text-white/90 hover:text-[var(--color-gold)] transition-colors relative z-10"
               >
                 {link.label}
               </Link>
@@ -186,7 +186,7 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-4">
             {user ? (
               <>
-                <Link to="/dashboard" className="font-body font-semibold text-sm hover:text-[var(--color-grass)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-grass)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-canvas)]" onMouseEnter={playHoverSound}>
+                <Link to="/dashboard" className="font-body font-semibold text-sm text-white/90 hover:text-[var(--color-grass)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-grass)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-canvas)]" onMouseEnter={playHoverSound}>
                   my tasks
                 </Link>
                 
@@ -195,16 +195,10 @@ export function Navbar() {
                   <button
                     onClick={() => setNotifOpen(!notifOpen)}
                     onMouseEnter={playHoverSound}
-                    className="w-9 h-9 rounded-full border border-[var(--color-border)] flex items-center justify-center text-[var(--color-fg)] hover:bg-[var(--color-ink)] hover:text-[var(--color-fg-light)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-grass)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-canvas)]"
+                    className="w-9 h-9 rounded-full border border-[var(--color-border)] flex items-center justify-center text-white/90 hover:bg-[var(--color-ink)] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-grass)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-canvas)]"
                     aria-label={unreadCount > 0 ? `${unreadCount} unread notifications` : 'Notifications'}
                   >
-                    <Bell size={18} />
-                    {unreadCount > 0 && (
-                      <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[var(--color-rose)] text-white text-[10px] font-bold flex items-center justify-center">
-                        {unreadCount > 9 ? '9+' : unreadCount}
-                      </span>
-                    )}
-                  </button>
+                    <Bell size={18} className="text-current" />
                   
                   <AnimatePresence>
                     {notifOpen && (
@@ -283,14 +277,14 @@ export function Navbar() {
                 <button
                   onClick={() => { store.logout(); toast('Logged out', 'See you soon.'); navigate('/') }}
                   onMouseEnter={playHoverSound}
-                  className="w-9 h-9 rounded-full border border-[var(--color-border)] flex items-center justify-center text-[var(--color-fg)] hover:bg-[var(--color-ink)] hover:text-[var(--color-fg-light)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-grass)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-canvas)]"
+                  className="w-9 h-9 rounded-full border border-[var(--color-border)] flex items-center justify-center text-white/90 hover:bg-[var(--color-ink)] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-grass)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-canvas)]"
                   aria-label="Log out"
                 >
-                  <LogOut size={14} />
+                  <LogOut size={14} className="text-current" />
                 </button>
               </>
             ) : (
-              <Link to="/auth" onMouseEnter={playHoverSound} className="px-6 py-2.5 rounded-[20px] border-[1.5px] border-[var(--color-ink)] font-body font-bold text-[0.9rem] text-[var(--color-ink)] hover:bg-[var(--color-ink)] hover:text-[var(--color-fg-light)] transition-all shadow-[0_4px_0_var(--color-ink)] active:shadow-none active:translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-grass)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-canvas)]">
+              <Link to="/auth" onMouseEnter={playHoverSound} className="px-6 py-2.5 rounded-[20px] bg-[var(--color-gold)] font-body font-bold text-[0.9rem] text-[var(--color-ink)] hover:bg-[var(--color-gold)]/90 transition-all shadow-[0_4px_0_var(--color-gold)] active:shadow-none active:translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-grass)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-canvas)]">
                 Log in
               </Link>
             )}
@@ -302,7 +296,7 @@ export function Navbar() {
             onClick={() => setMobileOpen((o) => !o)}
             aria-label="Toggle menu"
           >
-            {mobileOpen ? <X size={24} /> : <MenuIcon size={24} />}
+            {mobileOpen ? <X size={24} className="text-white" /> : <MenuIcon size={24} />}
           </button>
         </div>
 
@@ -321,7 +315,7 @@ export function Navbar() {
                   <Link
                     key={link.to}
                     to={link.to}
-                    className="font-display font-bold text-xl text-[#191919]"
+                    className="font-display font-bold text-xl text-[var(--color-fg)]"
                   >
                     {link.label}
                   </Link>
@@ -329,9 +323,9 @@ export function Navbar() {
                 <div className="h-[1px] bg-[#191919]/10 my-2" />
                 {user ? (
                   <>
-                    <Link to="/dashboard" className="font-display font-bold text-xl text-[#191919]">My Tasks</Link>
-                    <Link to="/profile" className="font-display font-bold text-xl text-[#191919]">Profile</Link>
-                    <button onClick={() => { store.logout(); navigate('/') }} className="font-display font-bold text-xl text-[#191919] text-left">Log out</button>
+                    <Link to="/dashboard" className="font-display font-bold text-xl text-[var(--color-fg)]">My Tasks</Link>
+                    <Link to="/profile" className="font-display font-bold text-xl text-[var(--color-fg)]">Profile</Link>
+                    <button onClick={() => { store.logout(); navigate('/') }} className="font-display font-bold text-xl text-[var(--color-fg)] text-left">Log out</button>
                   </>
                 ) : (
                   <Link to="/auth" className="font-display font-bold text-xl text-[#4AA861]">Log in / Sign up</Link>
@@ -359,7 +353,7 @@ export function Footer() {
   const [credits, setCredits] = useState(false)
 
   return (
-    <footer style={{ background: '#0F0E0A', color: '#FFF9F0', position: 'relative', overflow: 'hidden' }}>
+    <footer style={{ background: 'var(--color-ink)', color: 'var(--color-fg-light)', position: 'relative', overflow: 'hidden' }}>
       {/* Blob background */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -426,7 +420,7 @@ export function Footer() {
           },
         ].map((col) => (
           <div key={col.heading}>
-            <p style={{ fontFamily: '"DM Sans", sans-serif', fontWeight: 700, fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#F9A220', marginBottom: '1.25rem' }}>
+            <p style={{ fontFamily: '"DM Sans", sans-serif', fontWeight: 700, fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--color-gold)', marginBottom: '1.25rem' }}>
               {col.heading}
             </p>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>

@@ -57,7 +57,7 @@ function CardShell({ title, sub, children }: { title: string; sub: string; child
           fontFamily: '"DM Serif Display", Georgia, serif',
           fontSize: '2rem',
           fontWeight: 400,
-          color: '#0F0E0A',
+          color: 'var(--color-fg)',
           lineHeight: 1.1,
           position: 'relative',
           zIndex: 1,
@@ -65,7 +65,7 @@ function CardShell({ title, sub, children }: { title: string; sub: string; child
       >
         {title}
       </h1>
-      <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.95rem', color: '#5A574F', marginTop: '0.5rem', marginBottom: '1.75rem', position: 'relative', zIndex: 1 }}>
+      <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.95rem', color: 'var(--color-fg-muted)', marginTop: '0.5rem', marginBottom: '1.75rem', position: 'relative', zIndex: 1 }}>
         {sub}
       </p>
       <div style={{ position: 'relative', zIndex: 1 }}>{children}</div>
@@ -92,7 +92,7 @@ function BackBtn({ onClick }: { onClick: () => void }) {
       style={{
         display: 'flex', alignItems: 'center', gap: '0.4rem',
         fontFamily: '"DM Sans", sans-serif', fontSize: '0.85rem',
-        color: '#5A574F', background: 'none', border: 'none', cursor: 'pointer',
+        color: 'var(--color-fg-muted)', background: 'none', border: 'none', cursor: 'pointer',
         padding: '0.5rem 0', marginBottom: '0.75rem',
       }}
     >
@@ -165,7 +165,7 @@ export default function Auth() {
     width: '100%',
     padding: '0.75rem 1rem',
     fontSize: '1rem',
-    color: '#0F0E0A',
+    color: 'var(--color-fg)',
     background: '#FFFFFF',
     border: '1.5px solid #E8E2D4',
     borderRadius: '0.75rem',
@@ -201,7 +201,7 @@ export default function Auth() {
               fontFamily: '"DM Serif Display", Georgia, serif',
               fontSize: 'clamp(2rem, 5vw, 3rem)',
               fontWeight: 400,
-              color: '#0F0E0A',
+              color: 'var(--color-fg)',
               lineHeight: 1.1,
             }}
           >
@@ -224,7 +224,7 @@ export default function Auth() {
                         fontFamily: '"DM Sans", sans-serif', fontWeight: 700, fontSize: '1rem',
                         background: '#FFF4E2', border: '1.5px solid #E8E2D4',
                         borderRadius: '0.75rem', padding: '0.75rem 1rem',
-                        color: '#0F0E0A', flexShrink: 0,
+                        color: 'var(--color-fg)', flexShrink: 0,
                       }}
                     >
                       +91
@@ -268,7 +268,7 @@ export default function Auth() {
                 </AuthField>
                 <div
                   style={{
-                    background: '#0F0E0A', color: '#F9A220',
+                    background: 'var(--color-ink)', color: 'var(--color-gold)',
                     borderRadius: '0.75rem', padding: '0.875rem 1rem',
                     fontFamily: '"DM Sans", sans-serif', fontWeight: 600, fontSize: '0.875rem',
                     textAlign: 'center', marginBottom: '1.25rem',
@@ -345,7 +345,7 @@ export default function Auth() {
                 <div
                   style={{
                     display: 'flex', alignItems: 'center', gap: '1rem',
-                    background: '#0F0E0A', borderRadius: '0.875rem',
+                    background: 'var(--color-ink)', borderRadius: '0.875rem',
                     padding: '1rem 1.25rem', marginBottom: '1.25rem',
                   }}
                 >
@@ -368,20 +368,20 @@ export default function Auth() {
                     {idFile ? (
                       <>
                         <FileCheck2 size={36} color="#4cad7d" style={{ margin: '0 auto 0.75rem' }} />
-                        <p style={{ fontFamily: '"DM Sans", sans-serif', fontWeight: 600, fontSize: '0.875rem', color: '#0F0E0A' }}>{idFile}</p>
-                        <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.75rem', color: '#5A574F', marginTop: '0.25rem' }}>Looks good — submit to verify.</p>
+                        <p style={{ fontFamily: '"DM Sans", sans-serif', fontWeight: 600, fontSize: '0.875rem', color: 'var(--color-fg)' }}>{idFile}</p>
+                        <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.75rem', color: 'var(--color-fg-muted)', marginTop: '0.25rem' }}>Looks good — submit to verify.</p>
                       </>
                     ) : (
                       <>
                         <UserRound size={36} color="#9A968C" style={{ margin: '0 auto 0.75rem' }} />
-                        <p style={{ fontFamily: '"DM Sans", sans-serif', fontWeight: 600, fontSize: '0.875rem', color: '#0F0E0A' }}>Upload government ID</p>
-                        <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.75rem', color: '#5A574F', marginTop: '0.25rem' }}>Aadhaar / Passport / Driving licence · JPG, PNG or PDF</p>
+                        <p style={{ fontFamily: '"DM Sans", sans-serif', fontWeight: 600, fontSize: '0.875rem', color: 'var(--color-fg)' }}>Upload government ID</p>
+                        <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.75rem', color: 'var(--color-fg-muted)', marginTop: '0.25rem' }}>Aadhaar / Passport / Driving licence · JPG, PNG or PDF</p>
                       </>
                     )}
                     <input type="file" accept="image/*,.pdf" style={{ display: 'none' }} onChange={(e) => setIdFile(e.target.files?.[0]?.name ?? null)} />
                   </div>
                 </label>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontFamily: '"DM Sans", sans-serif', fontSize: '0.75rem', color: '#9A968C', marginBottom: '1.25rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontFamily: '"DM Sans", sans-serif', fontSize: '0.75rem', color: 'var(--color-fg-muted)', marginBottom: '1.25rem' }}>
                   <Lock size={12} /> Encrypted, never shown publicly.
                 </div>
                 <SubmitBtn onClick={submitId}>
@@ -395,7 +395,7 @@ export default function Auth() {
 
         <p style={{ marginTop: '1.5rem', textAlign: 'center', fontFamily: '"DM Sans", sans-serif', fontSize: '0.9rem', color: 'rgba(15,14,10,0.55)' }}>
           Just browsing?{' '}
-          <Link to="/tasks" style={{ color: '#0F0E0A', fontWeight: 600, textDecoration: 'underline' }}>
+          <Link to="/tasks" style={{ color: 'var(--color-fg)', fontWeight: 600, textDecoration: 'underline' }}>
             Browse open tasks →
           </Link>
         </p>

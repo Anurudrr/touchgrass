@@ -47,8 +47,8 @@ function kmBetween(a: { lat: number; lng: number }, b: { lat: number; lng: numbe
 const CAT_PILL_COLORS: Record<string, { bg: string; color: string }> = {
   'Printing & Documents':      { bg: '#9e81e4', color: '#fff' },
   'Parcel Pickup/Delivery':    { bg: '#006fff', color: '#fff' },
-  'Minor Repairs & Handyman':  { bg: '#F9A220', color: '#0F0E0A' },
-  'Tutoring & Assignment Help':{ bg: '#e6ff2b', color: '#0F0E0A' },
+  'Minor Repairs & Handyman':  { bg: '#F9A220', color: 'var(--color-fg)' },
+  'Tutoring & Assignment Help':{ bg: '#e6ff2b', color: 'var(--color-fg)' },
   'Event & Setup Help':        { bg: '#c8254a', color: '#fff' },
   'General Errands':           { bg: '#4cad7d', color: '#fff' },
   'Elderly Assistance':        { bg: '#395f63', color: '#fff' },
@@ -103,7 +103,7 @@ export default function Feed() {
   return (
     <div className="bg-[#FFF9F0] min-h-screen">
       {/* Hero bar */}
-      <div className="bg-[#F9E84A] border-b-2 border-[#0F0E0A] pt-24 pb-10 relative overflow-hidden">
+      <div className="bg-[#F9E84A] border-b-2 border-[var(--color-ink)] pt-24 pb-10 relative overflow-hidden">
         {/* Subtle blob */}
         <div className="absolute right-0 top-0 w-[40%] opacity-[0.18] pointer-events-none">
           <svg viewBox="0 0 386 400" fill="none"><path fill="#0F0E0A" d="M115.415-56.646c27.361-10.951 55.489-16.17 84.985-10.076 40.714 8.42 64.637 33.98 75.035 73.257 9.349 35.348 3.777 70.616-.769 105.961-4.86 37.766-10.042 75.565-12.734 113.514-1.993 28.09 5.481 54.869 20.638 79.162 14.419 23.106 34.405 37.375 61.693 41.433 30.041 4.465 59.172-.835 88.412-6.653 26.135-5.192 52.289-10.684 78.69-13.939 22.265-2.747 44.838-1.383 65.775 8.431 38.064 17.842 51.287 57.852 44.901 96.147z" /></svg>
@@ -111,10 +111,10 @@ export default function Feed() {
         <div className="max-w-[1400px] mx-auto px-8 relative z-10">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <h1 className="font-display text-[clamp(2.2rem,5vw,3.8rem)] font-normal text-[#0F0E0A] leading-[1.05] tracking-[-0.01em]">
+              <h1 className="font-display text-[clamp(2.2rem,5vw,3.8rem)] font-normal text-[var(--color-fg)] leading-[1.05] tracking-[-0.01em]">
                 Open <em className="italic">tasks</em>
               </h1>
-              <p className="font-body text-[0.95rem] text-[#0F0E0A]/65 mt-2 flex items-center gap-2">
+              <p className="font-body text-[0.95rem] text-[var(--color-fg)]/65 mt-2 flex items-center gap-2">
                 <span className="inline-flex items-center gap-1.5 text-[#4cad7d] font-semibold">
                   <span className="w-2 h-2 rounded-full bg-[#4cad7d] inline-block animate-pulse" />
                   live
@@ -122,7 +122,7 @@ export default function Feed() {
                 {tasks.length} tasks near Bengaluru · sorted by {sort.replace('_', ' ')}
               </p>
             </div>
-            <div className="flex items-center gap-1.5 font-body text-[0.85rem] font-semibold text-[#0F0E0A]/65">
+            <div className="flex items-center gap-1.5 font-body text-[0.85rem] font-semibold text-[var(--color-fg)]/65">
               <MapPin size={15} />
               Radius: {radius ? `${radius} km` : 'all city'}
             </div>
@@ -136,7 +136,7 @@ export default function Feed() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-[#FFFFFF] border-2 border-[#0F0E0A] rounded-[1.25rem] p-5 mb-8 flex flex-col gap-4 shadow-brutal"
+          className="bg-[#FFFFFF] border-2 border-[var(--color-ink)] rounded-[1.25rem] p-5 mb-8 flex flex-col gap-4 shadow-brutal"
         >
           {/* Category pills */}
           <div className="flex flex-wrap items-center gap-2">
@@ -228,7 +228,7 @@ export default function Feed() {
         {loading ? (
           <div className="grid gap-5 grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="bg-[#FFF4E2] border-2 border-[#0F0E0A] rounded-[1.25rem] p-6 flex flex-col gap-3 min-h-[240px] shadow-brutal">
+              <div key={i} className="bg-[#FFF4E2] border-2 border-[var(--color-ink)] rounded-[1.25rem] p-6 flex flex-col gap-3 min-h-[240px] shadow-brutal">
                 <Skeleton className="h-5 w-3/4" />
                 <Skeleton className="h-4 w-full" />
                 <Skeleton className="h-4 w-2/3" />
@@ -236,9 +236,9 @@ export default function Feed() {
             ))}
           </div>
         ) : tasks.length === 0 ? (
-          <div className="text-center py-20 px-8 bg-[#FFF4E2] rounded-[1.5rem] border-2 border-[#0F0E0A] shadow-brutal">
+          <div className="text-center py-20 px-8 bg-[#FFF4E2] rounded-[1.5rem] border-2 border-[var(--color-ink)] shadow-brutal">
             <Grassbot size={88} mood="wave" style={{ margin: '0 auto 1.5rem' }} />
-            <p className="font-display text-[2rem] font-normal text-[#0F0E0A] mb-3">
+            <p className="font-display text-[2rem] font-normal text-[var(--color-fg)] mb-3">
               Nothing matches. The feed is playing hard to get.
             </p>
             <p className="font-body text-[1rem] text-[#5A574F] mb-8">

@@ -37,8 +37,8 @@ function RightEar({ color }: { color: string }) {
 const CAT_TAG_COLORS: Record<string, { bg: string; color: string }> = {
   'Printing & Documents':      { bg: '#9e81e4', color: '#fff' },
   'Parcel Pickup/Delivery':    { bg: '#006fff', color: '#fff' },
-  'Minor Repairs & Handyman':  { bg: '#F9A220', color: '#0F0E0A' },
-  'Tutoring & Assignment Help':{ bg: '#e6ff2b', color: '#0F0E0A' },
+  'Minor Repairs & Handyman':  { bg: '#F9A220', color: 'var(--color-fg)' },
+  'Tutoring & Assignment Help':{ bg: '#e6ff2b', color: 'var(--color-fg)' },
   'Event & Setup Help':        { bg: '#c8254a', color: '#fff' },
   'General Errands':           { bg: '#4cad7d', color: '#fff' },
   'Elderly Assistance':        { bg: '#395f63', color: '#fff' },
@@ -66,7 +66,7 @@ export function TaskCard({ task, i = 0 }: { task: Task; i?: number }) {
     >
       <Link to={`/task/${task.id}`} className="block no-underline">
         <div
-          className="rounded-[1.25rem] relative overflow-hidden flex flex-col min-h-[260px] border-2 border-[#0F0E0A] shadow-brutal transition-all duration-300 group-hover:-translate-y-1 group-hover:-translate-x-0.5 group-hover:shadow-brutal-lg"
+          className="rounded-[1.25rem] relative overflow-hidden flex flex-col min-h-[260px] border-2 border-[var(--color-ink)] shadow-brutal transition-all duration-300 group-hover:-translate-y-1 group-hover:-translate-x-0.5 group-hover:shadow-brutal-lg"
           style={{ background: accent, padding: '2rem 1.5rem 1.5rem' }}
         >
           {/* Ear notches */}
@@ -76,12 +76,12 @@ export function TaskCard({ task, i = 0 }: { task: Task; i?: number }) {
           {/* Status badge */}
           {urgent && (
             <div className="absolute top-3 right-8 z-[3]">
-              <span className="tag-pill border-2 border-[#0F0E0A] shadow-brutal" style={{ background: '#c8254a', color: '#fff' }}>URGENT</span>
+              <span className="tag-pill border-2 border-[var(--color-ink)] shadow-brutal" style={{ background: '#c8254a', color: '#fff' }}>URGENT</span>
             </div>
           )}
           {!urgent && task.status === 'open' && (
             <div className="absolute top-3 right-8 z-[3]">
-              <span className="tag-pill border-2 border-[#0F0E0A]" style={{ background: '#0F0E0A', color: '#FFF9F0' }}>NEW</span>
+              <span className="tag-pill border-2 border-[var(--color-ink)]" style={{ background: '#0F0E0A', color: '#FFF9F0' }}>NEW</span>
             </div>
           )}
 

@@ -24,7 +24,7 @@ function ImageGallery({ photos, alt }: { photos: string[]; alt: string }) {
 
   return (
     <div className="mt-5 relative">
-      <div className="relative rounded-[1rem] overflow-hidden border-2 border-[#0F0E0A] shadow-brutal">
+      <div className="relative rounded-[1rem] overflow-hidden border-2 border-[var(--color-ink)] shadow-brutal">
         <AnimatePresence mode="wait">
           <motion.img
             key={currentIndex}
@@ -41,14 +41,14 @@ function ImageGallery({ photos, alt }: { photos: string[]; alt: string }) {
           <>
             <button
               onClick={() => setCurrentIndex((i) => (i - 1 + photos.length) % photos.length)}
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 backdrop-blur border-2 border-[#0F0E0A] flex items-center justify-center text-[#0F0E0A] hover:bg-white shadow-brutal transition-all"
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 backdrop-blur border-2 border-[var(--color-ink)] flex items-center justify-center text-[var(--color-fg)] hover:bg-white shadow-brutal transition-all"
               aria-label="Previous image"
             >
               <Image className="size-5 rotate-180" />
             </button>
             <button
               onClick={() => setCurrentIndex((i) => (i + 1) % photos.length)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 backdrop-blur border-2 border-[#0F0E0A] flex items-center justify-center text-[#0F0E0A] hover:bg-white shadow-brutal transition-all"
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 backdrop-blur border-2 border-[var(--color-ink)] flex items-center justify-center text-[var(--color-fg)] hover:bg-white shadow-brutal transition-all"
               aria-label="Next image"
             >
               <Image className="size-5" />
@@ -67,7 +67,7 @@ function ImageGallery({ photos, alt }: { photos: string[]; alt: string }) {
         )}
       </div>
       {photos.length > 1 && (
-        <p className="text-center text-xs text-[#0F0E0A]/50 mt-2 font-body">
+        <p className="text-center text-xs text-[var(--color-fg)]/50 mt-2 font-body">
           Image {currentIndex + 1} of {photos.length}
         </p>
       )}
@@ -94,7 +94,7 @@ function MapPreview({ location, lat, lng, className = '' }: { location: string; 
           <Map className="size-3.5" /> Open in Maps
         </a>
       </div>
-      <div className="rounded-[1rem] overflow-hidden border-2 border-[#0F0E0A] shadow-brutal">
+      <div className="rounded-[1rem] overflow-hidden border-2 border-[var(--color-ink)] shadow-brutal">
         <img
           src={mapUrl}
           alt={`Map showing ${location}`}
@@ -213,7 +213,7 @@ function ShareButton({ task }: { task: { id: string; title: string; location: st
       />
       
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-8 pb-24">
-        <Link to="/tasks" className="inline-flex items-center gap-2 text-[#0F0E0A]/60 hover:text-[#0F0E0A] font-body font-bold text-sm transition-colors border-2 border-transparent hover:border-[#0F0E0A] bg-transparent hover:bg-[#F9E84A] px-3 py-1.5 rounded-full">
+        <Link to="/tasks" className="inline-flex items-center gap-2 text-[var(--color-fg)]/60 hover:text-[var(--color-fg)] font-body font-bold text-sm transition-colors border-2 border-transparent hover:border-[var(--color-ink)] bg-transparent hover:bg-[#F9E84A] px-3 py-1.5 rounded-full">
           <ArrowLeft className="size-4" /> Back to tasks
         </Link>
 
@@ -221,21 +221,21 @@ function ShareButton({ task }: { task: { id: string; title: string; location: st
         {/* left column */}
         <div className="space-y-6">
           {/* main card */}
-          <div className="bg-[#FFFFFF] border-2 border-[#0F0E0A] shadow-brutal rounded-[1.25rem] p-6 sm:p-8 text-[#0F0E0A]">
+          <div className="bg-[#FFFFFF] border-2 border-[var(--color-ink)] shadow-brutal rounded-[1.25rem] p-6 sm:p-8 text-[var(--color-fg)]">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div className="flex items-center gap-3">
-                <div className="size-14 rounded-2xl border-2 border-[#0F0E0A] bg-[#F9A220] flex items-center justify-center shadow-brutal">
-                  <Icon className="size-7 text-[#0F0E0A]" />
+                <div className="size-14 rounded-2xl border-2 border-[var(--color-ink)] bg-[#F9A220] flex items-center justify-center shadow-brutal">
+                  <Icon className="size-7 text-[var(--color-fg)]" />
                 </div>
                 <div>
-                  <span className="tag-pill border-2 border-[#0F0E0A] bg-[#0F0E0A] text-[#FFF9F0] shadow-brutal">{task.category}</span>
+                  <span className="tag-pill border-2 border-[var(--color-ink)] bg-[var(--color-ink)] text-[#FFF9F0] shadow-brutal">{task.category}</span>
                   <div className="mt-2.5 flex items-center gap-2 text-xs font-body font-bold text-[#5A574F]">
                     <MapPin className="size-3.5" /> {task.location} · <Clock3 className="size-3.5" /> {timeLeft(task.deadline)}
                   </div>
                 </div>
               </div>
               <div className="text-right">
-                <div className="font-display text-5xl text-[#0F0E0A] relative inline-block">
+                <div className="font-display text-5xl text-[var(--color-fg)] relative inline-block">
                   ₹{task.price.toLocaleString('en-IN')}
                 </div>
                 {payment && (
@@ -246,8 +246,8 @@ function ShareButton({ task }: { task: { id: string; title: string; location: st
               </div>
             </div>
 
-            <h1 className="mt-5 font-display text-3xl sm:text-4xl leading-tight text-[#0F0E0A]">{task.title}</h1>
-            <p className="mt-3 text-[#0F0E0A]/80 font-body font-medium leading-relaxed whitespace-pre-line">{task.description}</p>
+            <h1 className="mt-5 font-display text-3xl sm:text-4xl leading-tight text-[var(--color-fg)]">{task.title}</h1>
+            <p className="mt-3 text-[var(--color-fg)]/80 font-body font-medium leading-relaxed whitespace-pre-line">{task.description}</p>
 
             {/* Image Gallery / Map Preview */}
             {task.photoUrl && (
@@ -260,16 +260,16 @@ function ShareButton({ task }: { task: { id: string; title: string; location: st
               className="mt-5"
             />
 
-            <div className="mt-5 flex flex-wrap gap-2 text-xs font-body font-bold text-[#0F0E0A]">
-              <span className="bg-[#FFF4E2] border-2 border-[#0F0E0A] rounded-lg px-3 py-1.5 shadow-[2px_2px_0px_#0F0E0A]">Posted {timeAgo(task.createdAt)}</span>
-              <span className="bg-[#FFF4E2] border-2 border-[#0F0E0A] rounded-lg px-3 py-1.5 shadow-[2px_2px_0px_#0F0E0A]">Deadline {fmtDate(task.deadline)}</span>
-              {task.urgent && <span className="bg-[#c8254a] border-2 border-[#0F0E0A] text-white rounded-lg px-3 py-1.5 flex items-center gap-1 shadow-[2px_2px_0px_#0F0E0A]"><Flame className="size-3" /> URGENT</span>}
+            <div className="mt-5 flex flex-wrap gap-2 text-xs font-body font-bold text-[var(--color-fg)]">
+              <span className="bg-[#FFF4E2] border-2 border-[var(--color-ink)] rounded-lg px-3 py-1.5 shadow-[2px_2px_0px_#0F0E0A]">Posted {timeAgo(task.createdAt)}</span>
+              <span className="bg-[#FFF4E2] border-2 border-[var(--color-ink)] rounded-lg px-3 py-1.5 shadow-[2px_2px_0px_#0F0E0A]">Deadline {fmtDate(task.deadline)}</span>
+              {task.urgent && <span className="bg-[#c8254a] border-2 border-[var(--color-ink)] text-white rounded-lg px-3 py-1.5 flex items-center gap-1 shadow-[2px_2px_0px_#0F0E0A]"><Flame className="size-3" /> URGENT</span>}
             </div>
           </div>
 
           {/* timeline */}
-          <div className="bg-[#FFF9F0] border-2 border-[#0F0E0A] shadow-brutal rounded-[1.25rem] p-6 sm:p-8 text-[#0F0E0A]">
-            <h2 className="font-display text-xl text-[#0F0E0A]">Status</h2>
+          <div className="bg-[#FFF9F0] border-2 border-[var(--color-ink)] shadow-brutal rounded-[1.25rem] p-6 sm:p-8 text-[var(--color-fg)]">
+            <h2 className="font-display text-xl text-[var(--color-fg)]">Status</h2>
             <div className="relative mt-6">
               <motion.div
                 initial={{ width: 0 }}
@@ -313,12 +313,12 @@ function ShareButton({ task }: { task: { id: string; title: string; location: st
           </div>
 
           {/* chat */}
-          <div className="bg-[#FFF4E2] border-2 border-[#0F0E0A] shadow-brutal rounded-[1.25rem] overflow-hidden text-[#0F0E0A]">
-            <button onClick={() => setChatOpen(!chatOpen)} className="w-full px-6 py-4 flex items-center justify-between font-display text-xl border-b-2 border-[#0F0E0A] bg-[#0F0E0A] text-[#FFF9F0]">
+          <div className="bg-[#FFF4E2] border-2 border-[var(--color-ink)] shadow-brutal rounded-[1.25rem] overflow-hidden text-[var(--color-fg)]">
+            <button onClick={() => setChatOpen(!chatOpen)} className="w-full px-6 py-4 flex items-center justify-between font-display text-xl border-b-2 border-[var(--color-ink)] bg-[var(--color-ink)] text-[#FFF9F0]">
               <span className="flex items-center gap-2">
                 <MessageCircle className="size-6 text-[#F9E84A]" /> Task chat
               </span>
-              <span className="text-xs font-body font-bold bg-[#F9E84A] text-[#0F0E0A] border-2 border-[#F9E84A] rounded-full px-3 py-1">
+              <span className="text-xs font-body font-bold bg-[#F9E84A] text-[var(--color-fg)] border-2 border-[#F9E84A] rounded-full px-3 py-1">
                 {isParty || task.status === 'open' ? 'visible to both parties' : 'locked'}
               </span>
             </button>
@@ -420,20 +420,20 @@ function ShareButton({ task }: { task: { id: string; title: string; location: st
           {payment && (
             <div className="bg-white/10 backdrop-blur-2xl border border-white/20 shadow-2xl rounded-[24px] p-6 text-cocoa">
               <h3 className="font-display text-lg flex items-center gap-2"><Wallet className="size-5 text-orange" /> Payment</h3>
-              <div className="mt-4 space-y-2 text-sm font-body font-semibold text-[#0F0E0A]/70">
+              <div className="mt-4 space-y-2 text-sm font-body font-semibold text-[var(--color-fg)]/70">
                 <div className="flex justify-between"><span>Task price</span><span className="text-ink">₹{payment.amount.toLocaleString('en-IN')}</span></div>
                 <div className="flex justify-between"><span>Platform fee ({(payment.commissionRate * 100).toFixed(0)}%)</span><span className="text-ink">−₹{payment.commission}</span></div>
-                <div className="flex justify-between border-t-2 border-[#0F0E0A]/10 pt-2 font-bold text-[#0F0E0A]"><span>Doer receives</span><span>₹{payment.doerNet.toLocaleString('en-IN')}</span></div>
+                <div className="flex justify-between border-t-2 border-[var(--color-ink)]/10 pt-2 font-bold text-[var(--color-fg)]"><span>Doer receives</span><span>₹{payment.doerNet.toLocaleString('en-IN')}</span></div>
                 <div className="flex justify-between text-xs"><span>Status</span><span className="uppercase text-orange">{payment.status === 'held' ? 'Held in escrow' : 'Released'}</span></div>
               </div>
             </div>
           )}
 
           {/* poster card */}
-          <div className="bg-[#FFFFFF] border-2 border-[#0F0E0A] shadow-brutal rounded-[1.25rem] p-6 text-[#0F0E0A]">
+          <div className="bg-[#FFFFFF] border-2 border-[var(--color-ink)] shadow-brutal rounded-[1.25rem] p-6 text-[var(--color-fg)]">
             <h3 className="font-body font-bold uppercase text-xs tracking-widest text-[#5A574F]">Posted by</h3>
             <div className="mt-3 flex items-center gap-3">
-              <div className="size-12 rounded-2xl bg-[#0F0E0A] text-[#F9A220] border-2 border-[#0F0E0A] flex items-center justify-center font-display text-xl">
+              <div className="size-12 rounded-2xl bg-[var(--color-ink)] text-[#F9A220] border-2 border-[var(--color-ink)] flex items-center justify-center font-display text-xl">
                 {poster.name.slice(0, 1).toUpperCase()}
               </div>
               <div>
