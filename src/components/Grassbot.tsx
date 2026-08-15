@@ -2,10 +2,12 @@ export function Grassbot({
   size = 96,
   mood = 'idle',
   className = '',
+  style,
 }: {
   size?: number
   mood?: 'idle' | 'wave' | 'happy'
   className?: string
+  style?: React.CSSProperties
 }) {
   return (
     <svg
@@ -13,6 +15,7 @@ export function Grassbot({
       width={size}
       height={size}
       className={`grassbot grassbot-${mood} ${className}`}
+      style={style}
       aria-hidden="true"
     >
       <defs>

@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id             String   @id
+  name           String
+  phone          String   @unique
+  email          String?
+  role           String   // 'poster' | 'doer' | 'both'
+  idVerification String   // 'none' | 'pending' | 'verified'
+  ratingAvg      Float    @default(0)
+  ratingCount    Int      @default(0)
+  tasksDone      Int      @default(0)
+  bio            String   @default("")
+  area           String   @default("")
+  joinedAt       String
+  createdAt      String
+
+  tasks           Task[]       @relation("PosterTasks")
+  assignments     Assignment[] @relation("DoerAssignments")
+  sentMessages    Message[]    @relation("SenderMessages")
+  givenReviews    Review[]     @relation("ReviewerReviews")
+  receivedReviews Review[]     @relation("RevieweeReviews")
+}
+
+model Task {
+  id          String   @id
+  posterId    String
+  title       String
+  description String
+  category    String
+  price       Float
+  location    String
+  lat         Float
+  lng         Float
+  deadline    String
+  urgent      Boolean  @default(false)
+  status      String   // TaskStatus
+  photoUrl    String?
+  createdAt   String
+  completedAt String?
+
+  poster      User        @relation("PosterTasks", fields: [posterId], references: [id])
+  assignment  Assignment?
+  messages    Message[]
+  reviews     Review[]
+  payment     Payment?
+}
+
+model Assignment {
+  id          String  @id
+  taskId      String  @unique
+  doerId      String
+  acceptedAt  String
+  completedAt String?
+  status      String  // 'active' | 'done'
+
+  task Task @relation(fields: [taskId], references: [id])
+  doer User @relation("DoerAssignments", fields: [doerId], references: [id])
+}
+
+model Message {
+  id        String @id
+  taskId    String
+  senderId  String
+  content   String
+  createdAt String
+
+  task   Task @relation(fields: [taskId], references: [id])
+  sender User @relation("SenderMessages", fields: [senderId], references: [id])
+}
+
+model Review {
+  id         String @id
+  taskId     String
+  reviewerId String
+  revieweeId String
+  rating     Float
+  comment    String
+  createdAt  String
+
+  task     Task @relation(fields: [taskId], references: [id])
+  reviewer User @relation("ReviewerReviews", fields: [reviewerId], references: [id])
+  reviewee User @relation("RevieweeReviews", fields: [revieweeId], references: [id])
+}
+
+model Payment {
+  id              String  @id
+  taskId          String  @unique
+  amount          Float
+  commissionRate  Float
+  commission      Float
+  doerNet         Float
+  status          String  // 'held' | 'released' | 'refunded'
+  razorpayOrderId String?
+  releasedAt      String?
+
+  task Task @relation(fields: [taskId], references: [id])
+}

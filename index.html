@@ -9,12 +9,38 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Apply saved theme before React boots to avoid FOUC.
+      (function () {
+        try {
+          var k = localStorage.getItem('touchgrass-theme');
+          if (!k) k = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'studio' : 'moss';
+          var map = {
+            moss:   ['#151515','#F4F3EF','#2FAE4E','#D4AF37','#151515','#6B6B6B','#F4F3EF','#0F0E0A','#FFF9F0'],
+            sunset: ['#1A0F0A','#FFE7D6','#E8613A','#FFB347','#1A0F0A','#7A5A4A','#FFE7D6','#0F0606','#FFF1E2'],
+            studio: ['#0A0A0A','#EDEDED','#2D5BFF','#FFD93D','#0A0A0A','#5A5A5A','#EDEDED','#0A0A0A','#FAFAFA'],
+          };
+          var t = map[k] || map.moss;
+          var r = document.documentElement;
+          r.dataset.theme = k;
+          r.style.setProperty('--color-canvas', t[0]);
+          r.style.setProperty('--color-section-base', t[1]);
+          r.style.setProperty('--color-grass', t[2]);
+          r.style.setProperty('--color-gold', t[3]);
+          r.style.setProperty('--color-fg', t[4]);
+          r.style.setProperty('--color-fg-muted', t[5]);
+          r.style.setProperty('--color-fg-light', t[6]);
+          r.style.setProperty('--color-ink', t[7]);
+          r.style.setProperty('--color-cream', t[8]);
+        } catch (e) {}
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

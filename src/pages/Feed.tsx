@@ -1,11 +1,37 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { MapPin, SlidersHorizontal, X } from 'lucide-react'
 import { TaskCard } from '../components/TaskCard'
-import { Skeleton } from '../components/ui'
+import { Skeleton, inputCls } from '../components/ui'
 import { Grassbot } from '../components/Grassbot'
+import { SearchAutocomplete } from '../components/SearchAutocomplete'
+import { SavedSearchManager } from '../components/SavedSearchManager'
 import { useDB } from '../lib/db'
 import { CATEGORIES, type Task } from '../lib/types'
+import { Link } from 'react-router-dom'
+import { usePullToRefresh, PullToRefreshIndicator } from '../hooks/usePullToRefresh.tsx'
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] as const } }
+}
+
+/* ─── Arrow icon ─── */
+function ArrowIcon({ size = 13 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 14 13" fill="none" aria-hidden="true">
+      <path d="M13.58 5.66v.845l-5.994 5.66-1.71-2.063a61.427 61.427 0 0 1 4.265-2.988l-.02-.078c-1.828.196-4.107.294-6.387.294H0V4.835h3.734c2.28 0 4.56.098 6.387.294l.02-.059a67.638 67.638 0 0 1-4.265-3.006L7.586 0l5.994 5.66Z" fill="currentColor" />
+    </svg>
+  )
+}
 
 const CITY_CENTER = { lat: 12.9716, lng: 77.5946 }
 
@@ -17,6 +43,18 @@ function kmBetween(a: { lat: number; lng: number }, b: { lat: number; lng: numbe
   return Math.round(R * 2 * Math.atan2(Math.sqrt(s), Math.sqrt(1 - s)))
 }
 
+/* ─── Tag colors for filter pills ─── */
+const CAT_PILL_COLORS: Record<string, { bg: string; color: string }> = {
+  'Printing & Documents':      { bg: '#9e81e4', color: '#fff' },
+  'Parcel Pickup/Delivery':    { bg: '#006fff', color: '#fff' },
+  'Minor Repairs & Handyman':  { bg: '#F9A220', color: '#0F0E0A' },
+  'Tutoring & Assignment Help':{ bg: '#e6ff2b', color: '#0F0E0A' },
+  'Event & Setup Help':        { bg: '#c8254a', color: '#fff' },
+  'General Errands':           { bg: '#4cad7d', color: '#fff' },
+  'Elderly Assistance':        { bg: '#395f63', color: '#fff' },
+  'Document Help (Online)':    { bg: '#0F0E0A', color: '#FFF9F0' },
+}
+
 export default function Feed() {
   const db = useDB()
   const [loading, setLoading] = useState(true)
@@ -26,8 +64,20 @@ export default function Feed() {
   const [sort, setSort] = useState<'newest' | 'price_high' | 'price_low' | 'urgency'>('newest')
   const [q, setQ] = useState('')
 
-  useMemo(() => {
-    setTimeout(() => setLoading(false), 700)
+  const refresh = useCallback(async () => {
+    // Force a re-fetch by triggering a DB sync
+    await new Promise(resolve => setTimeout(resolve, 500))
+  }, [])
+
+  const { ref, isRefreshing, progress, handlers } = usePullToRefresh({
+    onRefresh: refresh,
+    threshold: 80,
+  })
+
+  /* ─── FIX: use useEffect (not useMemo) for side-effects ─── */
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 700)
+    return () => clearTimeout(t)
   }, [])
 
   const tasks = useMemo(() => {
@@ -40,18 +90,10 @@ export default function Feed() {
       list = list.filter((t) => t.title.toLowerCase().includes(qq) || t.description.toLowerCase().includes(qq) || t.location.toLowerCase().includes(qq))
     }
     switch (sort) {
-      case 'newest':
-        list.sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-        break
-      case 'price_high':
-        list.sort((a, b) => b.price - a.price)
-        break
-      case 'price_low':
-        list.sort((a, b) => a.price - b.price)
-        break
-      case 'urgency':
-        list.sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime())
-        break
+      case 'newest': list.sort((a, b) => b.createdAt.localeCompare(a.createdAt)); break
+      case 'price_high': list.sort((a, b) => b.price - a.price); break
+      case 'price_low': list.sort((a, b) => a.price - b.price); break
+      case 'urgency': list.sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime()); break
     }
     return list
   }, [db.tasks, cats, radius, maxPrice, sort, q])
@@ -59,117 +101,172 @@ export default function Feed() {
   const toggleCat = (c: string) => setCats((prev) => (prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c]))
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-10">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="font-display text-4xl sm:text-6xl leading-none">
-            Open <span className="grad-text">tasks</span>
-          </h1>
-          <p className="mt-2 text-muted font-body font-semibold text-sm">
-            <span className="inline-flex items-center gap-1.5 text-sage mr-1.5">
-              <span className="size-2 rounded-full bg-sage animate-pulse" /> live
-            </span>
-            {tasks.length} tasks near Bengaluru · sorted by {sort.replace('_', ' ')}
-          </p>
+    <div className="bg-[#FFF9F0] min-h-screen">
+      {/* Hero bar */}
+      <div className="bg-[#F9E84A] border-b-2 border-[#0F0E0A] pt-24 pb-10 relative overflow-hidden">
+        {/* Subtle blob */}
+        <div className="absolute right-0 top-0 w-[40%] opacity-[0.18] pointer-events-none">
+          <svg viewBox="0 0 386 400" fill="none"><path fill="#0F0E0A" d="M115.415-56.646c27.361-10.951 55.489-16.17 84.985-10.076 40.714 8.42 64.637 33.98 75.035 73.257 9.349 35.348 3.777 70.616-.769 105.961-4.86 37.766-10.042 75.565-12.734 113.514-1.993 28.09 5.481 54.869 20.638 79.162 14.419 23.106 34.405 37.375 61.693 41.433 30.041 4.465 59.172-.835 88.412-6.653 26.135-5.192 52.289-10.684 78.69-13.939 22.265-2.747 44.838-1.383 65.775 8.431 38.064 17.842 51.287 57.852 44.901 96.147z" /></svg>
         </div>
-        <div className="flex items-center gap-2 text-sm text-orange font-body font-bold">
-          <MapPin className="size-4" /> Showing radius: {radius ? `${radius} km` : 'all city'}
+        <div className="max-w-[1400px] mx-auto px-8 relative z-10">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h1 className="font-display text-[clamp(2.2rem,5vw,3.8rem)] font-normal text-[#0F0E0A] leading-[1.05] tracking-[-0.01em]">
+                Open <em className="italic">tasks</em>
+              </h1>
+              <p className="font-body text-[0.95rem] text-[#0F0E0A]/65 mt-2 flex items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 text-[#4cad7d] font-semibold">
+                  <span className="w-2 h-2 rounded-full bg-[#4cad7d] inline-block animate-pulse" />
+                  live
+                </span>
+                {tasks.length} tasks near Bengaluru · sorted by {sort.replace('_', ' ')}
+              </p>
+            </div>
+            <div className="flex items-center gap-1.5 font-body text-[0.85rem] font-semibold text-[#0F0E0A]/65">
+              <MapPin size={15} />
+              Radius: {radius ? `${radius} km` : 'all city'}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* filter bar */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15 }}
-        className="mt-7 bg-white text-cocoa shadow-[0_10px_25px_rgba(0,0,0,0.12)] rounded-[20px] p-4 flex flex-col gap-4"
-      >
-        <div className="flex flex-wrap items-center gap-2">
-          <SlidersHorizontal className="size-5 shrink-0" />
-          {CATEGORIES.map((c) => (
-            <button
-              key={c.key}
-              onClick={() => toggleCat(c.label)}
-              className={`px-3 py-1.5 rounded-full font-body font-bold text-xs border border-ink/15 transition-colors ${
-                cats.includes(c.label) ? 'bg-coral text-white shadow-[0_8px_16px_rgba(232,125,74,0.35)]' : 'bg-white hover:bg-soft'
-              }`}
-            >
-              {c.label}
-            </button>
-          ))}
-          {cats.length > 0 && (
-            <button onClick={() => setCats([])} className="px-3 py-1.5 rounded-full font-body font-bold text-xs bg-coral text-white border border-ink/15 flex items-center gap-1 hover:bg-rose">
-              <X className="size-3" /> Clear
-            </button>
-          )}
-        </div>
-        <div className="flex flex-wrap gap-3 items-center">
-          <input
-            className="flex-1 min-w-48 bg-white border border-ink/15 rounded-xl px-4 py-2.5 font-body font-semibold text-sm placeholder:text-neutral-400 focus:outline-none focus:ring-4 focus:ring-blush/50"
-            placeholder="Search tasks, keywords, area…"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-          />
-          <label className="flex items-center gap-2 text-xs font-body font-bold uppercase">
-            Radius
-            <select value={radius} onChange={(e) => setRadius(Number(e.target.value))} className="bg-white border border-ink/15 rounded-xl px-3 py-2 font-body font-bold text-sm focus:outline-none focus:ring-4 focus:ring-blush/50">
-              <option value={0}>All city</option>
-              <option value={3}>3 km</option>
-              <option value={5}>5 km</option>
-              <option value={10}>10 km</option>
-              <option value={15}>15 km</option>
-            </select>
-          </label>
-          <label className="flex items-center gap-2 text-xs font-body font-bold uppercase">
-            Max ₹
-            <select value={maxPrice} onChange={(e) => setMaxPrice(Number(e.target.value))} className="bg-white border border-ink/15 rounded-xl px-3 py-2 font-body font-bold text-sm focus:outline-none focus:ring-4 focus:ring-blush/50">
-              <option value={0}>Any</option>
-              <option value={100}>100</option>
-              <option value={250}>250</option>
-              <option value={500}>500</option>
-              <option value={1000}>1000</option>
-            </select>
-          </label>
-          <select value={sort} onChange={(e) => setSort(e.target.value as typeof sort)} className="bg-white border border-ink/15 rounded-xl px-3 py-2 font-body font-bold text-sm focus:outline-none focus:ring-4 focus:ring-blush/50">
-            <option value="newest">Newest first</option>
-            <option value="urgency">Most urgent</option>
-            <option value="price_high">Price: high → low</option>
-            <option value="price_low">Price: low → high</option>
-          </select>
-        </div>
-      </motion.div>
+      <div className="max-w-[1400px] mx-auto px-8 py-8 pb-24">
+        {/* Filter bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="bg-[#FFFFFF] border-2 border-[#0F0E0A] rounded-[1.25rem] p-5 mb-8 flex flex-col gap-4 shadow-brutal"
+        >
+          {/* Category pills */}
+          <div className="flex flex-wrap items-center gap-2">
+            <SlidersHorizontal size={16} color="#5A574F" />
+            {CATEGORIES.map((c) => {
+              const cfg = CAT_PILL_COLORS[c.label] ?? { bg: '#0F0E0A', color: '#FFF9F0' }
+              const active = cats.includes(c.label)
+              return (
+                <button
+                  key={c.key}
+                  onClick={() => toggleCat(c.label)}
+                  className="tag-pill cursor-pointer transition-all duration-200 border-2"
+                  style={{
+                    background: active ? cfg.bg : '#FFF4E2',
+                    color: active ? cfg.color : '#5A574F',
+                    borderColor: active ? cfg.bg : '#E8E2D4',
+                    fontSize: '0.72rem',
+                    padding: '0.35rem 0.85rem',
+                    boxShadow: active ? '2px 2px 0px #0F0E0A' : 'none',
+                  }}
+                >
+                  {c.label}
+                </button>
+              )
+            })}
+            {cats.length > 0 && (
+              <button
+                onClick={() => setCats([])}
+                className="tag-pill cursor-pointer flex items-center gap-1.5 border-2 border-[#c8254a] shadow-brutal"
+                style={{ background: '#c8254a', color: '#fff', fontSize: '0.72rem', padding: '0.35rem 0.85rem' }}
+              >
+                <X size={11} /> Clear
+              </button>
+            )}
+          </div>
 
-      {/* grid */}
-      {loading ? (
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="bg-warm-paper border border-border shadow-[0_8px_28px_rgba(31,27,24,0.07)] rounded-[22px] p-5 space-y-3">
-              <div className="flex justify-between">
-                <Skeleton className="h-10 w-10 rounded-xl" />
-                <Skeleton className="h-8 w-16" />
+          {/* Search + filters */}
+          <div className="flex flex-wrap gap-3 items-center">
+            <SearchAutocomplete
+              value={q}
+              onChange={setQ}
+              onSubmit={setQ}
+              placeholder="Search tasks, keywords, area…"
+              className="flex-[1_1_220px]"
+            />
+            <SavedSearchManager />
+            <label className="flex items-center gap-2 font-body text-xs font-bold tracking-[0.06em] uppercase text-[var(--color-muted)]">
+              Radius
+              <select
+                value={radius}
+                onChange={(e) => setRadius(Number(e.target.value))}
+                className={`${inputCls} rounded-lg px-3 py-2 font-body font-semibold text-[0.8rem] cursor-pointer`}
+              >
+                <option value={0}>All city</option>
+                <option value={3}>3 km</option>
+                <option value={5}>5 km</option>
+                <option value={10}>10 km</option>
+                <option value={15}>15 km</option>
+              </select>
+            </label>
+            <label className="flex items-center gap-2 font-body text-xs font-bold tracking-[0.06em] uppercase text-[var(--color-muted)]">
+              Max ₹
+              <select
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(Number(e.target.value))}
+                className={`${inputCls} rounded-lg px-3 py-2 font-body font-semibold text-[0.8rem] cursor-pointer`}
+              >
+                <option value={0}>Any</option>
+                <option value={100}>₹100</option>
+                <option value={250}>₹250</option>
+                <option value={500}>₹500</option>
+                <option value={1000}>₹1000</option>
+              </select>
+            </label>
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value as typeof sort)}
+              className={`${inputCls} rounded-lg px-3 py-2 font-body font-semibold text-[0.8rem] cursor-pointer`}
+            >
+              <option value="newest">Newest first</option>
+              <option value="urgency">Most urgent</option>
+              <option value="price_high">Price: high → low</option>
+              <option value="price_low">Price: low → high</option>
+            </select>
+          </div>
+        </motion.div>
+
+        {/* Task grid */}
+        {loading ? (
+          <div className="grid gap-5 grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="bg-[#FFF4E2] border-2 border-[#0F0E0A] rounded-[1.25rem] p-6 flex flex-col gap-3 min-h-[240px] shadow-brutal">
+                <Skeleton className="h-5 w-3/4" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-2/3" />
               </div>
-              <Skeleton className="h-5 w-3/4" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-2/3" />
-            </div>
-          ))}
-        </div>
-      ) : tasks.length === 0 ? (
-        <div className="mt-14 text-center bg-white text-cocoa shadow-[0_10px_25px_rgba(0,0,0,0.12)] rounded-[24px] p-14">
-          <Grassbot size={88} mood="wave" className="mx-auto" />
-          <p className="font-display text-4xl">nothing matches. the feed is playing hard to get.</p>
-          <p className="mt-3 text-neutral-600 font-body font-semibold">loosen the filters, or post the task yourself — grassbot believes in you.</p>
-          <a href="/post" className="inline-block mt-6 bg-coral text-white rounded-full px-6 py-3 font-body font-bold uppercase shadow-[0_10px_25px_rgba(232,125,74,0.4)] hover:bg-rose transition-colors">
-            Post a Task
-          </a>
-        </div>
-      ) : (
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {tasks.map((t, i) => (
-            <TaskCard key={t.id} task={t} i={i} />
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        ) : tasks.length === 0 ? (
+          <div className="text-center py-20 px-8 bg-[#FFF4E2] rounded-[1.5rem] border-2 border-[#0F0E0A] shadow-brutal">
+            <Grassbot size={88} mood="wave" style={{ margin: '0 auto 1.5rem' }} />
+            <p className="font-display text-[2rem] font-normal text-[#0F0E0A] mb-3">
+              Nothing matches. The feed is playing hard to get.
+            </p>
+            <p className="font-body text-[1rem] text-[#5A574F] mb-8">
+              Loosen the filters, or post the task yourself.
+            </p>
+            <Link to="/post" className="avy-btn">
+              <span className="avy-btn__text">Post a Task</span>
+              <span className="avy-btn__icon"><ArrowIcon /></span>
+            </Link>
+          </div>
+        ) : (
+          <div ref={ref} {...handlers} className="touch-none">
+            <PullToRefreshIndicator progress={progress} isRefreshing={isRefreshing} />
+            <motion.div 
+              variants={containerVariants}
+              initial="hidden"
+              animate="show"
+              className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+            >
+              {tasks.map((t, i) => (
+                <motion.div key={t.id} variants={itemVariants}>
+                  <TaskCard task={t} i={i} />
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

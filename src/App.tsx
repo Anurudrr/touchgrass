@@ -1,20 +1,40 @@
-import { useEffect, useState } from 'react'
-import { Route, Routes, useLocation, Navigate } from 'react-router-dom'
+import { useEffect, useState, Suspense, lazy } from 'react'
+import { Route, Routes, useLocation, Navigate } from 'react-router'
 import { AnimatePresence, motion, type TargetAndTransition, type Transition } from 'framer-motion'
 import Lenis from 'lenis'
 import { Navbar, Footer } from './components/Navbar'
 import { CursorBubble, GrassRain, ToastHost, Spotlight } from './components/ui'
+import { ThemeProvider } from './lib/theme.tsx'
+import { ReduceMotionProvider, useReduceMotion } from './lib/reduceMotion.tsx'
+import { NotificationsProvider } from './lib/notifications.tsx'
+import { ThemeSwitcher } from './components/ThemeSwitcher'
+import { OnboardingModal } from './components/OnboardingModal'
+import Cursor from './components/Cursor'
 import Landing from './pages/Landing'
 import Auth from './pages/Auth'
 import Feed from './pages/Feed'
-import PostTask from './pages/PostTask'
-import TaskDetail from './pages/TaskDetail'
-import Dashboard from './pages/Dashboard'
-import Profile from './pages/Profile'
+
+const PostTask = lazy(() => import('./pages/PostTask'))
+const TaskDetail = lazy(() => import('./pages/TaskDetail'))
+const Dashboard = lazy(() => import('./pages/Dashboard'))
+const Profile = lazy(() => import('./pages/Profile'))
+const PublicProfile = lazy(() => import('./pages/PublicProfile'))
+
+function PageSkeleton() {
+  return (
+    <div className="min-h-[50vh] flex items-center justify-center">
+      <div className="text-center">
+        <div className="w-12 h-12 border-4 border-[var(--color-grass)] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+        <p className="font-body text-[var(--color-muted)]">Loading...</p>
+      </div>
+    </div>
+  )
+}
 
 /* konami → grass rain easter egg */
 const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a']
 function Konami() {
+  const { reduceMotion } = useReduceMotion()
   const [i, setI] = useState(0)
   const [rain, setRain] = useState(false)
   useEffect(() => {
@@ -22,6 +42,7 @@ function Konami() {
       const t = setTimeout(() => setRain(false), 6500)
       return () => clearTimeout(t)
     }
+    if (reduceMotion) return
     const onKey = (e: KeyboardEvent) => {
       const k = e.key.length === 1 ? e.key.toLowerCase() : e.key
       if (k === KONAMI[i]) {
@@ -38,15 +59,15 @@ function Konami() {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [i, rain])
+  }, [i, rain, reduceMotion])
   return rain ? <GrassRain /> : null
 }
 
 /* subtle genz click pops (fine pointers only, no autoplay) */
 function ClickSounds() {
+  const { reduceMotion } = useReduceMotion()
   useEffect(() => {
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduced || !window.matchMedia('(pointer:fine)').matches) return
+    if (reduceMotion || !window.matchMedia('(pointer:fine)').matches) return
     let ctx: AudioContext | null = null
     const onDown = () => {
       ctx = ctx ?? new AudioContext()
@@ -64,7 +85,7 @@ function ClickSounds() {
     }
     window.addEventListener('pointerdown', onDown)
     return () => window.removeEventListener('pointerdown', onDown)
-  }, [])
+  }, [reduceMotion])
   return null
 }
 
@@ -94,9 +115,9 @@ function ScrollToTop() {
 }
 
 function SmoothScroll() {
+  const { reduceMotion } = useReduceMotion()
   useEffect(() => {
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduced) return
+    if (reduceMotion) return
     const lenis = new Lenis({ lerp: 0.1, smoothWheel: true })
     let id: number
     const raf = (time: number) => {
@@ -108,15 +129,20 @@ function SmoothScroll() {
       cancelAnimationFrame(id)
       lenis.destroy()
     }
-  }, [])
+  }, [reduceMotion])
   return null
 }
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen flex flex-col bg-cream text-ink">
+    <div style={{ minHeight: '100vh', background: 'var(--color-bg)', color: 'var(--color-fg)', fontFamily: 'var(--font-body)', display: 'flex', flexDirection: 'column', position: 'relative', overflowX: 'hidden' }}>
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[1000] focus:px-4 focus:py-2 focus:bg-[var(--color-grass)] focus:text-white focus:rounded-md focus:font-bold focus:outline-none focus:ring-2 focus:ring-[var(--color-ink)]">
+        Skip to main content
+      </a>
+      <Cursor />
+      <div className="grain" aria-hidden="true" />
       <Navbar />
-      <main className="flex-1">{children}</main>
+      <main id="main-content" style={{ flex: 1 }}>{children}</main>
       <Footer />
     </div>
   )
@@ -127,37 +153,43 @@ export default function App() {
   const routeKey = getRouteKey(location.pathname)
   const variants = routeVariants[routeKey] ?? routeVariants['/']
   return (
-    <>
-      <ScrollToTop />
-      <SmoothScroll />
-      <CursorBubble />
-      <Spotlight />
-      <ClickSounds />
-      <Konami />
-      <div className="grain" aria-hidden="true" />
-      <Shell>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={routeKey}
-            initial={variants.initial}
-            animate={variants.animate}
-            exit={variants.exit}
-            transition={variants.transition}
-          >
-            <Routes location={location}>
-              <Route path="/" element={<Landing />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/tasks" element={<Feed />} />
-              <Route path="/post" element={<PostTask />} />
-              <Route path="/task/:id" element={<TaskDetail />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/profile" element={<Profile />} />
+    <ThemeProvider>
+      <ReduceMotionProvider>
+        <NotificationsProvider>
+          <ScrollToTop />
+          <SmoothScroll />
+          <CursorBubble />
+          <Spotlight />
+          <ClickSounds />
+          <Konami />
+          <Shell>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={routeKey}
+              initial={variants.initial}
+              animate={variants.animate}
+              exit={variants.exit}
+              transition={variants.transition}
+            >
+              <Routes location={location}>
+                <Route path="/" element={<Landing />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/tasks" element={<Feed />} />
+              <Route path="/post" element={<Suspense fallback={<PageSkeleton />}><PostTask /></Suspense>} />
+              <Route path="/task/:id" element={<Suspense fallback={<PageSkeleton />}><TaskDetail /></Suspense>} />
+              <Route path="/dashboard" element={<Suspense fallback={<PageSkeleton />}><Dashboard /></Suspense>} />
+              <Route path="/profile" element={<Suspense fallback={<PageSkeleton />}><Profile /></Suspense>} />
+              <Route path="/u/:username" element={<Suspense fallback={<PageSkeleton />}><PublicProfile /></Suspense>} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </motion.div>
         </AnimatePresence>
       </Shell>
       <ToastHost />
-    </>
+      <ThemeSwitcher />
+      <OnboardingModal onComplete={() => {}} />
+      </NotificationsProvider>
+      </ReduceMotionProvider>
+    </ThemeProvider>
   )
 }

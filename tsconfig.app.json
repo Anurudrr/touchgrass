@@ -7,6 +7,10 @@
     "types": ["vite/client"],
     "allowArbitraryExtensions": true,
     "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "react-router-dom": ["./src/types/react-router-dom-shim"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",

@@ -1,13 +1,34 @@
 import { useMemo, useState } from 'react'
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { CheckCircle2, ClipboardList, Flame, ShieldAlert, Sparkles, Trophy, UserRound } from 'lucide-react'
 import { TaskCard } from '../components/TaskCard'
-import { BrutButton, Chip, Pill, toast } from '../components/ui'
+import { Pill, toast } from '../components/ui'
 import { Grassbot } from '../components/Grassbot'
 import { store, useDB } from '../lib/db'
 import { grassStreak, levelFor, xpFor } from '../lib/gamify'
 import type { Task, TaskStatus } from '../lib/types'
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] as const } }
+}
+
+function ArrowIcon({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 14 13" fill="none" aria-hidden="true">
+      <path d="M13.58 5.66v.845l-5.994 5.66-1.71-2.063a61.427 61.427 0 0 1 4.265-2.988l-.02-.078c-1.828.196-4.107.294-6.387.294H0V4.835h3.734c2.28 0 4.56.098 6.387.294l.02-.059a67.638 67.638 0 0 1-4.265-3.006L7.586 0l5.994 5.66Z" fill="currentColor" />
+    </svg>
+  )
+}
 
 const LEVEL_HINT = 'the next grass level ✨'
 
@@ -60,11 +81,13 @@ export default function Dashboard() {
 
   if (!user) {
     return (
-      <div className="max-w-md mx-auto px-4 pt-16 text-center">
-        <div className="bg-white text-cocoa shadow-[0_10px_25px_rgba(0,0,0,0.12)] rounded-[24px] p-10">
-          <p className="font-display text-3xl">Log in to see your tasks</p>
-          <Link to="/auth">
-            <BrutButton className="mt-6 w-full" pulse>Log in / Sign up</BrutButton>
+      <div className="bg-[#FFF9F0] min-h-screen flex items-center justify-center px-4">
+        <div className="w-full max-w-md text-center bg-[#FFF9F0] border-2 border-[#0F0E0A] rounded-[1.5rem] p-10 shadow-brutal-lg">
+          <Grassbot size={72} mood="wave" style={{ margin: '0 auto 1.5rem' }} />
+          <p className="font-display text-3xl text-[#0F0E0A]">Log in to see your tasks</p>
+          <Link to="/auth" className="avy-btn avy-btn--lg mt-6 mx-auto w-fit">
+            <span className="avy-btn__text">Log in / Sign up</span>
+            <span className="avy-btn__icon"><ArrowIcon /></span>
           </Link>
         </div>
       </div>
@@ -72,112 +95,144 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-10">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="font-display text-4xl sm:text-5xl leading-none">
-            Hey, <span className="text-teal">{user.name.split(' ')[0]}</span> 👋
-          </h1>
-          <p className="mt-2 text-muted font-body font-semibold text-sm">
-            {posted.length} posted · {doing.length} doing · wallet ready when work's done
-          </p>
+    <div className="bg-[#FFF9F0] min-h-screen">
+      {/* Yellow hero header */}
+      <div className="bg-[#F9E84A] border-b-2 border-[#0F0E0A] pt-24 pb-10 relative overflow-hidden">
+        <div className="absolute right-0 top-0 w-[35%] opacity-10 pointer-events-none">
+          <svg viewBox="0 0 386 400" fill="none"><path fill="#0F0E0A" d="M115.415-56.646c27.361-10.951 55.489-16.17 84.985-10.076 40.714 8.42 64.637 33.98 75.035 73.257 9.349 35.348 3.777 70.616-.769 105.961-4.86 37.766-10.042 75.565-12.734 113.514-1.993 28.09 5.481 54.869 20.638 79.162 14.419 23.106 34.405 37.375 61.693 41.433 30.041 4.465 59.172-.835 88.412-6.653 26.135-5.192 52.289-10.684 78.69-13.939 22.265-2.747 44.838-1.383 65.775 8.431 38.064 17.842 51.287 57.852 44.901 96.147z" /></svg>
         </div>
-        <Link to="/post">
-          <motion.span whileHover={{ y: -3 }} whileTap={{ scale: 0.94 }} className="inline-block bg-teal text-white rounded-full px-6 py-3 font-body font-bold uppercase shadow-[0_10px_25px_rgba(13,115,119,0.35)]">
-            + Post a Task
-          </motion.span>
-        </Link>
+        <div className="max-w-[1400px] mx-auto px-8 relative z-10">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h1 className="font-display text-[clamp(2.5rem,5vw,4rem)] font-normal text-[#0F0E0A] leading-none">
+                Hey, <em className="italic">{user.name.split(' ')[0]}</em> 👋
+              </h1>
+              <p className="mt-2 font-body font-semibold text-sm text-[#0F0E0A]/65">
+                {posted.length} posted · {doing.length} doing · wallet ready when work's done
+              </p>
+            </div>
+            <Link to="/post" className="avy-btn avy-btn--lg">
+              <span className="avy-btn__text">+ Post a Task</span>
+              <span className="avy-btn__icon"><ArrowIcon size={16} /></span>
+            </Link>
+          </div>
+        </div>
       </div>
 
-      {/* grass / level strip */}
-      <div className="mt-6 flex flex-wrap items-center gap-4 rounded-[20px] bg-white text-cocoa shadow-[0_10px_25px_rgba(0,0,0,0.12)] p-4 sm:p-5">
-        <Grassbot size={54} mood={streak > 0 ? 'happy' : 'idle'} />
-        <div className="flex-1 min-w-56">
-          <div className="flex flex-wrap items-center gap-2">
-<Chip color="sage" rotate={-2}><Trophy className="size-3.5 inline mr-1 -mt-0.5" /> L{lvl.level.lvl} · {lvl.level.name}</Chip>
-<Chip color="coral" rotate={2}><Flame className="size-3.5 inline mr-1 -mt-0.5" /> {streak}-day grass streak</Chip>
-            <span className="text-xs font-body font-semibold text-muted">xp {xp}</span>
+      <div className="max-w-[1400px] mx-auto px-8 py-8 pb-24">
+        {/* Level / streak strip */}
+        <div className="flex flex-wrap items-center gap-4 rounded-[1.25rem] bg-[#0F0E0A] border-2 border-[#0F0E0A] shadow-brutal p-5 mb-8">
+          <Grassbot size={54} mood={streak > 0 ? 'happy' : 'idle'} />
+          <div className="flex-1 min-w-[14rem]">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="tag-pill border-2 border-[#F9E84A] shadow-brutal-accent" style={{ background: '#F9E84A', color: '#0F0E0A' }}>
+                <Trophy className="size-3.5 inline mr-1 -mt-0.5" /> L{lvl.level.lvl} · {lvl.level.name}
+              </span>
+              <span className="tag-pill border-2 border-[#F9A220]" style={{ background: '#F9A220', color: '#0F0E0A' }}>
+                <Flame className="size-3.5 inline mr-1 -mt-0.5" /> {streak}-day grass streak
+              </span>
+              <span className="font-body text-xs font-semibold text-[#FFF9F0]/50">xp {xp}</span>
+            </div>
+            <div className="mt-2.5 h-2 rounded-full bg-[#FFF9F0]/10 overflow-hidden border border-[#FFF9F0]/20">
+              <motion.div
+                className="h-full bg-[#F9E84A]"
+                initial={{ width: 0 }}
+                animate={{ width: `${lvl.pct}%` }}
+                transition={{ duration: 0.8, ease: 'easeOut' }}
+              />
+            </div>
+            <p className="mt-1 text-[11px] font-body font-semibold text-[#FFF9F0]/40">
+              {lvl.xpNeeded > 0 ? `${lvl.xpNeeded} xp to ${LEVEL_HINT}` : 'maxed out. mad respect.'}
+            </p>
           </div>
-          <div className="mt-2.5 h-2 rounded-full bg-soft overflow-hidden">
-            <motion.div
-              className="h-full bg-gradient-to-r from-green to-lightblue"
-              initial={{ width: 0 }}
-              animate={{ width: `${lvl.pct}%` }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
-            />
-          </div>
-          <p className="mt-1 text-[11px] font-body font-semibold text-muted">
-            {lvl.xpNeeded > 0 ? `${lvl.xpNeeded} xp to ${LEVEL_HINT}` : 'maxed out. mad respect.'}
-          </p>
+          <Sparkles className="size-5 text-[#F9A220] hidden sm:block" />
         </div>
-        <Sparkles className="size-5 text-orange hidden sm:block" />
-      </div>
 
-      <div className="mt-8 flex flex-wrap items-center gap-2">
-        <Pill active={tab === 'posted'} onClick={() => setTab('posted')}>
-          <ClipboardList className="size-4 inline mr-1.5 -mt-0.5" /> Posted by me
-        </Pill>
-        <Pill active={tab === 'doing'} onClick={() => setTab('doing')}>
-          <UserRound className="size-4 inline mr-1.5 -mt-0.5" /> I'm doing
-        </Pill>
-        <span className="mx-2 h-5 w-0.5 bg-ink/10" />
-        {FILTERS.map((f) => (
-          <Pill key={f.key} active={filter === f.key} onClick={() => setFilter(f.key)}>
-            {f.label}
+        {/* Tab + filter row */}
+        <div className="flex flex-wrap items-center gap-2 mb-6">
+          <Pill active={tab === 'posted'} onClick={() => setTab('posted')}>
+            <ClipboardList className="size-4 inline mr-1.5 -mt-0.5" /> Posted by me
           </Pill>
-        ))}
-      </div>
+          <Pill active={tab === 'doing'} onClick={() => setTab('doing')}>
+            <UserRound className="size-4 inline mr-1.5 -mt-0.5" /> I'm doing
+          </Pill>
+          <span className="mx-2 h-5 w-0.5 bg-[#0F0E0A]/10" />
+          {FILTERS.map((f) => (
+            <Pill key={f.key} active={filter === f.key} onClick={() => setFilter(f.key)}>
+              {f.label}
+            </Pill>
+          ))}
+        </div>
 
-      <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {tab === 'posted' &&
-          (posted.length === 0 ? (
-            <Empty msg="nothing here yet. post your first task and stop scrolling." cta="Post a task" to="/post" />
-          ) : (
-            posted.map((t, i) => <TaskCard key={t.id} task={t} i={i} />)
-          ))}
-        {tab === 'doing' &&
-          (doing.length === 0 ? (
-            <Empty msg="no tasks accepted yet. the feed is full of easy money, bestie." cta="Browse tasks" to="/tasks" />
-          ) : (
-            doing.map((t, i) => (
-              <div key={t.id}>
-                <TaskCard task={t} i={i} />
-                <div className="mt-2 flex gap-2">
-                  {t.status === 'in_progress' && (
-                    <button
-                      onClick={() => {
-                        store.setStatus(t.id, 'completed')
-                        toast('Marked complete ✅', 'Poster needs to confirm. No pressure.')
-                      }}
-                      className="flex-1 rounded-xl bg-green text-white border-brut px-3 py-2 font-body font-bold text-sm hover:shadow-brut-sm transition-all"
-                    >
-                      <CheckCircle2 className="size-4 inline mr-1 -mt-0.5" /> Mark complete
-                    </button>
-                  )}
-                  {t.status === 'completed' && (
-                    <button
-                      onClick={() => toast('Dispute raised', 'Our team will review within 24 hrs. Stay calm.', 'error')}
-                      className="flex-1 rounded-xl bg-danger text-white border-brut px-3 py-2 font-body font-bold text-sm hover:shadow-brut-sm transition-all"
-                    >
-                      <ShieldAlert className="size-4 inline mr-1 -mt-0.5" /> Dispute
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))
-          ))}
+        {/* Task grid */}
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+          className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {tab === 'posted' &&
+            (posted.length === 0 ? (
+              <Empty msg="nothing here yet. post your first task and stop scrolling." cta="Post a task" to="/post" />
+            ) : (
+              posted.map((t, i) => (
+                <motion.div key={t.id} variants={itemVariants}>
+                  <TaskCard task={t} i={i} />
+                </motion.div>
+              ))
+            ))}
+          {tab === 'doing' &&
+            (doing.length === 0 ? (
+              <Empty msg="no tasks accepted yet. the feed is full of easy money, bestie." cta="Browse tasks" to="/tasks" />
+            ) : (
+              doing.map((t, i) => (
+                <motion.div key={t.id} variants={itemVariants}>
+                  <TaskCard task={t} i={i} />
+                  <div className="mt-2 flex gap-2">
+                    {t.status === 'in_progress' && (
+                      <button
+                        onClick={() => {
+                          store.setStatus(t.id, 'completed')
+                          toast('Marked complete ✅', 'Poster needs to confirm. No pressure.')
+                        }}
+                        className="flex-1 rounded-xl bg-[#4cad7d] text-white border-2 border-[#0F0E0A] shadow-brutal px-3 py-2 font-body font-bold text-sm hover:-translate-y-0.5 hover:shadow-brutal-lg transition-all"
+                      >
+                        <CheckCircle2 className="size-4 inline mr-1 -mt-0.5" /> Mark complete
+                      </button>
+                    )}
+                    {t.status === 'completed' && (
+                      <button
+                        onClick={() => toast('Dispute raised', 'Our team will review within 24 hrs. Stay calm.', 'error')}
+                        className="flex-1 rounded-xl bg-[#c8254a] text-white border-2 border-[#0F0E0A] shadow-brutal px-3 py-2 font-body font-bold text-sm hover:-translate-y-0.5 hover:shadow-brutal-lg transition-all"
+                      >
+                        <ShieldAlert className="size-4 inline mr-1 -mt-0.5" /> Dispute
+                      </button>
+                    )}
+                  </div>
+                </motion.div>
+              ))
+            ))}
+        </motion.div>
       </div>
     </div>
   )
 }
 
 function Empty({ msg, cta, to }: { msg: string; cta: string; to: string }) {
+  function ArrowIcon({ size = 13 }: { size?: number }) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 14 13" fill="none" aria-hidden="true">
+        <path d="M13.58 5.66v.845l-5.994 5.66-1.71-2.063a61.427 61.427 0 0 1 4.265-2.988l-.02-.078c-1.828.196-4.107.294-6.387.294H0V4.835h3.734c2.28 0 4.56.098 6.387.294l.02-.059a67.638 67.638 0 0 1-4.265-3.006L7.586 0l5.994 5.66Z" fill="currentColor" />
+      </svg>
+    )
+  }
   return (
-    <div className="col-span-full bg-white text-cocoa shadow-[0_10px_25px_rgba(0,0,0,0.12)] rounded-[24px] p-12 text-center">
-      <div className="mx-auto w-fit"><Grassbot size={80} mood="wave" /></div>
-      <p className="mt-4 font-body font-bold text-lg text-neutral-600">{msg}</p>
-      <Link to={to} className="inline-block mt-5 bg-orange text-white border-brut-4 rounded-2xl px-6 py-3 font-body font-bold uppercase hover:bg-maroon">
-        {cta}
+    <div className="col-span-full py-16 text-center bg-[#FFF9F0] border-2 border-[#0F0E0A] shadow-brutal rounded-[1.5rem] flex flex-col items-center">
+      <Grassbot size={64} mood="idle" style={{ marginBottom: '1.5rem', opacity: 0.8 }} />
+      <p className="font-display text-2xl text-[#0F0E0A]">{msg}</p>
+      <Link to={to} className="avy-btn avy-btn--sm mt-5 mx-auto w-fit border-2 border-[#0F0E0A] shadow-[2px_2px_0_#0F0E0A]" style={{ background: '#0F0E0A', color: '#FFF9F0' }}>
+        <span className="avy-btn__text">{cta}</span>
+        <span className="avy-btn__icon"><ArrowIcon /></span>
       </Link>
     </div>
   )

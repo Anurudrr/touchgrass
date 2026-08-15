@@ -111,6 +111,106 @@ export function useDB(): DBShape {
   return db
 }
 
+/* Granular hooks for specific data subsets */
+export function useTasks(): Task[] {
+  const [, force] = useState(0)
+  useEffect(() => {
+    const l = () => force((n) => n + 1)
+    listeners.add(l)
+    return () => {
+      listeners.delete(l)
+    }
+  }, [])
+  return db.tasks
+}
+
+export function useOpenTasks(): Task[] {
+  const [, force] = useState(0)
+  useEffect(() => {
+    const l = () => force((n) => n + 1)
+    listeners.add(l)
+    return () => {
+      listeners.delete(l)
+    }
+  }, [])
+  return db.tasks.filter((t) => t.status === 'open' || t.status === 'accepted' || t.status === 'in_progress')
+}
+
+export function useUserTasks(userId: string): Task[] {
+  const [, force] = useState(0)
+  useEffect(() => {
+    const l = () => force((n) => n + 1)
+    listeners.add(l)
+    return () => {
+      listeners.delete(l)
+    }
+  }, [userId])
+  return db.tasks.filter((t) => t.posterId === userId)
+}
+
+export function useMessages(taskId: string): Message[] {
+  const [, force] = useState(0)
+  useEffect(() => {
+    const l = () => force((n) => n + 1)
+    listeners.add(l)
+    return () => {
+      listeners.delete(l)
+    }
+  }, [taskId])
+  return db.messages.filter((m) => m.taskId === taskId).sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+}
+
+export function useAssignments(userId: string): Assignment[] {
+  const [, force] = useState(0)
+  useEffect(() => {
+    const l = () => force((n) => n + 1)
+    listeners.add(l)
+    return () => {
+      listeners.delete(l)
+    }
+  }, [userId])
+  return db.assignments.filter((a) => a.doerId === userId)
+}
+
+export function usePayments(userId: string): Payment[] {
+  const [, force] = useState(0)
+  useEffect(() => {
+    const l = () => force((n) => n + 1)
+    listeners.add(l)
+    return () => {
+      listeners.delete(l)
+    }
+  }, [userId])
+  return db.payments.filter((p) => {
+    const a = db.assignments.find((x) => x.taskId === p.taskId)
+    return a?.doerId === userId && p.status === 'released'
+  })
+}
+
+export function useReviews(userId: string): Review[] {
+  const [, force] = useState(0)
+  useEffect(() => {
+    const l = () => force((n) => n + 1)
+    listeners.add(l)
+    return () => {
+      listeners.delete(l)
+    }
+  }, [userId])
+  return db.reviews.filter((r) => r.revieweeId === userId)
+}
+
+export function useUser(userId: string): User | undefined {
+  const [, force] = useState(0)
+  useEffect(() => {
+    const l = () => force((n) => n + 1)
+    listeners.add(l)
+    return () => {
+      listeners.delete(l)
+    }
+  }, [userId])
+  return db.users.find((u) => u.id === userId)
+}
+
 export const store = {
   login(phone: string, name: string, role: Role, area: string, bio: string): User {
     const existing = db.users.find((u) => u.phone === phone)
@@ -256,6 +356,10 @@ export const store = {
 
   user(id: string) {
     return db.users.find((u) => u.id === id)
+  },
+
+  userByName(name: string) {
+    return db.users.find((u) => u.name.toLowerCase() === name.toLowerCase())
   },
 }
 

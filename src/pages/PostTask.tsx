@@ -1,12 +1,21 @@
 import { useMemo, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router'
 import { motion } from 'framer-motion'
-import { ArrowRight, Flame, ImagePlus } from 'lucide-react'
-import { BrutButton, Field, Select, inputCls, toast } from '../components/ui'
+import { Flame, ImagePlus } from 'lucide-react'
+import { toast } from '../components/ui'
 import { store } from '../lib/db'
 import { CATEGORIES } from '../lib/types'
 import { categoryIcon } from '../components/icons'
 import { timeLeft } from '../lib/utils'
+import { inputCls } from '../components/ui'
+
+function ArrowIcon({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 14 13" fill="none" aria-hidden="true">
+      <path d="M13.58 5.66v.845l-5.994 5.66-1.71-2.063a61.427 61.427 0 0 1 4.265-2.988l-.02-.078c-1.828.196-4.107.294-6.387.294H0V4.835h3.734c2.28 0 4.56.098 6.387.294l.02-.059a67.638 67.638 0 0 1-4.265-3.006L7.586 0l5.994 5.66Z" fill="currentColor" />
+    </svg>
+  )
+}
 
 export default function PostTask() {
   const navigate = useNavigate()
@@ -24,14 +33,13 @@ export default function PostTask() {
 
   if (!user) {
     return (
-      <div className="max-w-md mx-auto px-4 pt-16 text-center">
-        <div className="bg-white text-cocoa shadow-[0_10px_25px_rgba(0,0,0,0.12)] rounded-[24px] p-10">
-          <p className="font-display text-3xl">Log in first</p>
-          <p className="mt-3 text-neutral-600 font-body font-semibold">You need an account to post tasks. Takes 60 seconds.</p>
-          <Link to="/auth">
-            <BrutButton className="mt-6 w-full" pulse>
-              Log in / Sign up <ArrowRight className="size-4 inline ml-2" />
-            </BrutButton>
+      <div className="bg-[#FFF9F0] min-h-screen flex items-center justify-center px-4">
+        <div className="w-full max-w-md text-center bg-[#FFF9F0] border-2 border-[#0F0E0A] rounded-[1.5rem] p-10 shadow-brutal-lg">
+          <p className="font-display text-3xl text-[#0F0E0A]">Log in first</p>
+          <p className="mt-3 font-body font-semibold text-[#5A574F]">You need an account to post tasks. Takes 60 seconds.</p>
+          <Link to="/auth" className="avy-btn avy-btn--lg mt-6 mx-auto w-fit">
+            <span className="avy-btn__text">Log in / Sign up</span>
+            <span className="avy-btn__icon"><ArrowIcon size={16} /></span>
           </Link>
         </div>
       </div>
@@ -42,7 +50,7 @@ export default function PostTask() {
     if (title.trim().length < 8) return toast('Title too short 😅', 'Give doers a clear idea — 8 chars min', 'error')
     if (desc.trim().length < 20) return toast('Add more detail', 'What, where, when — be specific (20+)', 'error')
     const p = Number(price)
-    if (!p || p < 20) return toast('Set a fair price', 'Minimum ₹20, grassbot won\'t budge', 'error')
+    if (!p || p < 20) return toast('Set a fair price', "Minimum ₹20, grassbot won't budge", 'error')
     if (!location.trim()) return toast('Add a location', 'So nearby doers can find you', 'error')
     store.postTask(user.id, {
       title: title.trim(),
@@ -63,136 +71,186 @@ export default function PostTask() {
   const Icon = categoryIcon(category)
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-10 grid gap-8 lg:grid-cols-2">
-      <div>
-        <h1 className="font-display text-4xl sm:text-5xl leading-none">
-          Post a <span className="text-orange">task</span>
-        </h1>
-        <p className="mt-2 text-muted font-body font-semibold text-sm">Describe it once. Doers compete to do it. You relax.</p>
-
-        <div className="mt-7 bg-white text-cocoa shadow-[0_10px_25px_rgba(0,0,0,0.12)] rounded-[24px] p-6 space-y-5">
-          <Field label="Title">
-            <input className={inputCls} placeholder="e.g. Print 60 pages and spiral-bind 3 copies" value={title} onChange={(e) => setTitle(e.target.value)} />
-          </Field>
-          <Field label="What's the job?">
-            <textarea
-              className={`${inputCls} min-h-32 resize-y`}
-              placeholder="Give every detail — what needs doing, where, how long, any access notes. Specific = fewer messages."
-              value={desc}
-              onChange={(e) => setDesc(e.target.value)}
-            />
-          </Field>
-          <div className="grid grid-cols-2 gap-4">
-            <Field label="Category">
-              <Select value={category} onChange={(e) => setCategory(e.target.value)}>
-                {CATEGORIES.map((c) => (
-                  <option key={c.key} value={c.label}>
-                    {c.label}
-                  </option>
-                ))}
-              </Select>
-            </Field>
-            <Field label="Price (₹)">
-              <input className={inputCls} inputMode="numeric" placeholder="150" value={price} onChange={(e) => setPrice(e.target.value.replace(/[^\d]/g, '').slice(0, 5))} />
-            </Field>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <Field label="Location / area">
-              <input className={inputCls} placeholder="e.g. Indiranagar 100ft Road" value={location} onChange={(e) => setLocation(e.target.value)} />
-            </Field>
-            <Field label="Deadline">
-              <Select value={hours} onChange={(e) => setHours(e.target.value)}>
-                <option value="3">In 3 hours</option>
-                <option value="12">In 12 hours</option>
-                <option value="24">Tomorrow</option>
-                <option value="72">In 3 days</option>
-                <option value="168">This week</option>
-              </Select>
-            </Field>
-          </div>
-
-          <button
-            onClick={() => setUrgent(!urgent)}
-            className={`w-full flex items-center justify-between rounded-2xl border border-ink/15 p-4 transition-all ${
-              urgent ? 'bg-coral text-white shadow-[0_8px_16px_rgba(232,125,74,0.3)]' : 'bg-white hover:bg-soft'
-            }`}
-          >
-            <span className="flex items-center gap-3 font-body font-bold">
-              <Flame className={urgent ? 'text-white' : 'text-rose'} /> Urgent — needs doing fast
-            </span>
-            <span className={`size-5 rounded-full border-2 ${urgent ? 'bg-white border-white' : 'border-ink/30'}`} />
-          </button>
-
-          <label className="block">
-            <div className="rounded-2xl border-2 border-dashed border-ink/15 p-4 bg-white hover:bg-soft transition-colors cursor-pointer">
-              {photo ? (
-                <img src={photo} alt="task preview" className="max-h-40 rounded-xl mx-auto" />
-              ) : (
-                <div className="flex items-center gap-3 font-body font-bold text-neutral-500">
-                  <ImagePlus className="size-5" /> Add a photo (optional)
-                </div>
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => {
-                  const f = e.target.files?.[0]
-                  if (f) {
-                    const r = new FileReader()
-                    r.onload = () => setPhoto(String(r.result))
-                    r.readAsDataURL(f)
-                  }
-                }}
-              />
-            </div>
-          </label>
-
-          <BrutButton className="w-full" size="lg" onClick={submit} pulse>
-            Post Task — ₹{Number(price) || 0} <ArrowRight className="size-5 inline ml-2" />
-          </BrutButton>
-          <p className="text-center text-xs text-neutral-500 font-body font-semibold">
-            Free to post · 15% platform fee only when it's done
-          </p>
+    <div className="bg-[#FFF9F0] min-h-screen">
+      {/* Yellow hero header */}
+      <div className="bg-[#F9E84A] border-b-2 border-[#0F0E0A] pt-24 pb-10">
+        <div className="max-w-[1400px] mx-auto px-8">
+          <h1 className="font-display text-[clamp(2.5rem,5vw,4rem)] font-normal text-[#0F0E0A] leading-none">
+            Post a <em className="italic">task</em>
+          </h1>
+          <p className="mt-2 font-body font-semibold text-sm text-[#0F0E0A]/65">Describe it once. Doers compete to do it. You relax.</p>
         </div>
       </div>
 
-      {/* live preview */}
-      <div className="lg:sticky lg:top-28 self-start">
-        <p className="font-body font-bold uppercase text-xs tracking-widest text-orange mb-3">Live preview</p>
-        <motion.div
-          layout
-          className="bg-white text-cocoa shadow-[0_10px_25px_rgba(0,0,0,0.12)] rounded-[24px] p-6 max-w-md"
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="size-12 rounded-2xl border border-ink/10 bg-orange flex items-center justify-center">
-                <Icon className="size-6" />
+      <div className="max-w-[1400px] mx-auto px-8 py-8 pb-24 grid gap-8 lg:grid-cols-2">
+        {/* Form */}
+        <div>
+          <div className="bg-[#FFF9F0] border-2 border-[#0F0E0A] rounded-[1.5rem] p-6 shadow-brutal space-y-5">
+            {/* Title */}
+            <div>
+              <label className="label">Title</label>
+              <input
+                className={inputCls}
+                placeholder="e.g. Print 60 pages and spiral-bind 3 copies"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
+
+            {/* Description */}
+            <div>
+              <label className="label">What's the job?</label>
+              <textarea
+                className={`${inputCls} min-h-32 resize-y`}
+                placeholder="Give every detail — what needs doing, where, how long, any access notes. Specific = fewer messages."
+                value={desc}
+                onChange={(e) => setDesc(e.target.value)}
+              />
+            </div>
+
+            {/* Category + Price */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="label">Category</label>
+                <select
+                  className={inputCls}
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                >
+                  {CATEGORIES.map((c) => (
+                    <option key={c.key} value={c.label}>{c.label}</option>
+                  ))}
+                </select>
               </div>
               <div>
-                <p className="font-body font-bold text-sm">{category}</p>
-                <p className="text-xs text-neutral-500 font-semibold">{location || 'Your area'} · {timeLeft(previewDeadline)}</p>
+                <label className="label">Price (₹)</label>
+                <input
+                  className={inputCls}
+                  inputMode="numeric"
+                  placeholder="150"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value.replace(/[^\d]/g, '').slice(0, 5))}
+                />
               </div>
             </div>
-            <span className="font-display text-3xl">{Number(price) ? `₹${Number(price).toLocaleString('en-IN')}` : '₹?'}</span>
-          </div>
-          <h2 className="mt-4 font-display text-2xl leading-tight min-h-14">
-            {title || 'Your task title appears here…'}
-          </h2>
-          <p className="mt-2 text-sm text-neutral-600 min-h-20">{desc || 'Your description appears here. Doers will read this before accepting.'}</p>
-          {photo && <img src={photo} alt="" className="mt-3 max-h-40 rounded-xl mx-auto" />}
-          <div className="mt-4 flex items-center justify-between border-t border-ink/10 pt-3">
-            <div className="flex items-center gap-1.5">
-              <div className="size-7 rounded-full bg-ink text-orange flex items-center justify-center text-xs font-body font-bold">
-                {user.name.slice(0, 1).toUpperCase()}
+
+            {/* Location + Deadline */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="label">Location / area</label>
+                <input
+                  className={inputCls}
+                  placeholder="e.g. Indiranagar 100ft Road"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                />
               </div>
-              <span className="font-body font-semibold text-sm">{user.name}</span>
+              <div>
+                <label className="label">Deadline</label>
+                <select className={inputCls} value={hours} onChange={(e) => setHours(e.target.value)}>
+                  <option value="3">In 3 hours</option>
+                  <option value="12">In 12 hours</option>
+                  <option value="24">Tomorrow</option>
+                  <option value="72">In 3 days</option>
+                  <option value="168">This week</option>
+                </select>
+              </div>
             </div>
-            {urgent && <span className="px-2.5 py-1 rounded-lg bg-danger text-white text-xs font-body font-bold uppercase border-2 border-cocoa/90 shadow-[2px_3px_0_rgba(0,0,0,0.9)] -rotate-3">URGENT</span>}
+
+            {/* Urgent toggle */}
+            <button
+              onClick={() => setUrgent(!urgent)}
+              className={`w-full flex items-center justify-between rounded-2xl border-2 p-4 transition-all ${
+                urgent
+                  ? 'bg-[#c8254a] text-white border-[#0F0E0A] shadow-brutal'
+                  : 'bg-[#FFF4E2] text-[#0F0E0A] border-[#E8E2D4] hover:border-[#0F0E0A]'
+              }`}
+            >
+              <span className="flex items-center gap-3 font-body font-bold">
+                <Flame className={urgent ? 'text-white' : 'text-[#c8254a]'} /> Urgent — needs doing fast
+              </span>
+              <span className={`size-5 rounded-full border-2 transition-all ${urgent ? 'bg-white border-white' : 'border-[#0F0E0A]/30'}`} />
+            </button>
+
+            {/* Photo upload */}
+            <label className="block cursor-pointer">
+              <div className={`rounded-2xl border-2 border-dashed p-4 transition-colors ${photo ? 'border-[#0F0E0A] bg-[#FFF4E2]' : 'border-[#E8E2D4] bg-[#FFF9F0] hover:bg-[#FFF4E2] hover:border-[#0F0E0A]'}`}>
+                {photo ? (
+                  <img src={photo} alt="task preview" className="max-h-40 rounded-xl mx-auto" />
+                ) : (
+                  <div className="flex items-center gap-3 font-body font-bold text-[#5A574F]">
+                    <ImagePlus className="size-5" /> Add a photo (optional)
+                  </div>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0]
+                    if (f) {
+                      const r = new FileReader()
+                      r.onload = () => setPhoto(String(r.result))
+                      r.readAsDataURL(f)
+                    }
+                  }}
+                />
+              </div>
+            </label>
+
+            {/* Submit */}
+            <button onClick={submit} className="avy-btn avy-btn--lg w-full justify-center">
+              <span className="avy-btn__text w-full text-center">Post Task — ₹{Number(price) || 0}</span>
+              <span className="avy-btn__icon"><ArrowIcon size={16} /></span>
+            </button>
+            <p className="text-center text-xs text-[#9A968C] font-body font-semibold">
+              Free to post · 15% platform fee only when it's done
+            </p>
           </div>
-        </motion.div>
-        <div className="mt-4 bg-white shadow-[0_10px_25px_rgba(0,0,0,0.12)] rounded-2xl p-4 text-sm text-muted font-body font-medium">
-          💡 Tip: "urgent" tasks get ~3x more acceptances. Price fairly and set a realistic deadline.
+        </div>
+
+        {/* Live preview */}
+        <div className="lg:sticky lg:top-28 self-start space-y-4">
+          <p className="font-body font-bold uppercase text-xs tracking-widest text-[#F9A220]">Live preview</p>
+          <motion.div
+            layout
+            className="bg-[#F9E84A] border-2 border-[#0F0E0A] rounded-[1.5rem] shadow-brutal p-6 max-w-md"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="size-12 rounded-2xl border-2 border-[#0F0E0A] bg-[#0F0E0A] flex items-center justify-center shadow-brutal">
+                  <Icon className="size-6 text-[#F9E84A]" />
+                </div>
+                <div>
+                  <p className="font-body font-bold text-sm text-[#0F0E0A]">{category}</p>
+                  <p className="text-xs text-[#0F0E0A]/60 font-semibold">{location || 'Your area'} · {timeLeft(previewDeadline)}</p>
+                </div>
+              </div>
+              <span className="font-display text-3xl text-[#0F0E0A]">{Number(price) ? `₹${Number(price).toLocaleString('en-IN')}` : '₹?'}</span>
+            </div>
+            <h2 className="mt-4 font-display text-2xl leading-tight min-h-14 text-[#0F0E0A]">
+              {title || 'Your task title appears here…'}
+            </h2>
+            <p className="mt-2 font-body text-sm text-[#0F0E0A]/65 min-h-20">{desc || 'Your description appears here. Doers will read this before accepting.'}</p>
+            {photo && <img src={photo} alt="" className="mt-3 max-h-40 rounded-xl mx-auto" />}
+            <div className="mt-4 flex items-center justify-between border-t-2 border-[#0F0E0A]/15 pt-3">
+              <div className="flex items-center gap-1.5">
+                <div className="size-7 rounded-full bg-[#0F0E0A] text-[#F9E84A] border-2 border-[#0F0E0A] flex items-center justify-center text-xs font-body font-bold">
+                  {user.name.slice(0, 1).toUpperCase()}
+                </div>
+                <span className="font-body font-semibold text-sm text-[#0F0E0A]">{user.name}</span>
+              </div>
+              {urgent && (
+                <span className="tag-pill border-2 border-[#0F0E0A] shadow-brutal -rotate-3" style={{ background: '#c8254a', color: '#fff' }}>
+                  URGENT
+                </span>
+              )}
+            </div>
+          </motion.div>
+
+          <div className="bg-[#FFF9F0] border-2 border-[#0F0E0A] rounded-2xl shadow-brutal p-4 font-body font-medium text-sm text-[#5A574F]">
+            💡 Tip: "urgent" tasks get ~3x more acceptances. Price fairly and set a realistic deadline.
+          </div>
         </div>
       </div>
     </div>
