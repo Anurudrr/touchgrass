@@ -1,22 +1,32 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createPortal } from 'react-dom'
-import { Search, Command, X, KeyK, ArrowRight, Home, FolderOpen, User, Settings, Plus, List, MapPin, Bell } from 'lucide-react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { Search, Command, X, Keyboard, ArrowRight, Home, FolderOpen, User, Plus, List, Bell } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { store } from '../lib/db'
-import { toast } from './ui'
 import { playHoverSound, playClickSound } from '../lib/audio'
 import { useReduceMotion } from '../lib/reduceMotion.tsx'
 
-const COMMANDS = [
-  { id: 'home', label: 'Go Home', description: 'Return to landing page', icon: Home, action: () => navigate('/'), shortcut: 'G H' },
-  { id: 'browse', label: 'Browse Tasks', description: 'View all available tasks', icon: List, action: () => navigate('/tasks'), shortcut: 'G T' },
-  { id: 'post', label: 'Post a Task', description: 'Create a new task', icon: Plus, action: () => navigate('/post'), shortcut: 'G P' },
-  { id: 'dashboard', label: 'My Dashboard', description: 'View your tasks and stats', icon: FolderOpen, action: () => navigate('/dashboard'), shortcut: 'G D' },
-  { id: 'profile', label: 'My Profile', description: 'View and edit your profile', icon: User, action: () => navigate('/profile'), shortcut: 'G U' },
-  { id: 'search', label: 'Search Tasks', description: 'Find tasks by keyword', icon: Search, action: () => navigate('/tasks'), shortcut: '⌘ K' },
-  { id: 'notifications', label: 'Notifications', description: 'View your notifications', icon: Bell, action: () => navigate('/dashboard'), shortcut: 'G N' },
-]
+function getCommands(navigate: ReturnType<typeof useNavigate>) {
+  return [
+    { id: 'home', label: 'Go Home', description: 'Return to landing page', icon: Home, action: () => navigate('/'), shortcut: 'G H' },
+    { id: 'browse', label: 'Browse Tasks', description: 'View all available tasks', icon: List, action: () => navigate('/tasks'), shortcut: 'G T' },
+    { id: 'post', label: 'Post a Task', description: 'Create a new task', icon: Plus, action: () => navigate('/post'), shortcut: 'G P' },
+    { id: 'dashboard', label: 'My Dashboard', description: 'View your tasks and stats', icon: FolderOpen, action: () => navigate('/dashboard'), shortcut: 'G D' },
+    { id: 'profile', label: 'My Profile', description: 'View and edit your profile', icon: User, action: () => navigate('/profile'), shortcut: 'G U' },
+    { id: 'search', label: 'Search Tasks', description: 'Find tasks by keyword', icon: Search, action: () => navigate('/tasks'), shortcut: '⌘ K' },
+    { id: 'notifications', label: 'Notifications', description: 'View your notifications', icon: Bell, action: () => navigate('/dashboard'), shortcut: 'G N' },
+  ]
+}
+
+interface CommandItem {
+  id: string
+  label: string
+  description: string
+  icon: React.ComponentType<{ size?: number }>
+  action: () => void
+  shortcut: string
+}
 
 export function CommandPalette() {
   const { reduceMotion } = useReduceMotion()
@@ -25,8 +35,9 @@ export function CommandPalette() {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
-  const location = useLocation()
   const user = store.sessionUser()
+
+  const COMMANDS = getCommands(navigate)
 
   const filteredCommands = COMMANDS.filter(cmd => {
     if (!user && ['dashboard', 'profile', 'notifications'].includes(cmd.id)) return false
@@ -36,7 +47,7 @@ export function CommandPalette() {
            cmd.shortcut.toLowerCase().includes(q)
   })
 
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!isOpen) return
 
     switch (e.key) {
@@ -152,7 +163,7 @@ export function CommandPalette() {
                   )}
                 </div>
                 <kbd className="px-3 py-1.5 bg-[var(--color-ink)] text-[var(--color-cream)] rounded-lg font-body text-xs font-bold border-2 border-[var(--color-ink)]">
-                  <Command size={12} /> K
+                  <Keyboard size={12} /> K
                 </kbd>
               </div>
 

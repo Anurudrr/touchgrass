@@ -169,18 +169,6 @@ export default function App() {
   const variants = routeVariants[routeKey] ?? routeVariants['/']
   const [isTransitioning, setIsTransitioning] = useState(false)
 
-  const handleRouteChange = useCallback(async (pathname: string) => {
-    if (!document.startViewTransition) return false
-    
-    setIsTransitioning(true)
-    await document.startViewTransition(async () => {
-      // Navigation will happen via router
-    }).ready
-    
-    setIsTransitioning(false)
-    return true
-  }, [])
-
   return (
     <ThemeProvider>
       <ReduceMotionProvider>
