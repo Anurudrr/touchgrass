@@ -816,6 +816,110 @@
   }
 }
 
+/* ===== AARDVARK SPLIT BUTTON (avy-btn) ===== */
+@layer components {
+  .avy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    border-radius: 1.5rem;
+    border: 2px solid var(--color-ink);
+    background: var(--color-ink);
+    color: var(--color-cream);
+    padding: 0.875rem 2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 3px 4px 0 var(--color-ink);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .avy-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-canvas), 0 0 0 4px var(--color-grass);
+  }
+
+  .avy-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 5px 6px 0 var(--color-ink);
+  }
+
+  .avy-btn:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 1px 2px 0 var(--color-ink);
+  }
+
+  .avy-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 3px 4px 0 var(--color-ink);
+  }
+
+  .avy-btn__text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .avy-btn__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-gold);
+    color: var(--color-ink);
+    border-radius: 9999px;
+    padding: 0.5rem;
+    transition: all 0.2s ease;
+  }
+
+  .avy-btn:hover .avy-btn__icon {
+    transform: translateX(4px);
+  }
+
+  /* Sizes */
+  .avy-btn--sm {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    border-radius: 1rem;
+  }
+
+  .avy-btn--sm .avy-btn__icon {
+    padding: 0.375rem;
+  }
+
+  .avy-btn--lg {
+    padding: 1rem 2.5rem;
+    font-size: 1.125rem;
+    border-radius: 2rem;
+  }
+
+  .avy-btn--lg .avy-btn__icon {
+    padding: 0.625rem;
+  }
+
+  /* Yellow variant (for warnings/secondary actions) */
+  .avy-btn--yellow {
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    color: var(--color-ink);
+  }
+
+  .avy-btn--yellow:hover:not(:disabled) {
+    background: var(--color-yellow);
+    border-color: var(--color-yellow);
+    box-shadow: 5px 6px 0 var(--color-gold);
+  }
+
+  .avy-btn--yellow .avy-btn__icon {
+    background: var(--color-ink);
+    color: var(--color-cream);
+  }
+}
+
 /* ===================== TEXTURE OVERLAYS ===================== */
 @layer utilities {
   /* Paper texture */
