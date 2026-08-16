@@ -347,7 +347,7 @@ export default function Feed() {
                 </motion.div>
               </SortableContext>
               <DragOverlay>
-                {(props: { active: { id: string } | null; dropAnimation?: { transform: { x: number; y: number; scaleX: number; scaleY: number } } }) => {
+                {((props: { active: { id: string } | null; dropAnimation?: { transform: { x: number; y: number; scaleX: number; scaleY: number } } }) => {
                   const { active, dropAnimation } = props
                   if (!active) return null
                   const task = tasks.find(t => t.id === active.id)
@@ -362,7 +362,7 @@ export default function Feed() {
                       <TaskCard task={task} i={0} />
                     </motion.div>
                   )
-                }}
+                }) as React.ReactNode}
               </DragOverlay>
             </div>
           </DndContext>
