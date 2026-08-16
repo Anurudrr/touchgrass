@@ -2,19 +2,11 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, BadgeCheck, FileCheck2, Lock, Phone, ShieldCheck, Smartphone, UserRound, ChevronRight } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from '../components/ui'
 import { store } from '../lib/db'
 import type { Role } from '../lib/types'
 import { BrutButton } from '../components/ui'
-
-/* ─── Arrow icon ─── */
-function ArrowIcon({ size = 13 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 14 13" fill="none" aria-hidden="true">
-      <path d="M13.58 5.66v.845l-5.994 5.66-1.71-2.063a61.427 61.427 0 0 1 4.265-2.988l-.02-.078c-1.828.196-4.107.294-6.387.294H0V4.835h3.734c2.28 0 4.56.098 6.387.294l.02-.059a67.638 67.638 0 0 1-4.265-3.006L7.586 0l5.994 5.66Z" fill="currentColor" />
-    </svg>
-  )
-}
 
 /* ─── Card shell ─── */
 function CardShell({ title, sub, children }: { title: string; sub: string; children: React.ReactNode }) {
