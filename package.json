@@ -5,13 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "prisma generate && tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
     "server": "tsx server/src/index.ts",
     "server:dev": "tsx watch server/src/index.ts",
     "seed": "tsx server/src/seed.ts",
-    "dev:all": "concurrently -n api,web -c green,blue \"npm run server:dev\" \"npm run dev\""
+    "dev:all": "concurrently -n api,web -c green,blue \"npm run server:dev\" \"npm run dev\"",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.9.1",
