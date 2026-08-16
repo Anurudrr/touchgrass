@@ -1,5 +1,5 @@
-import { useEffect, useState, Suspense, lazy } from 'react'
-import { Route, Routes, useLocation, Navigate } from 'react-router-dom'
+import { useEffect, useState, Suspense, lazy, useCallback } from 'react'
+import { Route, Routes, useLocation, Navigate, useNavigation } from 'react-router-dom'
 import { AnimatePresence, motion, type TargetAndTransition, type Transition } from 'framer-motion'
 import Lenis from 'lenis'
 import { Navbar, Footer } from './components/Navbar'
@@ -10,6 +10,7 @@ import { NotificationsProvider } from './lib/notifications.tsx'
 import { ThemeSwitcher } from './components/ThemeSwitcher'
 import { OnboardingModal } from './components/OnboardingModal'
 import Cursor from './components/Cursor'
+import { CommandPalette } from './components/CommandPalette'
 import Landing from './pages/Landing'
 import Auth from './pages/Auth'
 import Feed from './pages/Feed'
@@ -108,9 +109,23 @@ function getRouteKey(pathname: string) {
 
 function ScrollToTop() {
   const { pathname } = useLocation()
+  const navigation = useNavigation()
+  
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [pathname])
+    if (!document.startViewTransition) {
+      window.scrollTo(0, 0)
+      return
+    }
+    
+    const transition = document.startViewTransition(() => {
+      window.scrollTo(0, 0)
+    })
+    
+    transition.ready.then(() => {
+      // Transition complete
+    })
+  }, [pathname, navigation.state])
+  
   return null
 }
 
@@ -152,6 +167,20 @@ export default function App() {
   const location = useLocation()
   const routeKey = getRouteKey(location.pathname)
   const variants = routeVariants[routeKey] ?? routeVariants['/']
+  const [isTransitioning, setIsTransitioning] = useState(false)
+
+  const handleRouteChange = useCallback(async (pathname: string) => {
+    if (!document.startViewTransition) return false
+    
+    setIsTransitioning(true)
+    await document.startViewTransition(async () => {
+      // Navigation will happen via router
+    }).ready
+    
+    setIsTransitioning(false)
+    return true
+  }, [])
+
   return (
     <ThemeProvider>
       <ReduceMotionProvider>
@@ -162,14 +191,16 @@ export default function App() {
           <Spotlight />
           <ClickSounds />
           <Konami />
+          <CommandPalette />
           <Shell>
           <AnimatePresence mode="wait">
             <motion.div
               key={routeKey}
-              initial={variants.initial}
+              initial={isTransitioning ? { opacity: 1 } : variants.initial}
               animate={variants.animate}
-              exit={variants.exit}
+              exit={isTransitioning ? { opacity: 1 } : variants.exit}
               transition={variants.transition}
+              style={{ viewTransitionName: 'page-content' }}
             >
               <Routes location={location}>
                 <Route path="/" element={<Landing />} />
@@ -181,14 +212,14 @@ export default function App() {
               <Route path="/profile" element={<Suspense fallback={<PageSkeleton />}><Profile /></Suspense>} />
               <Route path="/u/:username" element={<Suspense fallback={<PageSkeleton />}><PublicProfile /></Suspense>} />
               <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </motion.div>
-        </AnimatePresence>
-      </Shell>
-      <ToastHost />
-      <ThemeSwitcher />
-      <OnboardingModal onComplete={() => {}} />
-      </NotificationsProvider>
+              </Routes>
+            </motion.div>
+          </AnimatePresence>
+        </Shell>
+        <ToastHost />
+        <ThemeSwitcher />
+        <OnboardingModal onComplete={() => {}} />
+        </NotificationsProvider>
       </ReduceMotionProvider>
     </ThemeProvider>
   )

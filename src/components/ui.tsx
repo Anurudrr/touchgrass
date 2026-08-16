@@ -865,6 +865,8 @@ export function RotatingCircle({
   )
 }
 
+export { CommandPalette } from './CommandPalette'
+
 /* ---------------- 3D Tilt Card ---------------- */
 export function TiltCard({ children, className = '' }: { children: ReactNode; className?: string }) {
   const { reduceMotion } = useReduceMotion()

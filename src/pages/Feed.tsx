@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
-import { MapPin, SlidersHorizontal, X } from 'lucide-react'
+import { MapPin, SlidersHorizontal, X, GripVertical } from 'lucide-react'
 import { TaskCard } from '../components/TaskCard'
 import { Skeleton, inputCls } from '../components/ui'
 import { Grassbot } from '../components/Grassbot'
@@ -10,6 +10,23 @@ import { useDB } from '../lib/db'
 import { CATEGORIES, type Task } from '../lib/types'
 import { Link } from 'react-router-dom'
 import { usePullToRefresh, PullToRefreshIndicator } from '../hooks/usePullToRefresh.tsx'
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+  DragOverlay,
+} from '@dnd-kit/core'
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -41,6 +58,46 @@ function kmBetween(a: { lat: number; lng: number }, b: { lat: number; lng: numbe
   const dLng = ((b.lng - a.lng) * Math.PI) / 180
   const s = Math.sin(dLat / 2) ** 2 + Math.cos((a.lat * Math.PI) / 180) * Math.cos((b.lat * Math.PI) / 180) * Math.sin(dLng / 2) ** 2
   return Math.round(R * 2 * Math.atan2(Math.sqrt(s), Math.sqrt(1 - s)))
+}
+
+/* ─── Sortable Task Card Wrapper ─── */
+interface SortableTaskCardProps {
+  task: Task
+  index: number
+  id: string
+}
+
+function SortableTaskCard({ task, index, id }: SortableTaskCardProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  }
+
+  return (
+    <motion.div
+      ref={setNodeRef}
+      style={style}
+      variants={itemVariants}
+      whileDrag={{ scale: 1.02, boxShadow: 'var(--shadow-brutal-lg)' }}
+    >
+      <div {...attributes} {...listeners} className="touch-none">
+        <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10 text-[var(--color-muted)] cursor-grab active:cursor-grabbing">
+          <GripVertical size={20} />
+        </div>
+        <TaskCard task={task} i={index} />
+      </div>
+    </motion.div>
+  )
 }
 
 /* ─── Tag colors for filter pills ─── */
@@ -99,6 +156,28 @@ export default function Feed() {
   }, [db.tasks, cats, radius, maxPrice, sort, q])
 
   const toggleCat = (c: string) => setCats((prev) => (prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c]))
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  )
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+    if (over && active.id !== over.id) {
+      const _oldIndex = tasks.findIndex(t => t.id === active.id)
+      const _newIndex = tasks.findIndex(t => t.id === over.id)
+      // Note: In a real app, you'd persist this order to the backend
+      // For now, we'll just show a toast
+      toast('Order updated', 'Drag to reorder is demo-only', 'success')
+    }
+  }
 
   return (
     <div className="bg-[#FFF9F0] min-h-screen">
@@ -250,21 +329,44 @@ export default function Feed() {
             </Link>
           </div>
         ) : (
-          <div ref={ref} {...handlers} className="touch-none">
-            <PullToRefreshIndicator progress={progress} isRefreshing={isRefreshing} />
-            <motion.div 
-              variants={containerVariants}
-              initial="hidden"
-              animate="show"
-              className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
-            >
-              {tasks.map((t, i) => (
-                <motion.div key={t.id} variants={itemVariants}>
-                  <TaskCard task={t} i={i} />
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <div ref={ref} {...handlers} className="touch-none">
+              <PullToRefreshIndicator progress={progress} isRefreshing={isRefreshing} />
+              <SortableContext items={tasks.map(t => t.id)} strategy={verticalListSortingStrategy}>
+                <motion.div 
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="show"
+                  className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+                >
+                  {tasks.map((t, i) => (
+                    <SortableTaskCard key={t.id} task={t} index={i} id={t.id} />
+                  ))}
                 </motion.div>
-              ))}
-            </motion.div>
-          </div>
+              </SortableContext>
+              <DragOverlay>
+                {({ active, dropAnimation }) => {
+                  if (!active) return null
+                  const task = tasks.find(t => t.id === active.id)
+                  if (!task) return null
+                  return (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      style={{ transform: CSS.Transform.toString(dropAnimation?.transform ?? { x: 0, y: 0, scaleX: 1, scaleY: 1 }) }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                    >
+                      <TaskCard task={task} i={0} />
+                    </motion.div>
+                  )
+                }}
+              </DragOverlay>
+            </div>
+          </DndContext>
         )}
       </div>
     </div>

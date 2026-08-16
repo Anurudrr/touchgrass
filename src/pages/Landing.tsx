@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Check, MapPin, ShieldCheck, Heart, Truck, Sparkles, ShoppingBag, Hammer, Leaf, Calendar, Shield } from 'lucide-react'
 import { Reveal, Magnetic, RotatingCircle, TiltCard, DrawUnderline, inputCls } from '../components/ui'
 import { playRustleSound } from '../lib/audio'
+import { useParallax } from '../hooks/useScrollObserver'
 
 /* ─── Reusable Marker Highlight ─── */
 function Highlight({ children, color = 'var(--color-grass)', rotation = '-2deg' }: { children: React.ReactNode, color?: string, rotation?: string }) {
@@ -68,22 +69,26 @@ function PolaroidStack({ photos, className = "" }: { photos: { src: string, capt
 
 /* ─── Hero Section ─── */
 function Hero() {
+  const { ref: parallaxRef, offset: parallaxOffset } = useParallax(0.15)
+  
   return (
     <section className="container-wide pt-28 pb-10">
       <Reveal y={40}>
         <div className="section-card grain-overlay bg-section-base min-h-[85vh] flex flex-col items-center justify-center p-8 md:p-20 text-center relative">
           
-          {/* Decorative Background Elements */}
-          <RotatingCircle className="absolute -top-20 -left-20 text-grass" size={400} opacity={0.1} />
-          <RotatingCircle className="absolute -bottom-40 -right-40 text-gold" size={600} opacity={0.05} />
+          {/* Decorative Background Elements with Parallax */}
+          <div ref={parallaxRef} className="absolute inset-0 pointer-events-none overflow-hidden" style={{ transform: `translateY(${parallaxOffset}px)` }}>
+            <RotatingCircle className="absolute -top-20 -left-20 text-grass" size={400} opacity={0.1} />
+            <RotatingCircle className="absolute -bottom-40 -right-40 text-gold" size={600} opacity={0.05} />
+          </div>
 
           {/* Doodles */}
-          <div className="absolute top-16 left-1/4 opacity-20 hidden md:block">
+          <div className="absolute top-16 left-1/4 opacity-20 hidden md:block parallax-slow" style={{ transform: `translateY(${parallaxOffset * 0.5}px)` }}>
             <svg width="60" height="40" viewBox="0 0 60 40" fill="none">
               <path d="M5 35 C15 5, 25 5, 55 35" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
           </div>
-          <div className="absolute bottom-1/3 right-1/4 opacity-20 hidden md:block rotate-12">
+          <div className="absolute bottom-1/3 right-1/4 opacity-20 hidden md:block rotate-12 parallax-slow" style={{ transform: `translateY(${parallaxOffset * 0.3}px)` }}>
             <svg width="40" height="60" viewBox="0 0 40 60" fill="none">
               <path d="M5 5 C35 15, 35 25, 5 55" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
