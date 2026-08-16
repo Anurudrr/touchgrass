@@ -3,7 +3,7 @@ import type { Assignment, DBShape, Message, Payment, Review, Role, Task, User } 
 
 const KEY = 'touchgrass-db-v1'
 const SESSION_KEY = 'touchgrass-session-v1'
-const API: string = (import.meta.env.VITE_API_URL as string | undefined) ?? '/api'
+const API: string = (import.meta.env.VITE_API_URL as string | undefined) ?? ''
 
 const daysAgo = (n: number) => new Date(Date.now() - n * 86400000).toISOString()
 const inDays = (n: number) => new Date(Date.now() + n * 86400000).toISOString()
@@ -379,15 +379,17 @@ declare global {
 }
 window.resetTouchgrassDB = resetDB
 
-/* hydrate from MongoDB + keep the cache fresh across tabs */
-void api<DBShape>('/db')
-  .then((next) => {
-    applyDB(next)
-  })
-  .catch(() => {})
-setInterval(() => {
-  void api<DBShape>('/db').then(applyDB).catch(() => {})
-}, 8000)
-window.addEventListener('focus', () => {
-  void api<DBShape>('/db').then(applyDB).catch(() => {})
-})
+/* hydrate from API + keep the cache fresh across tabs */
+function hydrateFromAPI() {
+  void api<DBShape>('/db')
+    .then((next) => {
+      applyDB(next)
+    })
+    .catch(() => {
+      // API failed, keep using localStorage - app works offline-first
+    })
+}
+
+hydrateFromAPI()
+setInterval(hydrateFromAPI, 8000)
+window.addEventListener('focus', hydrateFromAPI)
