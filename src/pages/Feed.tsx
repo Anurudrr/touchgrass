@@ -17,7 +17,6 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-  DragOverlay,
   type DragEndEvent,
 } from '@dnd-kit/core'
 import {
@@ -26,7 +25,6 @@ import {
   verticalListSortingStrategy,
   useSortable,
 } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -346,24 +344,6 @@ export default function Feed() {
                   ))}
                 </motion.div>
               </SortableContext>
-              <DragOverlay>
-                {((props: { active: { id: string } | null; dropAnimation?: { transform: { x: number; y: number; scaleX: number; scaleY: number } } }) => {
-                  const { active, dropAnimation } = props
-                  if (!active) return null
-                  const task = tasks.find(t => t.id === active.id)
-                  if (!task) return null
-                  return (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      style={{ transform: CSS.Transform.toString(dropAnimation?.transform ?? { x: 0, y: 0, scaleX: 1, scaleY: 1 }) }}
-                      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                    >
-                      <TaskCard task={task} i={0} />
-                    </motion.div>
-                  )
-                }) as React.ReactNode}
-              </DragOverlay>
             </div>
           </DndContext>
         )}
