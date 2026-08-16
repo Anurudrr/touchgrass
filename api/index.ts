@@ -2,10 +2,10 @@ import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import path from 'node:path'
-import { prisma, fullDB, id, nowIso } from '../server/src/db'
-import { seedDB } from '../server/src/seed'
-import type { Role, Task, User } from '../src/lib/types'
-import { COMMISSION_RATE } from '../src/lib/types'
+import { prisma, fullDB, id, nowIso } from '../server/src/db.js'
+import { seedDB } from '../server/src/seed.js'
+import type { Role, Task, User } from '../src/lib/types.js'
+import { COMMISSION_RATE } from '../src/lib/types.js'
 
 const app = express()
 app.use(cors())
