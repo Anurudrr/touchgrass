@@ -11,8 +11,7 @@
     "server": "tsx server/src/index.ts",
     "server:dev": "tsx watch server/src/index.ts",
     "seed": "tsx server/src/seed.ts",
-    "dev:all": "concurrently -n api,web -c green,blue \"npm run server:dev\" \"npm run dev\"",
-    "postinstall": "prisma generate"
+    "dev:all": "concurrently -n api,web -c green,blue \"npm run server:dev\" \"npm run dev\""
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.9.1",
