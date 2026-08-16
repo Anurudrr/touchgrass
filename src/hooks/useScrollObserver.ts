@@ -65,7 +65,7 @@ export function useScrollProgress() {
 export function useParallax(speed = 0.3) {
   const [offset, setOffset] = useState(0)
   const { reduceMotion } = useReduceMotion()
-  const elementRef = useRef<HTMLElement>(null)
+  const elementRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (reduceMotion || !elementRef.current) return

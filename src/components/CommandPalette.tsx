@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createPortal } from 'react-dom'
-import { Search, Command, X, Keyboard, ArrowRight, Home, FolderOpen, User, Plus, List, Bell } from 'lucide-react'
+import { Search, X, Keyboard, ArrowRight, Home, FolderOpen, User, Plus, List, Bell } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { store } from '../lib/db'
 import { playHoverSound, playClickSound } from '../lib/audio'
@@ -18,16 +18,7 @@ function getCommands(navigate: ReturnType<typeof useNavigate>) {
     { id: 'notifications', label: 'Notifications', description: 'View your notifications', icon: Bell, action: () => navigate('/dashboard'), shortcut: 'G N' },
   ]
 }
-
-interface CommandItem {
-  id: string
-  label: string
-  description: string
-  icon: React.ComponentType<{ size?: number }>
-  action: () => void
-  shortcut: string
-}
-
+ 
 export function CommandPalette() {
   const { reduceMotion } = useReduceMotion()
   const [isOpen, setIsOpen] = useState(false)

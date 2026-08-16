@@ -1,4 +1,4 @@
-import { useEffect, useState, Suspense, lazy, useCallback } from 'react'
+import { useEffect, useState, Suspense, lazy } from 'react'
 import { Route, Routes, useLocation, Navigate, useNavigation } from 'react-router-dom'
 import { AnimatePresence, motion, type TargetAndTransition, type Transition } from 'framer-motion'
 import Lenis from 'lenis'
@@ -167,7 +167,6 @@ export default function App() {
   const location = useLocation()
   const routeKey = getRouteKey(location.pathname)
   const variants = routeVariants[routeKey] ?? routeVariants['/']
-  const [isTransitioning, setIsTransitioning] = useState(false)
 
   return (
     <ThemeProvider>
@@ -184,9 +183,9 @@ export default function App() {
           <AnimatePresence mode="wait">
             <motion.div
               key={routeKey}
-              initial={isTransitioning ? { opacity: 1 } : variants.initial}
+              initial={variants.initial}
               animate={variants.animate}
-              exit={isTransitioning ? { opacity: 1 } : variants.exit}
+              exit={variants.exit}
               transition={variants.transition}
               style={{ viewTransitionName: 'page-content' }}
             >

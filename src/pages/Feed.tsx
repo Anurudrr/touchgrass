@@ -17,8 +17,8 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-  DragEndEvent,
   DragOverlay,
+  type DragEndEvent,
 } from '@dnd-kit/core'
 import {
   SortableContext,
@@ -171,8 +171,6 @@ export default function Feed() {
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
     if (over && active.id !== over.id) {
-      const _oldIndex = tasks.findIndex(t => t.id === active.id)
-      const _newIndex = tasks.findIndex(t => t.id === over.id)
       // Note: In a real app, you'd persist this order to the backend
       // For now, we'll just show a toast
       toast('Order updated', 'Drag to reorder is demo-only', 'success')
@@ -349,7 +347,8 @@ export default function Feed() {
                 </motion.div>
               </SortableContext>
               <DragOverlay>
-                {({ active, dropAnimation }) => {
+                {(props) => {
+                  const { active, dropAnimation } = props
                   if (!active) return null
                   const task = tasks.find(t => t.id === active.id)
                   if (!task) return null
